@@ -1,0 +1,57 @@
+name: "Auto-add contributors"
+description: "Add contributors to your file automatically on schedule"
+author: "BobAnkh"
+branding:
+  icon: 'award'
+  color: 'orange'
+inputs:
+  REPO_NAME:
+    description: "The name of the repo: user/repo_name"
+    required: false
+    default: ''
+  CONTRIBUTOR:
+    description: "Where you want to add contributors"
+    required: false
+    default: '### Contributors'
+  COLUMN_PER_ROW:
+    description: "Number of contributors per row"
+    required: false
+    default: '6'
+  ACCESS_TOKEN:
+    description: "Github Access Token you want to use. Just pass GITHUB_TOKEN"
+    required: true
+  IMG_WIDTH:
+    description: "Width of img"
+    required: false
+    default: '100'
+  FONT_SIZE:
+    description: "Font size of name (px)"
+    required: false
+    default: '14'
+  PATH:
+    description: "Path to the file you want to add contributors' list. You can use <branch>:<file> format to specify the branch"
+    required: false
+    default: '/README.md'
+  BRANCH:
+    description: "The branch to update file specified in PATH"
+    required: false
+    default: ''
+  PULL_REQUEST:
+    description: "Open a new pull request if set to a target branch name"
+    required: false
+    default: ''
+  COMMIT_MESSAGE:
+    description: "Commit message"
+    required: false
+    default: 'docs(README): update contributors'
+  AVATAR_SHAPE:
+    description: "Set `round` for round avatar and `square` for square avatar"
+    required: false
+    default: 'square'
+  IGNORED_CONTRIBUTORS:
+    description: "Ignored contributors, seperated by comma"
+    required: false
+    default: ''
+runs:
+  using: "docker"
+  image: "Dockerfile"
