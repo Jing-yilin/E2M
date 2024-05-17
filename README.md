@@ -117,7 +117,7 @@ git push origin feature/xxx # or simply `git push`
 ### Pull Request
 
 ```bash
-# create a pull request on GitHub
+# create a pull request to develop branch on GitHub
 ```
 
 ## Supported File Types

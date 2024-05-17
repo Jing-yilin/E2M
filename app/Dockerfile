@@ -22,4 +22,4 @@ COPY . /app/
 EXPOSE 8765
 
 # Run the Flask application
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8765"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8765", "app:create_app()"]

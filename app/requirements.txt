@@ -2,3 +2,4 @@ Flask==3.0.3
 pydantic==2.7.1
 flasgger==0.9.7.1
 python-dotenv==1.0.1
+gunicorn==22.0.0

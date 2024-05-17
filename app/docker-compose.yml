@@ -1,13 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  e2m:
-    build: .
-    command: flask run --host=0.0.0.0 --port=8765
-    ports:
-      - "8765:8765"
-    volumes:
-      - .:/app
-    environment:
-      FLASK_APP: app.py
-      FLASK_ENV: development
+    e2m:
+        build: .
+        command: ["gunicorn", "--bind", "0.0.0.0:8765", "app:create_app()"]
+        ports:
+            - "8765:8765"
+        volumes:
+            - .:/app
+        environment:
+            FLASK_APP: app.py
+            FLASK_ENV: production
