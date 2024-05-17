@@ -1,0 +1,11 @@
+responses:
+  200:
+    description: You have successfully connected to the e2m API!
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: You have successfully connected to the e2m API!

@@ -1,0 +1,29 @@
+consumes:
+  - multipart/form-data
+parameters:
+  - name: file
+    in: formData
+    type: file
+    required: true
+    description: File to be converted to Markdown
+responses:
+  200:
+    description: File successfully converted to Markdown
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            markdown:
+              type: string
+              example: '# Sample Markdown\n\nThis is a converted markdown content.'
+  400:
+    description: No file uploaded or conversion failed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: No file uploaded

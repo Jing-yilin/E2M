@@ -44,6 +44,7 @@ python -m pip install -r requirements.txt
 # make sure you are in E2M/app
 cd app
 flask run --host 0.0.0.0 --port=8765
+# you can add --debug to enable debug mode
 ```
 
 ### Set to Development Environment
