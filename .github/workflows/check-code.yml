@@ -30,6 +30,10 @@ jobs:
                   auto-update-conda: true
                   python-version: "3.10"
 
+            - name: Initialize conda
+              run: conda init
+              shell: bash -l {0}
+
             - name: Create conda environment
               run: conda create -n e2m python=3.10 -y
 
