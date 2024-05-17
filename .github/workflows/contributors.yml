@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: BobAnkh/add-contributors@master
+    - uses: Jing-yilin/E2M@main
       with:
         CONTRIBUTOR: '### Contributors'
         COLUMN_PER_ROW: '6'
