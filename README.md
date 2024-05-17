@@ -14,7 +14,10 @@
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
   - [How to contribute](#how-to-contribute)
+    - [Create a new branch](#create-a-new-branch)
     - [PEP8 style](#pep8-style)
+    - [Push to the remote repository](#push-to-the-remote-repository)
+    - [Pull Request](#pull-request)
   - [Supported File Types](#supported-file-types)
   - [Contributing](#contributing)
     - [Contributors](#contributors)
@@ -59,7 +62,26 @@ export FLASK_DEBUG=0
 
 ## How to contribute
 
+### Create a new branch
+
+Before you commit your code, please create a new branch:
+
+-   `feature/xxx` for new features
+-   `bugfix/xxx` for bug fixes
+
+You can create a new branch with the following command:
+
+```bash
+# fetch the latest cod
+git checkout main
+git pull
+# create a new branch
+git checkout -b feature/xxx
+```
+
 ### PEP8 style
+
+Then, run the following commands to check the style of your code:
 
 ```bash
 # all contributions should follow PEP8 style
@@ -67,8 +89,24 @@ flake8 .  # to check the style
 black .  # to format the code
 ```
 
-## Supported File Types
+### Push to the remote repository
 
+```bash
+# add the changes
+git add .
+# commit the changes
+git commit -m "your commit message"
+# push the changes
+git push origin feature/xxx # or simply `git push`
+```
+
+### Pull Request
+
+```bash
+# create a pull request on GitHub
+```
+
+## Supported File Types
 
 ## Contributing
 
