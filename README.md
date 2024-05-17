@@ -16,8 +16,7 @@
   - [How to contribute](#how-to-contribute)
     - [PEP8 style](#pep8-style)
   - [Supported File Types](#supported-file-types)
-  - [Support](#support)
-  - [Join Us](#join-us)
+  - [Contributing](#contributing)
 
 ## Introduction
 
@@ -69,6 +68,5 @@ black .  # to format the code
 
 ## Supported File Types
 
-## Support
 
-## Join Us
+## Contributing
