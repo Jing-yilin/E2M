@@ -1,0 +1,4 @@
+Flask==3.0.3
+pydantic==2.7.1
+flake8==7.0.0
+black==24.4.2
