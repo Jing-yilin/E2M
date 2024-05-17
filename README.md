@@ -17,6 +17,7 @@
     - [PEP8 style](#pep8-style)
   - [Supported File Types](#supported-file-types)
   - [Contributing](#contributing)
+    - [Contributors](#contributors)
 
 ## Introduction
 
@@ -70,3 +71,9 @@ black .  # to format the code
 
 
 ## Contributing
+
+### Contributors
+
+<a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
+</a>
