@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from .api.blueprints.v1.views import bp as api_v1_bp
-from .config import default, development, production
+from .config import default
 from . import versions
 
 
