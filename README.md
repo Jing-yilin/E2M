@@ -10,7 +10,8 @@
   - [Introduction](#introduction)
   - [Install](#install)
   - [Get Started](#get-started)
-    - [Quick Start](#quick-start)
+    - [Quick Start (Docker from Source Code)](#quick-start-docker-from-source-code)
+    - [Quick Start (Source Code)](#quick-start-source-code)
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
   - [How to contribute](#how-to-contribute)
@@ -30,21 +31,33 @@ This project aims to provide an API, which can convert everything to markdown (L
 
 ```bash
 git clone https://github.com/Jing-yilin/E2M
-cd E2M
+cd E2M/app
 conda create -n e2m python=3.10
 conda activate e2m
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Get Started
 
-### Quick Start
+### Quick Start (Docker from Source Code)
 
 ```bash
 # make sure you are in E2M/app
 cd app
-flask run --host 0.0.0.0 --port=8765
-# you can add --debug to enable debug mode
+# deploy the app with docker, detach mode
+docker-compose up --build -d
+# check the logs with
+docker-compose logs -f
+# remove the container with
+docker-compose down
+```
+
+### Quick Start (Source Code)
+
+```bash
+# make sure you are in E2M/app
+cd app
+flask run --host 0.0.0.0 --port=8765 # --debug
 ```
 
 ### Set to Development Environment
