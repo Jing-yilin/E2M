@@ -49,9 +49,9 @@ def create_app(config_class=default.DefaultConfig):
         "specs_route": "/swagger/",
     }
 
-    swagger = Swagger(app, config=swagger_config)
+    Swagger(app, config=swagger_config)  # init swagger
 
-    logger.info(f"Swagger API documentation is available at {BASE_URL}/swagger/")
+    logger.info(f"Swagger API documentation is available at \n{BASE_URL}/swagger/")
 
     # version endpoint
     @app.route("/version")
