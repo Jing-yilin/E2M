@@ -25,7 +25,7 @@ COPY . /app/
 # production stage
 ENV FLASK_ENV=production
 ENV API_URL=http://localhost:8765
-ENV CONVERTER=unstructured
+ENV CONVERTER=default
 
 # set time zone
 ENV TZ=Asia/Shanghai
