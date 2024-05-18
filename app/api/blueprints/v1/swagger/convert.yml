@@ -6,6 +6,20 @@ parameters:
     type: file
     required: true
     description: File to be converted to Markdown
+  - name: parse_mode
+    in: query
+    type: string
+    required: false
+    description: Parse mode for the file
+    enum:
+      - auto
+      - general
+      - book
+      - law
+      - manual
+      - paper
+    default: general
+    example: general
 responses:
   200:
     description: File successfully converted to Markdown
