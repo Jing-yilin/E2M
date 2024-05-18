@@ -4,15 +4,11 @@ from flasgger import Swagger
 from api.blueprints.v1.routes import bp as api_v1_bp
 from api.config import Config, default
 import versions
-import os
-from dotenv import load_dotenv
 import argparse
 
 
 # load environment variables
-# todo: move to config
-load_dotenv()
-API_URL = os.getenv("API_URL")
+API_URL = Config.API_URL
 
 
 # logging
