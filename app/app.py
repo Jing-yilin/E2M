@@ -1,10 +1,10 @@
 import logging
 from flask import Flask, jsonify
 from flasgger import Swagger
-from api.blueprints.v1.routes import bp as api_v1_bp
-from config import default
-import versions
-
+from app.api.blueprints.v1.routes import bp as api_v1_bp
+from app.config import Config
+from app import versions
+from app.config import default
 import os
 from dotenv import load_dotenv
 import argparse
@@ -13,7 +13,7 @@ import argparse
 # load environment variables
 # todo: move to config
 load_dotenv()
-BASE_URL = os.getenv("BASE_URL")
+API_URL = os.getenv("API_URL")
 
 
 # logging
@@ -51,8 +51,8 @@ def create_app(config_class=default.DefaultConfig):
 
     Swagger(app, config=swagger_config)  # init swagger
 
-    logger.info(f"Swagger API documentation is available:\n🚀 {BASE_URL}/swagger/")
-    logger.info(f"API v1 is available:\n🚀 {BASE_URL}/api/v1/")
+    logger.info(f"Swagger API documentation is available:\n🚀 {API_URL}/swagger/")
+    logger.info(f"API v1 is available:\n🚀 {API_URL}/api/v1/")
 
     # version endpoint
     @app.route("/version")
@@ -70,7 +70,8 @@ def create_app(config_class=default.DefaultConfig):
 
 
 if __name__ == "__main__":
-    app = create_app()
+    app = create_app(Config)
+
     # enable debug mode by passing --debug
     parser = argparse.ArgumentParser()
     parser.add_argument("--debug", action="store_true")
