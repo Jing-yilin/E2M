@@ -63,7 +63,7 @@ class DocxConverter(BaseConverter):
                     else:
                         font_size_count[font_size]["count"] += 1
                         font_size_count[font_size]["paragraph"].append(i)
-                
+
             all_font_size = set(font_size_count.keys())
             # sort the font size in descending order
             all_font_size = sorted(all_font_size, reverse=True)
@@ -91,7 +91,6 @@ class DocxConverter(BaseConverter):
                     elif len(all_font_size) >= 4 and font_size == all_font_size[2]:
                         font_size_count[font_size]["type"] = "header3"
                         header3_font_size = font_size
-
 
             logger.info(f"font_size_count: {font_size_count}")
 
