@@ -1,4 +1,4 @@
-from .default import DefaultConfig
+from api.config.default import DefaultConfig
 
 
 class ProductionConfig(DefaultConfig):

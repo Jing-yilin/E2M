@@ -1,6 +1,6 @@
-from .default import DefaultConfig
-from .production import ProductionConfig
-from .development import DevelopmentConfig
+from api.config.default import DefaultConfig
+from api.config.production import ProductionConfig
+from api.config.development import DevelopmentConfig
 import os
 from dotenv import load_dotenv
 

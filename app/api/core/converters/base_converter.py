@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from ..parsers.base_parser import ParserMode
+from api.core.parsers.base_parser import ParserMode
 
 from typing import Union, List
 

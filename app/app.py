@@ -1,10 +1,9 @@
 import logging
 from flask import Flask, jsonify
 from flasgger import Swagger
-from app.api.blueprints.v1.routes import bp as api_v1_bp
-from app.config import Config
-from app import versions
-from app.config import default
+from api.blueprints.v1.routes import bp as api_v1_bp
+from api.config import Config, default
+import versions
 import os
 from dotenv import load_dotenv
 import argparse

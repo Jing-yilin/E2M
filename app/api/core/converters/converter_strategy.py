@@ -2,9 +2,9 @@
 
 from typing import Union
 
-from ..parsers.base_parser import ParserMode
-from .base_converter import BaseConverter
-from .doc import (
+from api.core.parsers.base_parser import ParserMode
+from api.core.converters.base_converter import BaseConverter
+from api.core.converters.doc import (
     support_types as doc_support_types,
     DocConverter,
     DocxConverter,

@@ -1,4 +1,4 @@
-from ..base_converter import (
+from api.core.converters.base_converter import (
     BaseConverter,
 )
 

@@ -1,4 +1,4 @@
-from ..base_converter import (
+from api.core.converters.base_converter import (
     BaseConverter,
     MdElement,
     Header1,
@@ -10,7 +10,7 @@ from ..base_converter import (
 
 from typing import List
 
-from ....config import Config
+from api.config import Config
 
 # logging
 import logging

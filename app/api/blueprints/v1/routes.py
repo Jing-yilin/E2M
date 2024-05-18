@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flasgger import swag_from
-from .controllers import ping, file_to_markdown
+from api.blueprints.v1.controllers import ping, file_to_markdown
 import os
 
 # logging

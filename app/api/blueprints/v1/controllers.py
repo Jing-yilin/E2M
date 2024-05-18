@@ -1,6 +1,6 @@
 from flask import jsonify
-from ....core.converters.base_converter import BaseConverter
-from ....core.converters.converter_strategy import ConverterStrategy
+from api.core.converters.base_converter import BaseConverter
+from api.core.converters.converter_strategy import ConverterStrategy
 
 
 # logging
