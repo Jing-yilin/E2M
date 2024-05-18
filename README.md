@@ -80,8 +80,8 @@ export FLASK_DEBUG=0
 
 Before you commit your code, please create a new branch:
 
--   `feature/xxx` for new features
--   `bugfix/xxx` for bug fixes
+- `feature/xxx` for new features
+- `bugfix/xxx` for bug fixes
 
 You can create a new branch with the following command:
 
@@ -95,12 +95,13 @@ git checkout -b feature/xxx
 
 ### PEP8 style
 
-Then, run the following commands to check the style of your code:
+Then, run the following commands to format the style of your code:
 
 ```bash
 # all contributions should follow PEP8 style
 flake8 .  # to check the style
 black .  # to format the code
+pymarkdownlnt fix .  # to format the markdown
 ```
 
 ### Push to the remote repository
