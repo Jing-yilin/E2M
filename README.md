@@ -14,6 +14,7 @@
     - [Quick Start (Source Code)](#quick-start-source-code)
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
+    - [How to use](#how-to-use)
   - [How to contribute](#how-to-contribute)
     - [Create a new branch](#create-a-new-branch)
     - [PEP8 style](#pep8-style)
@@ -72,6 +73,27 @@ export FLASK_DEBUG=1
 ```bash
 export FLASK_ENV=production
 export FLASK_DEBUG=0
+```
+
+### How to use
+
+bash script:
+
+```bash
+curl -X POST "http://localhost:8765/api/v1/convert" \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data; charset=utf-8" \
+  -H "Accept-Charset: utf-8" \
+  -F "file=@/path/to/file.docx" \
+  -F "parse_mode=auto"
+```
+
+return:
+
+```json
+{
+  "message": "This is your markdown content"
+}
 ```
 
 ## How to contribute

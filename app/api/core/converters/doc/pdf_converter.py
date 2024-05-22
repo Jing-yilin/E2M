@@ -18,7 +18,9 @@ def _parse_pdf_and_return_markdown(pdf_file: bytes, extract_images: bool):
     if extract_images:
         for i, (filename, image) in enumerate(images.items()):
             # Save image as PNG
-            image_filepath = f"image_{i+1}.png"
+            if not os.path.exists("temp"):
+                os.makedirs("temp")
+            image_filepath = f"temp/image_{i+1}.png"
             image.save(image_filepath, "PNG")
 
             # Read the saved image file as bytes
@@ -37,14 +39,15 @@ def _parse_pdf_and_return_markdown(pdf_file: bytes, extract_images: bool):
 
 class PdfConverter(BaseConverter):
 
-    def convert(self, *args, **kwargs) -> str:
+    def convert(self, extract_images: bool = False, *args, **kwargs) -> str:
 
         # using VikParuchuri / marker
-        extract_images = kwargs.get("extract_images", False)
         if extract_images is False:
             Settings.EXTRACT_IMAGES = False
             print("Print EXTRACT_IMAGES set to False")
         else:
             Settings.EXTRACT_IMAGES = True
-        full_text, _, _ = _parse_pdf_and_return_markdown(self.file, extract_images)
+        full_text, images, out_meta = _parse_pdf_and_return_markdown(
+            self.file, extract_images
+        )
         return full_text
