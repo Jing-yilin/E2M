@@ -1,4 +1,6 @@
 Flask==3.0.3
+pydantic_core==2.18.2
+pydantic-settings==2.2.1
 pydantic==2.7.1
 flasgger==0.9.7.1
 flake8==7.0.0
