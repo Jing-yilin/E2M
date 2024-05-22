@@ -46,8 +46,12 @@ def create_app(config_class=default.DefaultConfig):
 
     Swagger(app, config=swagger_config)  # init swagger
 
-    logger.info(f"Swagger API documentation is available:\n🚀 {API_URL}/swagger/")
-    logger.info(f"API v1 is available:\n🚀 {API_URL}/api/v1/")
+    logger.info("+------------------------------------+")
+    logger.info("Welcome to E2M API")
+    logger.info(f"🚀API: {API_URL}/api/v1/")
+    logger.info(f"🚀API doc: {API_URL}/swagger/")
+    logger.info(f"The github repo: {versions.__github__}")
+    logger.info("+------------------------------------+")
 
     # version endpoint
     @app.route("/version")
