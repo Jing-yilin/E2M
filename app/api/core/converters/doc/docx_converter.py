@@ -29,9 +29,9 @@ class DocxConverter(BaseConverter):
     def convert(self) -> str:
         if not self.file:
             raise ValueError("File not set")
-        # todo: a better to convert docx to markdown
         elements: List[MdElement] = []
 
+        # method 1： default
         if Config.CONVERTER == "default":
             logger.info(f"Converting [{self.file}] with default converter")
             from docx import Document
@@ -55,17 +55,24 @@ class DocxConverter(BaseConverter):
             total_runs = 0
 
             for i, paragraph in enumerate(doc.paragraphs):
+                if not paragraph.text.strip():
+                    continue
                 for run in paragraph.runs:
-                    total_runs += 1
                     font_size = run.font.size
+                    if not font_size:
+                        continue
+                    total_runs += 1
                     if font_size not in font_size_count:
                         font_size_count[font_size] = {"count": 1, "paragraph": [i]}
                     else:
                         font_size_count[font_size]["count"] += 1
                         font_size_count[font_size]["paragraph"].append(i)
 
+            if not font_size_count:
+                return ""
+
             all_font_size = set(font_size_count.keys())
-            # sort the font size in descending order
+            logger.debug(f"all_font_size: {all_font_size}")
             all_font_size = sorted(all_font_size, reverse=True)
 
             header1_font_size = 0
@@ -107,6 +114,7 @@ class DocxConverter(BaseConverter):
                 else:
                     elements.append(Paragraph(para.text))
 
+        # method 2: unstructured
         elif Config.CONVERTER == "unstructured":
             logger.info(f"Converting [{self.file}] with unstructured converter")
             from unstructured.partition.docx import partition_docx
