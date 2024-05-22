@@ -1,10 +1,17 @@
+# Flask API
 Flask==3.0.3
+flasgger==0.9.7.1
+flake8==7.0.0
+
+# Pydantic
 pydantic==2.4.2
 pydantic-settings==2.0.3
-flasgger==0.9.7.1
-gunicorn==22.0.0
+
+# File convertor denpendencies
 python-docx==1.1.2
 unstructured[all-docs]==0.14.0
+
+# marker-api denpendencies
 ftfy==6.2.0
 pypdfium2==4.30.0
 pdftext==0.3.7
@@ -21,3 +28,7 @@ torch==2.2.2
 tqdm==4.66.1
 tabulate==0.9.0
 grpcio==1.63.0
+
+
+# gunicorn to run the server
+gunicorn==22.0.0
