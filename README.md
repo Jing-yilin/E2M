@@ -16,6 +16,7 @@
   - [Introduction](#introduction)
   - [Install](#install)
   - [Get Started](#get-started)
+    - [Quick Start (Docker)](#quick-start-docker)
     - [Quick Start (Docker from Source Code)](#quick-start-docker-from-source-code)
     - [Quick Start (Source Code)](#quick-start-source-code)
     - [Set to Development Environment](#set-to-development-environment)
@@ -25,6 +26,7 @@
     - [Create a new branch](#create-a-new-branch)
     - [PEP8 style](#pep8-style)
     - [Push to the remote repository](#push-to-the-remote-repository)
+    - [Push to docker](#push-to-docker)
     - [Pull Request](#pull-request)
   - [Supported File Types](#supported-file-types)
   - [Contributing](#contributing)
@@ -45,6 +47,15 @@ python -m pip install -r requirements-dev.txt
 ```
 
 ## Get Started
+
+### Quick Start (Docker)
+
+```bash
+docker pull jingyilin/e2m:latest
+docker run -d -p 8765:8765 jingyilin/e2m:latest
+```
+
+Then you can access the API at `http://localhost:8765`.
 
 ### Quick Start (Docker from Source Code)
 
@@ -144,6 +155,22 @@ git add .
 git commit -m "your commit message"
 # push the changes
 git push origin feature/xxx # or simply `git push`
+```
+
+### Push to docker
+
+A new version:
+
+```
+docker build -t jingyilin/e2m:<version> .
+docker push jingyilin/e2m:<version>
+```
+
+Latest version:
+
+```
+docker build -t jingyilin/e2m:latest .
+docker push jingyilin/e2m:latest
 ```
 
 ### Pull Request
