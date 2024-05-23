@@ -20,6 +20,25 @@ parameters:
       - paper
     default: general
     example: general
+  - name: start_page
+    in: query
+    type: integer
+    required: false
+    description: Start page for the conversion, the first page is 0
+    example: 0
+  - name: end_page
+    in: query
+    type: integer
+    required: false
+    description: End page for the conversion
+    example: 10
+  - name: extract_images
+    in: query
+    type: boolean
+    required: false
+    description: Extract images from the file
+    example: true
+
 responses:
   200:
     description: File successfully converted to Markdown

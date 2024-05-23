@@ -98,7 +98,7 @@ return:
 
 ```json
 {
-  "message": "This is your markdown content"
+    "message": "This is your markdown content"
 }
 ```
 
@@ -130,6 +130,9 @@ Then, run the following commands to format the style of your code:
 flake8 .  # to check the style
 black .  # to format the code
 pymarkdownlnt fix .  # to format the markdown
+cd app
+poetry export -f requirements.txt --without-hashes > requirements.txt
+poetry export -f requirements.txt --without-hashes --with dev -o requirements-dev.txt
 ```
 
 ### Push to the remote repository
