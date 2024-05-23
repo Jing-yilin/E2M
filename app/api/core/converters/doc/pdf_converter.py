@@ -1,3 +1,5 @@
+# logging
+import logging
 import base64
 import os
 
@@ -10,9 +12,18 @@ from api.core.marker.settings import Settings
 
 model_list = load_all_models()
 
+logger = logging.getLogger(__name__)
 
-def _parse_pdf_and_return_markdown(pdf_file: bytes, extract_images: bool):
-    full_text, images, out_meta = convert_single_pdf(pdf_file, model_list)
+
+def _parse_pdf_and_return_markdown(
+    pdf_file: bytes,
+    start_page: int = 0,
+    end_page: int = None,
+    extract_images: bool = False,
+):
+    full_text, images, out_meta = convert_single_pdf(
+        pdf_file, model_list, start_page=start_page, end_page=end_page
+    )
     # todo: to handle images
     image_data = {}
     if extract_images:
@@ -39,15 +50,28 @@ def _parse_pdf_and_return_markdown(pdf_file: bytes, extract_images: bool):
 
 class PdfConverter(BaseConverter):
 
-    def convert(self, extract_images: bool = False, *args, **kwargs) -> str:
+    def convert(
+        self,
+        **kwargs,
+    ) -> str:
+
+        logger.info(f"Converting PDF file to markdown: {self.file}")
+        logger.info(f"kwargs: {kwargs}")
 
         # using VikParuchuri / marker
+        start_page = kwargs.get("start_page", 0)
+        end_page = kwargs.get("end_page", None)
+        extract_images = kwargs.get("extract_images", False)
+
         if extract_images is False:
             Settings.EXTRACT_IMAGES = False
-            print("Print EXTRACT_IMAGES set to False")
         else:
             Settings.EXTRACT_IMAGES = True
+
         full_text, images, out_meta = _parse_pdf_and_return_markdown(
-            self.file, extract_images
+            self.file,
+            start_page=start_page,
+            end_page=end_page,
+            extract_images=extract_images,
         )
         return full_text

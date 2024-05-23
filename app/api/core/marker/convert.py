@@ -37,7 +37,8 @@ warnings.filterwarnings(
 def convert_single_pdf(
     fname: str,
     model_lst: List,
-    max_pages=None,
+    start_page: int = 0,
+    end_page: int = None,
     metadata: Optional[Dict] = None,
     langs: Optional[List[str]] = None,
     batch_multiplier: int = 1,
@@ -66,9 +67,11 @@ def convert_single_pdf(
 
     # Get initial text blocks from the pdf
     doc = pdfium.PdfDocument(fname)
+
     pages, toc = get_text_blocks(
         doc,
-        max_pages=max_pages,
+        start_page=start_page,
+        end_page=end_page,
     )
     out_meta.update(
         {

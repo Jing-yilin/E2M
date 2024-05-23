@@ -1,5 +1,6 @@
 import os
 from typing import List, Optional, Dict
+import logging
 
 import pypdfium2 as pdfium
 import pypdfium2.internal as pdfium_i
@@ -11,6 +12,9 @@ from api.core.marker.schema.page import Page
 from pdftext.extraction import dictionary_output
 
 os.environ["TESSDATA_PREFIX"] = settings.TESSDATA_PREFIX
+
+# logging
+logger = logging.getLogger(__name__)
 
 
 def pdftext_format_to_blocks(page, pnum: int) -> Page:
@@ -72,13 +76,24 @@ def pdftext_format_to_blocks(page, pnum: int) -> Page:
     return out_page
 
 
-def get_text_blocks(doc, max_pages: Optional[int] = None) -> (List[Page], Dict):
+def get_text_blocks(
+    doc,
+    start_page: int = 0,
+    end_page: Optional[int] = None,
+) -> tuple[List[Page], Dict]:
     toc = get_toc(doc)
 
     page_range = range(len(doc))
-    if max_pages:
-        range_end = min(max_pages, len(doc))
-        page_range = range(range_end)
+    logger.info(f"Default page range: {page_range}")
+    logger.info(f"start_page: {start_page}")
+    logger.info(f"end_page: {end_page}")
+
+    if start_page and (start_page < len(doc)):
+        page_range = range(start_page, len(doc))
+    if end_page and (end_page < len(doc)):
+        page_range = range(start_page, end_page + 1)
+
+    logger.info(f"Extracting text from pages: {page_range}")
 
     char_blocks = dictionary_output(doc, page_range=page_range, keep_chars=True)
     marker_blocks = [

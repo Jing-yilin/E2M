@@ -1,6 +1,3 @@
-import api.config.development as development
-import api.config.production as production
-
 import os
 from dotenv import load_dotenv
 

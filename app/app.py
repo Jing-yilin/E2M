@@ -1,4 +1,6 @@
 import logging
+from rich.logging import RichHandler
+
 from flask import Flask, jsonify
 from flasgger import Swagger
 from api.blueprints.v1.routes import bp as api_v1_bp
@@ -11,15 +13,19 @@ import argparse
 API_URL = Config.API_URL
 
 
-# logging
+def setup_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[RichHandler()],
+    )
+
+
+setup_logging()
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler()
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+
+logger.debug(f"Config: {Config}")
 
 
 def create_app(config_class=default.DefaultConfig):

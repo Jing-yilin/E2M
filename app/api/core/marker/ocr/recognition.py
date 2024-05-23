@@ -20,6 +20,10 @@ from api.core.marker.schema.block import Block, Line, Span
 from api.core.marker.settings import settings
 from api.core.marker.pdf.extract_text import get_text_blocks
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def get_batch_size():
     if settings.RECOGNITION_BATCH_SIZE is not None:
