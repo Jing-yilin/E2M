@@ -2,6 +2,12 @@
 
 <p align="center">
     <a href="https://github.com/Jing-yilin/E2M">
+        <img src="./assets/logo.png" alt="E2M Logo" style="width: 200px;">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
 </p>

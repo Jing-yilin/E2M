@@ -10,7 +10,9 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory
 WORKDIR /app
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y libgl1-mesa-glx
 
 # Copy the requirements file into the container
 COPY requirements.txt /app/
