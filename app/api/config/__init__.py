@@ -1,18 +1,24 @@
-from api.config.default import DefaultConfig
-from api.config.production import ProductionConfig
-from api.config.development import DevelopmentConfig
+import api.config.development as development
+import api.config.production as production
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-
-configs = {
-    "development": DevelopmentConfig,
-    "production": ProductionConfig,
-    "default": DefaultConfig,
-}
-
 config_name = os.getenv("FLASK_ENV", "default")
 
-Config: DefaultConfig = configs[config_name]
+Config = None
+
+if config_name == "default":
+    from api.config.default import config
+
+    Config = config
+elif config_name == "development":
+    from api.config.development import config
+
+    Config = config
+elif config_name == "production":
+    from api.config.production import config
+
+    Config = config
