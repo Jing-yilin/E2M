@@ -1,13 +1,14 @@
 import logging
+import argparse
 from rich.logging import RichHandler
 
 from flask import Flask, jsonify
 from flasgger import Swagger
-from api.blueprints.v1.routes import bp as api_v1_bp
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+
 from api.config import Config, default
 import versions
-import argparse
-
 
 # load environment variables
 API_URL = Config.API_URL
@@ -17,6 +18,7 @@ def setup_logging():
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        # handlers=[logging.StreamHandler()],
         handlers=[RichHandler()],
     )
 
@@ -28,9 +30,25 @@ logger = logging.getLogger(__name__)
 logger.debug(f"Config: {Config}")
 
 
-def create_app(config_class=default.DefaultConfig):
+def create_app(config_class=default.DefaultConfig()):
+    from api.blueprints.v1.routes import bp as api_v1_bp
+    from api.blueprints.v1.models import db, migrate
+
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # Create engine
+    try:
+        engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
+        conn = engine.connect()
+        logger.info("Database connected successfully")
+        conn.close()
+    except SQLAlchemyError as e:
+        logger.error(f"Database connection error: {e}")
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     # register blueprints
     app.register_blueprint(api_v1_bp, url_prefix="/api/v1")
@@ -52,12 +70,12 @@ def create_app(config_class=default.DefaultConfig):
 
     Swagger(app, config=swagger_config)  # init swagger
 
-    logger.info("+------------------------------------+")
+    logger.info("+-----------------------------------------------------------+")
     logger.info("Welcome to E2M API")
     logger.info(f"🚀API: {API_URL}/api/v1/")
     logger.info(f"🚀API doc: {API_URL}/swagger/")
     logger.info(f"The github repo: {versions.__github__}")
-    logger.info("+------------------------------------+")
+    logger.info("+-----------------------------------------------------------+")
 
     # version endpoint
     @app.route("/version")
@@ -68,8 +86,6 @@ def create_app(config_class=default.DefaultConfig):
                 "description": versions.__description__,
             }
         )
-
-    # init_extensions(app)
 
     return app
 

@@ -7,3 +7,4 @@ exclude =
     build,
     dist,
     .venv
+    migrations

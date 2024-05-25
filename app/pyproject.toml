@@ -35,6 +35,10 @@ surya-ocr = "^0.4.7"
 gunicorn= "^22.0.0"
 flask-pydantic = "^0.12.0"
 rich = "^13.7.1"
+flask-sqlalchemy = "^3.1.1"
+psycopg2-binary = "^2.9.9"
+psycopg2 = "^2.9.9"
+flask-migrate = "^4.0.7"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.0.0"

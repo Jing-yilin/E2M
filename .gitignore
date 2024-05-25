@@ -140,3 +140,6 @@ Thumbs.db
 # Log files
 *.log
 *.log.*
+
+# database
+app/migrations/

@@ -9,9 +9,13 @@ from surya.model.recognition.processor import (
 )
 from surya.model.ordering.model import load_model as load_order_model
 from surya.model.ordering.processor import load_processor as load_order_processor
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def setup_recognition_model(langs):
+    logger.info("Loading recognition model")
     rec_model = load_recognition_model(langs=langs)
     rec_processor = load_recognition_processor()
     rec_model.processor = rec_processor
@@ -19,6 +23,7 @@ def setup_recognition_model(langs):
 
 
 def setup_detection_model():
+    logger.info("Loading detection model")
     model = segformer.load_model()
     processor = segformer.load_processor()
     model.processor = processor
@@ -26,6 +31,7 @@ def setup_detection_model():
 
 
 def setup_texify_model():
+    logger.info("Loading texify model")
     texify_model = load_texify_model(
         checkpoint=settings.TEXIFY_MODEL_NAME,
         device=settings.TORCH_DEVICE_MODEL,
@@ -51,6 +57,7 @@ def setup_order_model():
 
 
 def load_all_models(langs=None):
+    logger.info("Loading all models")
     # langs is optional list of languages to prune from recognition MoE model
     detection = setup_detection_model()
     layout = setup_layout_model()

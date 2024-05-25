@@ -60,8 +60,6 @@ Then you can access the API at `http://localhost:8765`.
 ### Quick Start (Docker from Source Code)
 
 ```bash
-# make sure you are in E2M/app
-cd app
 # deploy the app with docker, detach mode
 docker-compose up --build -d
 # check the logs with
@@ -72,9 +70,18 @@ docker-compose down
 
 ### Quick Start (Source Code)
 
+First, you need to migrate the database:
+
 ```bash
 # make sure you are in E2M/app
-cd app
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade
+```
+
+Then you can start the API with the following command:
+
+```bash
 flask run --host 0.0.0.0 --port=8765 # --debug
 ```
 

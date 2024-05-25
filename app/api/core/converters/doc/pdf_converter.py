@@ -6,24 +6,23 @@ import os
 from api.core.converters.base_converter import (
     BaseConverter,
 )
-from api.core.marker.convert import convert_single_pdf
-from api.core.marker.models import load_all_models
 from api.core.marker.settings import Settings
 
-model_list = load_all_models()
 
 logger = logging.getLogger(__name__)
 
 
 def _parse_pdf_and_return_markdown(
     pdf_file: bytes,
-    start_page: int = 0,
-    end_page: int = None,
     extract_images: bool = False,
+    langs: list = ["zh"],
 ):
-    full_text, images, out_meta = convert_single_pdf(
-        pdf_file, model_list, start_page=start_page, end_page=end_page
-    )
+    from api.core.marker.convert import convert_single_pdf
+    from api.core.marker.models import load_all_models
+
+    model_list = load_all_models()
+
+    full_text, images, out_meta = convert_single_pdf(pdf_file, model_list, langs=langs)
     # todo: to handle images
     image_data = {}
     if extract_images:
@@ -59,9 +58,9 @@ class PdfConverter(BaseConverter):
         logger.info(f"kwargs: {kwargs}")
 
         # using VikParuchuri / marker
-        start_page = kwargs.get("start_page", 0)
-        end_page = kwargs.get("end_page", None)
         extract_images = kwargs.get("extract_images", False)
+        # you can find supported languages in https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
+        langs = kwargs.get("langs", ["zh"])
 
         if extract_images is False:
             Settings.EXTRACT_IMAGES = False
@@ -70,8 +69,7 @@ class PdfConverter(BaseConverter):
 
         full_text, images, out_meta = _parse_pdf_and_return_markdown(
             self.file,
-            start_page=start_page,
-            end_page=end_page,
             extract_images=extract_images,
+            langs=langs,
         )
         return full_text

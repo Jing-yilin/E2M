@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional, Dict
+from typing import List, Dict
 import logging
 
 import pypdfium2 as pdfium
@@ -78,27 +78,19 @@ def pdftext_format_to_blocks(page, pnum: int) -> Page:
 
 def get_text_blocks(
     doc,
-    start_page: int = 0,
-    end_page: Optional[int] = None,
 ) -> tuple[List[Page], Dict]:
     toc = get_toc(doc)
 
     page_range = range(len(doc))
-    logger.info(f"Default page range: {page_range}")
-    logger.info(f"start_page: {start_page}")
-    logger.info(f"end_page: {end_page}")
-
-    if start_page and (start_page < len(doc)):
-        page_range = range(start_page, len(doc))
-    if end_page and (end_page < len(doc)):
-        page_range = range(start_page, end_page + 1)
 
     logger.info(f"Extracting text from pages: {page_range}")
 
     char_blocks = dictionary_output(doc, page_range=page_range, keep_chars=True)
+    logger.debug(f"char_blocks: {char_blocks}")
     marker_blocks = [
         pdftext_format_to_blocks(page, pnum) for pnum, page in enumerate(char_blocks)
     ]
+    logger.debug(f"marker_blocks: {marker_blocks}")
 
     return marker_blocks, toc
 

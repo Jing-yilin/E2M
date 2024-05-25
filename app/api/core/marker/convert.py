@@ -28,17 +28,18 @@ from api.core.marker.utils import flush_cuda_memory
 from PIL import Image
 import pypdfium2 as pdfium
 import warnings
+import logging
 
 warnings.filterwarnings(
     "ignore", category=UserWarning
 )  # Filter torch pytree user warnings
 
+logger = logging.getLogger(__name__)
+
 
 def convert_single_pdf(
     fname: str,
     model_lst: List,
-    start_page: int = 0,
-    end_page: int = None,
     metadata: Optional[Dict] = None,
     langs: Optional[List[str]] = None,
     batch_multiplier: int = 1,
@@ -68,11 +69,10 @@ def convert_single_pdf(
     # Get initial text blocks from the pdf
     doc = pdfium.PdfDocument(fname)
 
-    pages, toc = get_text_blocks(
-        doc,
-        start_page=start_page,
-        end_page=end_page,
-    )
+    total_pages = len(doc)
+    logger.info(f"Total pages in document: {total_pages}")
+
+    pages, toc = get_text_blocks(doc)
     out_meta.update(
         {
             "toc": toc,
@@ -86,7 +86,12 @@ def convert_single_pdf(
     )
 
     # Identify text lines on pages
-    surya_detection(doc, pages, detection_model, batch_multiplier=batch_multiplier)
+    surya_detection(
+        doc,
+        pages,
+        detection_model,
+        batch_multiplier=batch_multiplier,
+    )
     flush_cuda_memory()
 
     # OCR pages as needed
@@ -166,5 +171,7 @@ def convert_single_pdf(
     flush_cuda_memory()
     out_meta["postprocess_stats"] = {"edit": edit_stats}
     doc_images = images_to_dict(pages)
+
+    doc.close()
 
     return full_text, doc_images, out_meta
