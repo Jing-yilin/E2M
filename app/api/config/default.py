@@ -38,6 +38,11 @@ class DefaultConfig(BaseSettings):
     )
 
     # SQLAlchemy binds for multiple databases
+    # SQLALCHEMY_BINDS: Dict[str, str] = Field(
+    #     default={"e2m_db": "postgresql+psycopg2://e2m:password@localhost/e2m_db"},
+    #     env="SQLALCHEMY_BINDS",
+    #     description="SQLAlchemy binds for multiple databases",
+    # )
     SQLALCHEMY_BINDS: Dict[str, str] = {
         "e2m_db": "postgresql+psycopg2://e2m:password@localhost/e2m_db"
     }

@@ -7,6 +7,7 @@ migrate = Migrate()
 
 
 class ConversionCache(db.Model):
+    __tablename__ = "conversion_cache"
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
     parse_mode = db.Column(db.String(255), nullable=False)

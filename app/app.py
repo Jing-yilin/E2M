@@ -1,6 +1,7 @@
 import logging
+
+# from rich.logging import RichHandler
 import argparse
-from rich.logging import RichHandler
 
 from flask import Flask, jsonify
 from flasgger import Swagger
@@ -18,8 +19,8 @@ def setup_logging():
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        # handlers=[logging.StreamHandler()],
-        handlers=[RichHandler()],
+        handlers=[logging.StreamHandler()],
+        # handlers=[RichHandler()],
     )
 
 
@@ -70,8 +71,28 @@ def create_app(config_class=default.DefaultConfig()):
 
     Swagger(app, config=swagger_config)  # init swagger
 
+    logo_ascii = """
+                    ┌──────────────────────────────────────────┐
+                    │                                    ____  │
+                    │    ,---,.       ,----,           ,'  , `.│
+                    │  ,'  .' |     .'   .' \       ,-+-,.' _ |│
+                    │,---.'   |   ,----,'    |   ,-+-. ;   , ||│
+                    │|   |   .'   |    :  .  ;  ,--.'|'   |  ;|│
+                    │:   :  |-,   ;    |.'  /  |   |  ,', |  ':│
+                    │:   |  ;/|   `----'/  ;   |   | /  | |  ||│
+                    │|   :   .'     /  ;  /    '   | :  | :  |,│
+                    │|   |  |-,    ;  /  /-,   ;   . |  ; |--' │
+                    │'   :  ;/|   /  /  /.`|   |   : |  | ,    │
+                    │|   |    \ ./__;      :   |   : '  |/     │
+                    │|   :   .' |   :    .'    ;   | |`-'      │
+                    │|   | ,'   ;   | .'       |   ;/          │
+                    │`----'     `---'          '---'           │
+                    └──────────────────────────────────────────┘
+"""
+
     logger.info("+-----------------------------------------------------------+")
     logger.info("Welcome to E2M API")
+    logger.info(logo_ascii)
     logger.info(f"🚀API: {API_URL}/api/v1/")
     logger.info(f"🚀API doc: {API_URL}/swagger/")
     logger.info(f"The github repo: {versions.__github__}")
