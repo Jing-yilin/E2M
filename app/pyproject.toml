@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "e2m"
+version = "v1.0.2"
+description = "E2M (Everything to Markdown) API Service"
+authors = ["Jing-yilin <yilin.jing.ai@outlook.com>"]
+license = "Apache License"
+readme = "README.md"
+
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+Flask = "^3.0.3"
+flasgger = "^0.9.7.1"
+pydantic = "^2.7.1"
+pydantic-settings = "^2.2.1"
+python-docx = "^1.1.2"
+unstructured = "^0.14.0"
+ftfy = "^6.2.0"
+pypdfium2 = "^4.30.0"
+pdftext = "^0.3.7"
+regex = "^2024.4.28"
+rapidfuzz = "^3.8.1"
+texify = "^0.1.9"
+scikit-learn = "^1.5.0"
+Pillow = "^10.3.0"
+transformers = "^4.41.0"
+numpy = "^1.26.2"
+python-dotenv = "^1.0.1"
+torch = "^2.3.0"
+tqdm = "^4.66.1"
+tabulate = "^0.9.0"
+grpcio = "^1.63.0"
+surya-ocr = "^0.4.7"
+gunicorn= "^22.0.0"
+flask-pydantic = "^0.12.0"
+rich = "^13.7.1"
+flask-sqlalchemy = "^3.1.1"
+psycopg2-binary = "^2.9.9"
+flask-migrate = "^4.0.7"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^7.0.0"
+black = "^24.4.2"
+pymarkdownlnt= "^0.9.19"
+pytest = "^8.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

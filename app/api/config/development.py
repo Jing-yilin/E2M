@@ -1,6 +1,6 @@
 from api.config.default import DefaultConfig
 
-
-class DevelopmentConfig(DefaultConfig):
-    DEBUG = True
-    # 开发环境的其他配置
+config = DefaultConfig(
+    DEBUG=True,
+    TESTING=True,
+)

@@ -10,3 +10,8 @@ tests/__pycache__
 tests/*.pyc
 tests/*.pyo
 tests/*.pyd
+tests/*.ipynb
+temp
+setup_db.sh
+poetry.lock
+pyproject.toml

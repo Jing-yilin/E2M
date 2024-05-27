@@ -26,7 +26,7 @@ class ConverterStrategy:
 
     @classmethod
     def get_converter(
-        cls, file: str, parse_mode: Union[ParserMode, str] = "auto", *args, **kwargs
+        cls, file: str, parse_mode: Union[ParserMode, str] = "auto", **kwargs
     ) -> BaseConverter:
 
         # identify parse mode
@@ -65,18 +65,18 @@ class ConverterStrategy:
                 one of {ALL_SUPPORT_TYPES}"
             )
         if file_extension == "docx":
-            return DocxConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return DocxConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "doc":
-            return DocConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return DocConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "html":
-            return HtmlConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return HtmlConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "htm":
-            return HtmConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return HtmConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "epub":
-            return EpubConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return EpubConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "pdf":
-            return PdfConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return PdfConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "rtf":
-            return RtfConverter(file=file, parse_mode=parse_mode, *args, **kwargs)
+            return RtfConverter(file=file, parse_mode=parse_mode, **kwargs)
         else:
             raise ValueError(f"Unsupported file type: {file_extension}")

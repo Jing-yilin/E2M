@@ -1,30 +1,55 @@
 import logging
-from flask import Flask, jsonify
-from flasgger import Swagger
-from api.blueprints.v1.routes import bp as api_v1_bp
-from api.config import Config, default
-import versions
+
+# from rich.logging import RichHandler
 import argparse
 
+from flask import Flask, jsonify
+from flasgger import Swagger
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+
+from api.config import Config, default
+import versions
 
 # load environment variables
 API_URL = Config.API_URL
 
 
-# logging
+def setup_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler()],
+        # handlers=[RichHandler()],
+    )
+
+
+setup_logging()
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler()
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+
+logger.debug(f"Config: {Config}")
 
 
-def create_app(config_class=default.DefaultConfig):
+def create_app(config_class=default.DefaultConfig()):
+    from api.blueprints.v1.routes import bp as api_v1_bp
+    from api.blueprints.v1.models import db, migrate
+
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # Create engine
+    try:
+        engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
+        conn = engine.connect()
+        logger.info("Database connected successfully")
+        conn.close()
+    except SQLAlchemyError as e:
+        logger.error(f"Database connection error: {e}")
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     # register blueprints
     app.register_blueprint(api_v1_bp, url_prefix="/api/v1")
@@ -46,8 +71,32 @@ def create_app(config_class=default.DefaultConfig):
 
     Swagger(app, config=swagger_config)  # init swagger
 
-    logger.info(f"Swagger API documentation is available:\n🚀 {API_URL}/swagger/")
-    logger.info(f"API v1 is available:\n🚀 {API_URL}/api/v1/")
+    logo_ascii = """
+                    ┌──────────────────────────────────────────┐
+                    │                                    ____  │
+                    │    ,---,.       ,----,           ,'  , `.│
+                    │  ,'  .' |     .'   .' \       ,-+-,.' _ |│
+                    │,---.'   |   ,----,'    |   ,-+-. ;   , ||│
+                    │|   |   .'   |    :  .  ;  ,--.'|'   |  ;|│
+                    │:   :  |-,   ;    |.'  /  |   |  ,', |  ':│
+                    │:   |  ;/|   `----'/  ;   |   | /  | |  ||│
+                    │|   :   .'     /  ;  /    '   | :  | :  |,│
+                    │|   |  |-,    ;  /  /-,   ;   . |  ; |--' │
+                    │'   :  ;/|   /  /  /.`|   |   : |  | ,    │
+                    │|   |    \ ./__;      :   |   : '  |/     │
+                    │|   :   .' |   :    .'    ;   | |`-'      │
+                    │|   | ,'   ;   | .'       |   ;/          │
+                    │`----'     `---'          '---'           │
+                    └──────────────────────────────────────────┘
+"""
+
+    logger.info("+-----------------------------------------------------------+")
+    logger.info("Welcome to E2M API")
+    logger.info(logo_ascii)
+    logger.info(f"🚀API: {API_URL}/api/v1/")
+    logger.info(f"🚀API doc: {API_URL}/swagger/")
+    logger.info(f"The github repo: {versions.__github__}")
+    logger.info("+-----------------------------------------------------------+")
 
     # version endpoint
     @app.route("/version")
@@ -58,8 +107,6 @@ def create_app(config_class=default.DefaultConfig):
                 "description": versions.__description__,
             }
         )
-
-    # init_extensions(app)
 
     return app
 

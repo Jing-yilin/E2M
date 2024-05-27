@@ -20,6 +20,13 @@ parameters:
       - paper
     default: general
     example: general
+  - name: extract_images
+    in: query
+    type: boolean
+    required: false
+    description: Extract images from the file
+    example: true
+
 responses:
   200:
     description: File successfully converted to Markdown

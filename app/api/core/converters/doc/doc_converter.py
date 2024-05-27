@@ -5,5 +5,5 @@ from api.core.converters.base_converter import (
 
 class DocConverter(BaseConverter):
 
-    def convert(self, *args, **kwargs) -> str:
+    def convert(self, **kwargs) -> str:
         raise NotImplementedError("Subclasses must implement this method")

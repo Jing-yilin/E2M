@@ -56,7 +56,7 @@ class BaseConverter(BaseModel):
     parse_mode: ParserMode = Field(ParserMode.AUTO, title="Parser mode")
 
     @abstractmethod
-    def convert(self, *args, **kwargs) -> str:
+    def convert(self, **kwargs) -> str:
         pass
 
     def to_dict(self):
