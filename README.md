@@ -14,11 +14,9 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [Introduction](#introduction)
-  - [Install](#install)
   - [Get Started](#get-started)
-    - [Quick Start (Docker)](#quick-start-docker)
-    - [Quick Start (Docker from Source Code)](#quick-start-docker-from-source-code)
     - [Quick Start (Source Code)](#quick-start-source-code)
+    - [Quick Start (Docker)](#quick-start-docker)
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
     - [How to use](#how-to-use)
@@ -36,7 +34,30 @@
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
 
-## Install
+```
+                      ┌──────────────────────────────────────────┐
+                      │                                    ____  │
+                      │    ,---,.       ,----,           ,'  , `.│
+                      │  ,'  .' |     .'   .' \       ,-+-,.' _ |│
+                      │,---.'   |   ,----,'    |   ,-+-. ;   , ||│
+                      │|   |   .'   |    :  .  ;  ,--.'|'   |  ;|│
+                      │:   :  |-,   ;    |.'  /  |   |  ,', |  ':│
+                      │:   |  ;/|   `----'/  ;   |   | /  | |  ||│
+                      │|   :   .'     /  ;  /    '   | :  | :  |,│
+                      │|   |  |-,    ;  /  /-,   ;   . |  ; |--' │
+                      │'   :  ;/|   /  /  /.`|   |   : |  | ,    │
+                      │|   |    \ ./__;      :   |   : '  |/     │
+                      │|   :   .' |   :    .'    ;   | |`-'      │
+                      │|   | ,'   ;   | .'       |   ;/          │
+                      │`----'     `---'          '---'           │
+                      └──────────────────────────────────────────┘
+```
+
+## Get Started
+
+### Quick Start (Source Code)
+
+Install:
 
 ```bash
 git clone https://github.com/Jing-yilin/E2M
@@ -46,18 +67,30 @@ conda activate e2m
 python -m pip install -r requirements-dev.txt
 ```
 
-## Get Started
+First, you should install `postgresql@15.0`:
 
-### Quick Start (Docker)
+- Ubuntu: `sudo apt install postgresql-15` && `sudo service postgresql start`
+
+- Mac: `brew install postgresql@15` && `brew services start postgresql@15`
+
+- Windows: `choco install postgresql` && `pg_ctl -D /usr/local/var/postgres start`
+
+Then, you need to migrate the database:
 
 ```bash
-docker pull jingyilin/e2m:latest
-docker run -d -p 8765:8765 jingyilin/e2m:latest
+# make sure you are in E2M/app
+# Please change DB_ADMIN and DB_PASSWORD to your own settings
+chmod +x ./setup_db.sh
+./setup_db.sh
 ```
 
-Then you can access the API at `http://localhost:8765`.
+Then you can start the API with the following command:
 
-### Quick Start (Docker from Source Code)
+```bash
+flask run --host 0.0.0.0 --port=8765 # --debug
+```
+
+### Quick Start (Docker)
 
 ```bash
 # deploy the app with docker, detach mode
@@ -68,22 +101,8 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### Quick Start (Source Code)
-
-First, you need to migrate the database:
-
-```bash
-# make sure you are in E2M/app
-flask db init
-flask db migrate -m "Initial migration"
-flask db upgrade
-```
-
-Then you can start the API with the following command:
-
-```bash
-flask run --host 0.0.0.0 --port=8765 # --debug
-```
+- 🚀API: `http://localhost:8765/api/v1/`
+- 🚀API doc: `http://localhost:8765/swagger/`
 
 ### Set to Development Environment
 
