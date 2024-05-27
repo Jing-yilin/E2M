@@ -1541,13 +1541,13 @@ files = [
 
 [[package]]
 name = "pdftext"
-version = "0.3.7"
+version = "0.3.9"
 description = "Extract structured text from pdfs quickly"
 optional = false
 python-versions = "!=2.7.*,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,!=3.7.*,!=3.8.*,>=3.9"
 files = [
-    {file = "pdftext-0.3.7-py3-none-any.whl", hash = "sha256:b536f538823dc7a8d43f2a3a0e88934296f575b2425969c10bd71cdc94b141ed"},
-    {file = "pdftext-0.3.7.tar.gz", hash = "sha256:b35c37c91557df692185f9aa75180c63fef2714fb0e679e199833cb183d813b2"},
+    {file = "pdftext-0.3.9-py3-none-any.whl", hash = "sha256:7f990a4692aa77f834b299131711e6552b9e9f0676b194c4fc551fe1f5cef893"},
+    {file = "pdftext-0.3.9.tar.gz", hash = "sha256:b8a2a7c4eb9708e8b3d8ea1ba0fda0fb974f9fabeceb807939c00dd3eadd8103"},
 ]
 
 [package.dependencies]
@@ -1672,28 +1672,6 @@ files = [
 [package.extras]
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
-
-[[package]]
-name = "psycopg2"
-version = "2.9.9"
-description = "psycopg2 - Python-PostgreSQL Database Adapter"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "psycopg2-2.9.9-cp310-cp310-win32.whl", hash = "sha256:38a8dcc6856f569068b47de286b472b7c473ac7977243593a288ebce0dc89516"},
-    {file = "psycopg2-2.9.9-cp310-cp310-win_amd64.whl", hash = "sha256:426f9f29bde126913a20a96ff8ce7d73fd8a216cfb323b1f04da402d452853c3"},
-    {file = "psycopg2-2.9.9-cp311-cp311-win32.whl", hash = "sha256:ade01303ccf7ae12c356a5e10911c9e1c51136003a9a1d92f7aa9d010fb98372"},
-    {file = "psycopg2-2.9.9-cp311-cp311-win_amd64.whl", hash = "sha256:121081ea2e76729acfb0673ff33755e8703d45e926e416cb59bae3a86c6a4981"},
-    {file = "psycopg2-2.9.9-cp312-cp312-win32.whl", hash = "sha256:d735786acc7dd25815e89cc4ad529a43af779db2e25aa7c626de864127e5a024"},
-    {file = "psycopg2-2.9.9-cp312-cp312-win_amd64.whl", hash = "sha256:a7653d00b732afb6fc597e29c50ad28087dcb4fbfb28e86092277a559ae4e693"},
-    {file = "psycopg2-2.9.9-cp37-cp37m-win32.whl", hash = "sha256:5e0d98cade4f0e0304d7d6f25bbfbc5bd186e07b38eac65379309c4ca3193efa"},
-    {file = "psycopg2-2.9.9-cp37-cp37m-win_amd64.whl", hash = "sha256:7e2dacf8b009a1c1e843b5213a87f7c544b2b042476ed7755be813eaf4e8347a"},
-    {file = "psycopg2-2.9.9-cp38-cp38-win32.whl", hash = "sha256:ff432630e510709564c01dafdbe996cb552e0b9f3f065eb89bdce5bd31fabf4c"},
-    {file = "psycopg2-2.9.9-cp38-cp38-win_amd64.whl", hash = "sha256:bac58c024c9922c23550af2a581998624d6e02350f4ae9c5f0bc642c633a2d5e"},
-    {file = "psycopg2-2.9.9-cp39-cp39-win32.whl", hash = "sha256:c92811b2d4c9b6ea0285942b2e7cac98a59e166d59c588fe5cfe1eda58e72d59"},
-    {file = "psycopg2-2.9.9-cp39-cp39-win_amd64.whl", hash = "sha256:de80739447af31525feddeb8effd640782cf5998e1a4e9192ebdf829717e3913"},
-    {file = "psycopg2-2.9.9.tar.gz", hash = "sha256:d1454bde93fb1e224166811694d600e746430c006fbb031ea06ecc2ea41bf156"},
-]
 
 [[package]]
 name = "psycopg2-binary"
@@ -2825,13 +2803,13 @@ sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
 name = "surya-ocr"
-version = "0.4.7"
+version = "0.4.8"
 description = "OCR, layout, reading order, and line detection in 90+ languages"
 optional = false
 python-versions = "!=2.7.*,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,!=3.7.*,!=3.8.*,>=3.9"
 files = [
-    {file = "surya_ocr-0.4.7-py3-none-any.whl", hash = "sha256:cd64e1f50656ffac4ae262058c53864fe7f408b2ba6c91a8841e7f95f1b6dba6"},
-    {file = "surya_ocr-0.4.7.tar.gz", hash = "sha256:ed0997c1cea79786d5aa58e8b75a30bf0f126faf5bf758019abf157f0c52526d"},
+    {file = "surya_ocr-0.4.8-py3-none-any.whl", hash = "sha256:6753bf295581f44b3e3452de563a3730a6c91500ea09090927154a1edfe57364"},
+    {file = "surya_ocr-0.4.8.tar.gz", hash = "sha256:01e97db0d43941637ff0ddededa46491f7b0b937dba5c7fbba4ee75177991465"},
 ]
 
 [package.dependencies]
@@ -3225,13 +3203,13 @@ tutorials = ["matplotlib", "pandas", "tabulate", "torch"]
 
 [[package]]
 name = "typing-extensions"
-version = "4.11.0"
+version = "4.12.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.11.0-py3-none-any.whl", hash = "sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a"},
-    {file = "typing_extensions-4.11.0.tar.gz", hash = "sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"},
+    {file = "typing_extensions-4.12.0-py3-none-any.whl", hash = "sha256:b349c66bea9016ac22978d800cfff206d5f9816951f12a7d0ec5578b0a819594"},
+    {file = "typing_extensions-4.12.0.tar.gz", hash = "sha256:8cbcdc8606ebcb0d95453ad7dc5065e6237b6aa230a31e81d0f440c30fed5fd8"},
 ]
 
 [[package]]
@@ -3502,4 +3480,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "1069c4b513bdb6eef3fdd4c8af527848b04c2aed0b2544506cd204457c4eac15"
+content-hash = "dbb8d15712720bd5b497ac9cea24658c59b28960da2852fa97eeded4b00ed32f"
