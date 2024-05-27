@@ -1,9 +1,19 @@
 version: "3.8"
 
 services:
+    postgres:
+        image: postgres:15
+        restart: always
+        environment:
+            POSTGRES_USER: e2m
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: e2m_db
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
     e2m:
         build: .
-        command: ["gunicorn", "--bind", "0.0.0.0:8765", "app:create_app()"]
+        command: ["gunicorn", "--bind", "0.0.0.0:8765", "--timeout", "500", "app:create_app()"]
         ports:
             - "8765:8765"
         volumes:
@@ -11,3 +21,14 @@ services:
         environment:
             FLASK_APP: app.py
             FLASK_ENV: production
+            API_URL: http://localhost:8765
+            TZ: Asia/Shanghai
+            CONVERTER: default
+            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
+            SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
+
+        depends_on:
+            - postgres
+
+volumes:
+    postgres_data:

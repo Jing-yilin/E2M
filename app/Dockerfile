@@ -28,13 +28,9 @@ RUN pip install -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . /app/
 
-# production stage
-ENV FLASK_ENV=production
-ENV API_URL=http://localhost:8765
-ENV CONVERTER=default
-
-# set time zone
-ENV TZ=Asia/Shanghai
+# migrate db
+RUN chmod +x setup_db_docker.sh
+RUN ./setup_db_docker.sh
 
 # Expose the port that the app runs on
 EXPOSE 8765
