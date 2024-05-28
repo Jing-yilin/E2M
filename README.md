@@ -14,6 +14,7 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [Introduction](#introduction)
+    - [Supported File Types](#supported-file-types)
   - [Get Started](#get-started)
     - [Quick Start (Source Code)](#quick-start-source-code)
     - [Quick Start (Docker)](#quick-start-docker)
@@ -26,7 +27,6 @@
     - [Push to the remote repository](#push-to-the-remote-repository)
     - [Push to docker](#push-to-docker)
     - [Pull Request](#pull-request)
-  - [Supported File Types](#supported-file-types)
   - [Contributing](#contributing)
     - [Contributors](#contributors)
 
@@ -52,6 +52,36 @@ This project aims to provide an API, which can convert everything to markdown (L
                       │`----'     `---'          '---'           │
                       └──────────────────────────────────────────┘
 ```
+
+### Supported File Types
+
+<table style="width: 100%;">
+  <tr>
+    <th align="center">Supported</th>
+    <th align="center">Document</th>
+    <th align="center">Image</th>
+    <th align="center">Data</th>
+    <th align="center">Audio</th>
+    <th align="center">Video</th>
+  </tr>
+  <tr>
+    <td align="center">Done</td>
+    <td align="center">docx, pdf</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center">Todo</td>
+    <td align="center">doc, txt, html, htm</td>
+    <td align="center">jpg, jpeg, png, gif, svg</td>
+    <td align="center">csv, xlsx, xls</td>
+    <td align="center">mp3, wav, flac</td>
+    <td align="center">mp4, avi, mkv</td>
+  </tr>
+</table>
+
 
 ## Get Started
 
@@ -205,7 +235,6 @@ docker push jingyilin/e2m:latest
 # create a pull request to develop branch on GitHub
 ```
 
-## Supported File Types
 
 ## Contributing
 

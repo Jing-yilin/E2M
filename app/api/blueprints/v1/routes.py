@@ -3,6 +3,7 @@ from flasgger import swag_from
 from api.blueprints.v1.controllers import ping, file_to_markdown
 from api.blueprints.v1.schemas import ConvertRequest
 from pydantic import ValidationError
+import hashlib
 import os
 
 
@@ -33,21 +34,24 @@ def convert_route():
     try:
         data = ConvertRequest(
             parse_mode=request.args.get("parse_mode", default="auto"),
+            langs=request.args.get("langs", default="zh").split(","),
             extract_images=request.args.get("extract_images", default=False),
         )
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400
 
-    # # 生成缓存键
-    # cache_key = hashlib.md5(
-    #     f"{file_name}{data.parse_mode}{data.extract_images}".encode()
-    # ).hexdigest()
+    # 生成缓存键
+    cache_key = hashlib.md5(
+        f"{file_name}{data.parse_mode}{data.extract_images}".encode()
+    ).hexdigest()
 
     # 检查缓存
     logger.info("Checking cache")
     cached_result = ConversionCache.query.filter_by(
-        file_name=file_name,
+        cache_key=cache_key,
+        # file_name=file_name,
         parse_mode=data.parse_mode,
+        langs=str(data.langs),
         extract_images=data.extract_images,
     ).first()
     if cached_result:
@@ -73,8 +77,10 @@ def convert_route():
     if code == 200:
         logger.info("Storing result to cache")
         new_cache_entry = ConversionCache(
+            cache_key=cache_key,
             file_name=file_name,
             parse_mode=data.parse_mode,
+            langs=str(data.langs),
             extract_images=data.extract_images,
             result=md_result,
         )

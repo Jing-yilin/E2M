@@ -20,6 +20,14 @@ parameters:
       - paper
     default: general
     example: general
+  - name: langs
+    in: query
+    type: array
+    items:
+      type: string
+    required: false
+    description: Language codes to be used for parsing
+    example: ['en', 'zh']
   - name: extract_images
     in: query
     type: boolean

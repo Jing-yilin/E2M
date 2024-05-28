@@ -7,6 +7,11 @@ class ConvertRequest(BaseModel):
         default="auto", description="The parse mode to use. The default is 'auto'."
     )
 
+    langs: Optional[list] = Field(
+        default=["zh"],
+        description="The languages to use for parsing. The default is ['zh'] (Chinese).",
+    )
+
     extract_images: Optional[bool] = Field(
         default=False, description="Whether to extract images from the file."
     )
