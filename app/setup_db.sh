@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_ADMIN="your computer user name" # 数据库管理员用户名
+DB_ADMIN="zephyr" # 数据库管理员用户名
 DB_ADMIN_PASSWORD="password" # 数据库管理员密码
 DB_NAME="e2m_db" # 数据库名称
 DB_USER="e2m" # 数据库用户名
@@ -53,5 +53,5 @@ else
     flask db upgrade
 fi
 
-echo "Database migrations applied."
+echo "🎉Database migrations applied."
 

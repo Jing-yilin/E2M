@@ -53,5 +53,5 @@ else
     flask db upgrade
 fi
 
-echo "Database migrations applied."
+echo "🎉Database migrations applied."
 
