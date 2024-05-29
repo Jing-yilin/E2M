@@ -15,6 +15,15 @@ logger = logging.getLogger(__name__)
 bp = Blueprint("v1", __name__)
 
 
+@bp.route("/", methods=["GET"])
+@swag_from("./swagger/index.yml")
+def index_route():
+    return (
+        jsonify({"message": "You have successfully reached the API, congratulations!"}),
+        200,
+    )
+
+
 @bp.route("/ping", methods=["GET"])
 @swag_from("./swagger/ping.yml")
 def ping_route():
