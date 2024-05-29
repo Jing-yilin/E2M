@@ -1,0 +1,43 @@
+info:
+  description: "This is the API documentation for E2M (Everything to Markdown)."
+  version: "v1.0.4"
+  title: "E2M API"
+  contact:
+    email: "yilin.jing.ai@outlook.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8765"
+basePath: "/api/v1"
+tags:
+  - name: "Index"
+    description: "Index related endpoints"
+schemes:
+  - "http"
+paths:
+  /:
+    get:
+      tags:
+        - "Index"
+      summary: "Index Route"
+      description: "Returns a success message indicating the API is reachable."
+      operationId: "indexRoute"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "You have successfully reached the API, congratulations! 🎉"
+        500:
+          description: "Internal Server Error"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Internal server error"

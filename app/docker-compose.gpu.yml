@@ -23,12 +23,19 @@ services:
 
     e2m_api:
         build: .
+        deploy:
+          resources:
+            reservations:
+              devices:
+                - capabilities: [gpu]
         container_name: e2m_api
         ports:
             - "8765:8765"
         volumes:
             - .:/app
         environment:
+            NVIDIA_VISIBLE_DEVICES: all
+            NVIDIA_DRIVER_CAPABILITIES: compute,utility
             FLASK_APP: app.py
             FLASK_ENV: production
             API_URL: http://localhost:8765

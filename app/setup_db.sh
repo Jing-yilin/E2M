@@ -1,57 +1,57 @@
 #!/bin/bash
+DB_ADMIN="your computer admin name" # Database admin username
+DB_ADMIN_PASSWORD="password"        # Database admin password
+DB_NAME="e2m_db"                    # Database name
+DB_USER="e2m"                       # Database user
+DB_HOST="localhost"                 # PostgreSQL container hostname
 
-DB_ADMIN="zephyr" # 数据库管理员用户名
-DB_ADMIN_PASSWORD="password" # 数据库管理员密码
-DB_NAME="e2m_db" # 数据库名称
-DB_USER="e2m" # 数据库用户名
-DB_HOST="localhost" # PostgreSQL 容器主机名
-
-# 检查数据库是否已经存在，如果不存在则创建数据库
+# Check if the database exists, if not, create the database
 if PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -lqt | cut -d \| -f 1 | grep -qw $DB_NAME; then
-    echo "Database '$DB_NAME' already exists."
+  echo "Database '$DB_NAME' already exists."
 else
-    echo "Database '$DB_NAME' does not exist. Creating database..."
-    PGPASSWORD=$DB_ADMIN_PASSWORD createdb -h $DB_HOST -U $DB_ADMIN $DB_NAME
-    echo "Database '$DB_NAME' created."
+  echo "Database '$DB_NAME' does not exist. Creating database..."
+  PGPASSWORD=$DB_ADMIN_PASSWORD createdb -h $DB_HOST -U $DB_ADMIN $DB_NAME
+  echo "Database '$DB_NAME' created."
 fi
 
-# 进入最高管理员并赋予 e2m 用户所有权限
+# Enter superuser mode and grant all privileges to user 'e2m'
 echo "Granting all privileges to user '$DB_USER' on database '$DB_NAME'..."
-
-
-PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON SCHEMA public TO $DB_USER;"
-PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
-PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;"
-PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $DB_USER;"
-PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO $DB_USER;"
-
+PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON SCHEMA public TO $DB_USER;" 1>/dev/null 2>&1
+PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;" 1>/dev/null 2>&1
+PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;" 1>/dev/null 2>&1
+PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $DB_USER;" 1>/dev/null 2>&1
+PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO $DB_USER;" 1>/dev/null 2>&1
 echo "All privileges granted to user '$DB_USER' on database '$DB_NAME'."
 echo "Database setup complete."
 
-# 定义一个函数来检查迁移目录中是否存在初始迁移文件
+# Define a function to check if an initial migration file exists in the migrations directory
 function check_initial_migration {
-    if [ -d "migrations" ]; then
-        if ls migrations/versions/*initial*.py 1> /dev/null 2>&1; then
-            return 0 # 初始迁移文件存在
-        else
-            return 1 # 初始迁移文件不存在
-        fi
+  if [ -d "migrations" ]; then
+    if ls migrations/versions/*initial*.py 1>/dev/null 2>&1; then
+      return 0 # Initial migration exists
     else
-        return 1 # 迁移目录不存在
+      return 1 # Initial migration does not exist
     fi
+  else
+    return 1 # Migrations directory does not exist
+  fi
 }
 
-# 检查迁移目录和初始迁移文件
+# Check the migrations directory and initial migration file
 if check_initial_migration; then
-    echo "Initial migration exists. Applying migrations..."
-    flask db upgrade
+  echo "Initial migration exists. Applying migrations..."
+  flask db upgrade
 else
-    echo "Initial migration does not exist or migrations directory not found. Initializing database..."
-    rm -rf migrations # 删除现有的迁移目录（如果存在）
-    flask db init
-    flask db migrate -m "Initial migration."
-    flask db upgrade
+  echo "Initial migration does not exist or migrations directory not found. Initializing database..."
+  rm -rf migrations # Remove existing migrations directory (if any)
+  flask db init 1>/dev/null 2>&1
+  flask db migrate -m "Initial migration." 1>/dev/null 2>&1
+  flask db upgrade 1>/dev/null 2>&1
 fi
 
-echo "🎉Database migrations applied."
-
+# try connecting to the database
+if PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "SELECT 1" 1>/dev/null 2>&1; then
+  echo "🚀 Database connection successful."
+else
+  echo "❌ Database connection failed."
+fi
