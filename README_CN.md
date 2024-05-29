@@ -24,33 +24,33 @@
 </div>
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
-  - [🌟Introduction](#introduction)
-    - [📸Demo](#demo)
-    - [📂Supported File Types](#supported-file-types)
-  - [🚀Get Started](#get-started)
-    - [📦Quick Start (Local Docker)](#quick-start-local-docker)
-    - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
-    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
+  - [🌟介绍](#介绍)
+    - [📸演示](#演示)
+    - [📂支持的文件类型](#支持的文件类型)
+  - [🚀快速开始](#快速开始)
+    - [📦快速启动（本地 Docker）](#快速启动本地-docker)
+    - [🎛️GPU 支持的快速启动（本地 Docker）](#️gpu-支持的快速启动本地-docker)
+    - [⚙️推荐的快速启动（源代码）](#️推荐的快速启动源代码)
       - [🐧Ubuntu](#ubuntu)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
-    - [🔧Set to Development Environment](#set-to-development-environment)
-    - [🏭Set to Production Environment](#set-to-production-environment)
-    - [📖How to use](#how-to-use)
-  - [🤝How to contribute](#how-to-contribute)
-    - [🌿Create a new branch](#create-a-new-branch)
-    - [📝PEP8 style](#pep8-style)
-    - [🔄Push to the remote repository](#push-to-the-remote-repository)
-    - [🐳Push to docker](#push-to-docker)
-    - [🔀Pull Request](#pull-request)
-  - [🌟Contributing](#contributing)
-    - [👥Contributors](#contributors)
+    - [🔧设置开发环境](#设置开发环境)
+    - [🏭设置生产环境](#设置生产环境)
+    - [📖如何使用](#如何使用)
+  - [🤝如何贡献](#如何贡献)
+    - [🌿创建新分支](#创建新分支)
+    - [📝PEP8 风格](#pep8-风格)
+    - [🔄推送到远程仓库](#推送到远程仓库)
+    - [🐳推送到 Docker](#推送到-docker)
+    - [🔀拉取请求](#拉取请求)
+  - [🌟贡献者](#贡献者)
+    - [👥贡献者名单](#贡献者名单)
 
-## 🌟Introduction
+## 🌟介绍
 
-This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+该项目旨在提供一个 API，可以将各种文件转换为 Markdown（LLM 友好的格式）。
 
-### 📸Demo
+### 📸演示
 
 ![image-20240528122849203](assets/demo_01.png)
 
@@ -58,19 +58,19 @@ This project aims to provide an API, which can convert everything to markdown (L
 
 ![image-20240528124726338](assets/demo_03.png)
 
-### 📂Supported File Types
+### 📂支持的文件类型
 
 <table style="width: 100%;">
   <tr>
-    <th align="center">Supported</th>
-    <th align="center">Document</th>
-    <th align="center">Image</th>
-    <th align="center">Data</th>
-    <th align="center">Audio</th>
-    <th align="center">Video</th>
+    <th align="center">状态</th>
+    <th align="center">文档</th>
+    <th align="center">图片</th>
+    <th align="center">数据</th>
+    <th align="center">音频</th>
+    <th align="center">视频</th>
   </tr>
   <tr>
-    <td align="center">Done</td>
+    <td align="center">已完成</td>
     <td align="center">docx, pdf</td>
     <td align="center"></td>
     <td align="center"></td>
@@ -78,7 +78,7 @@ This project aims to provide an API, which can convert everything to markdown (L
     <td align="center"></td>
   </tr>
   <tr>
-    <td align="center">Todo</td>
+    <td align="center">待办</td>
     <td align="center">doc, txt, html, htm</td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
@@ -87,30 +87,29 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
 </table>
 
-## 🚀Get Started
+## 🚀快速开始
 
-
-### 📦Quick Start (Local Docker)
+### 📦快速启动（本地 Docker）
 
 ```bash
-# deploy the app with docker, detach mode
+# 使用 Docker 部署应用，分离模式
 docker-compose up --build -d
-# check the logs with
+# 查看日志
 docker-compose logs -f
-# remove the container with
+# 移除容器
 docker-compose down
 ```
 
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀API 文档: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
-### 🎛️Quick Start with GPU Support (Local Docker)
+### 🎛️GPU 支持的快速启动（本地 Docker）
 
-To utilize the local GPU, follow these steps:
+要利用本地 GPU，请按以下步骤操作：
 
-1. Install NVIDIA Driver: Ensure the NVIDIA driver is installed on your host machine.
+1. 安装 NVIDIA 驱动：确保在主机上安装了 NVIDIA 驱动。
 
-2. Install NVIDIA Container Toolkit:
+2. 安装 NVIDIA 容器工具包：
 
 ```bash
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -121,25 +120,24 @@ sudo apt-get install -y nvidia-docker2
 sudo systemctl restart docker
 ```
 
-> You may have to update your docker version if you encounter any issues.
+> 如果遇到任何问题，可能需要更新 Docker 版本。
 
-1. Run Docker Container with GPU Support:
+1. 使用 GPU 支持运行 Docker 容器：
 
 ```bash
 docker-compose -f docker-compose.gpu.yml up --build -d
-# check the logs with
+# 查看日志
 docker-compose -f docker-compose.gpu.yml logs -f
-# remove the container with
+# 移除容器
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀API 文档: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
-### ⚙️Quick Start (Source Code: Recommended)
+### ⚙️推荐的快速启动（源代码）
 
-Install:
+安装：
 
 ```bash
 git clone https://github.com/Jing-yilin/E2M
@@ -149,13 +147,13 @@ conda activate e2m
 python -m pip install -r requirements-dev.txt
 ```
 
-First, you should install `postgresql@15.0`:
+首先，您需要安装 `postgresql@15.0`：
 
 #### 🐧Ubuntu
 
-1. Install PostgreSQL 15:
+1. 安装 PostgreSQL 15：
 
-    > Reference: [How to Install PostgreSQL On Ubuntu](https://www.linuxtechi.com/how-to-install-postgresql-on-ubuntu/)
+    > 参考：[如何在 Ubuntu 上安装 PostgreSQL](https://www.linuxtechi.com/how-to-install-postgresql-on-ubuntu/)
 
     ```sh
     sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -164,68 +162,68 @@ First, you should install `postgresql@15.0`:
     sudo apt install postgresql-15 postgresql-client-15 -y
     ```
 
-2. Start PostgreSQL:
+2. 启动 PostgreSQL：
     ```sh
     sudo systemctl status postgresql
     ```
 
 #### 🍏Mac
 
-1. Install PostgreSQL 15:
+1. 安装 PostgreSQL 15：
     ```sh
     brew install postgresql@15 -y
     ```
-2. Start PostgreSQL:
+2. 启动 PostgreSQL：
     ```sh
     brew services start postgresql@15
     ```
 
 #### 🖥️Windows
 
-1. Install PostgreSQL 15:
+1. 安装 PostgreSQL 15：
     ```sh
     choco install postgresql15 --version=15.0.1 -y
     ```
-    _You may have to run the cmd as an administrator_
-2. Start PostgreSQL:
+    _可能需要以管理员身份运行 cmd_
+2. 启动 PostgreSQL：
     ```sh
     pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
     ```
 
-Then, you need to migrate the database:
+然后，您需要迁移数据库：
 
-> You have to change the `DB_ADMIN` and `DB_PASSWORD` in the `setup_db.sh` file.
+> 您需要在 `setup_db.sh` 文件中更改 `DB_ADMIN` 和 `DB_PASSWORD`。
 
 ```bash
-# make sure you are in E2M/app
-# Please change DB_ADMIN and DB_PASSWORD to your own settings
+# 确保您在 E2M/app 目录下
+# 请将 DB_ADMIN 和 DB_PASSWORD 更改为您自己的设置
 chmod +x ./setup_db.sh
 ./setup_db.sh
 ```
 
-Then you can start the API with the following command:
+然后，您可以使用以下命令启动 API：
 
 ```bash
 flask run --host 0.0.0.0 --port=8765 # --debug
 ```
 
-### 🔧Set to Development Environment
+### 🔧设置开发环境
 
 ```bash
 export FLASK_ENV=development
 export FLASK_DEBUG=1
 ```
 
-### 🏭Set to Production Environment
+### 🏭设置生产环境
 
 ```bash
 export FLASK_ENV=production
 export FLASK_DEBUG=0
 ```
 
-### 📖How to use
+### 📖如何使用
 
-bash script:
+bash 脚本：
 
 ```bash
 curl -X POST "http://localhost:8765/api/v1/convert" \
@@ -236,90 +234,92 @@ curl -X POST "http://localhost:8765/api/v1/convert" \
   -F "parse_mode=auto"
 ```
 
-return:
+返回：
 
 ```json
 {
-    "message": "This is your markdown content"
+    "message": "这是您的 Markdown 内容"
 }
 ```
 
-## 🤝How to contribute
+## 🤝如何贡献
 
-### 🌿Create a new branch
+### 🌿创建新分支
 
-Before you commit your code, please create a new branch:
+在提交代码
 
-- `feature/xxx` for new features
-- `bugfix/xxx` for bug fixes
+之前，请创建一个新分支：
 
-You can create a new branch with the following command:
+- `feature/xxx` 用于新功能
+- `bugfix/xxx` 用于错误修复
+
+您可以使用以下命令创建新分支：
 
 ```bash
-# fetch the latest cod
+# 获取最新代码
 git checkout main
 git pull
-# create a new branch
+# 创建新分支
 git checkout -b feature/xxx
 ```
 
-### 📝PEP8 style
+### 📝PEP8 风格
 
-Then, run the following commands to format the style of your code:
+然后，运行以下命令格式化您的代码风格：
 
 ```bash
-# all contributions should follow PEP8 style
-flake8 .  # to check the style
-black .  # to format the code
-pymarkdownlnt fix .  # to format the markdown
+# 所有贡献应遵循 PEP8 风格
+flake8 .  # 检查风格
+black .  # 格式化代码
+pymarkdownlnt fix .  # 格式化 Markdown
 cd app
 poetry export -f requirements.txt --without-hashes > requirements.txt
 poetry export -f requirements.txt --without-hashes --with dev -o requirements-dev.txt
 ```
 
-### 🔄Push to the remote repository
+### 🔄推送到远程仓库
 
 ```bash
-# add the changes
+# 添加更改
 git add .
-# commit the changes
-git commit -m "your commit message"
-# push the changes
-git push origin feature/xxx # or simply `git push`
+# 提交更改
+git commit -m "您的提交信息"
+# 推送更改
+git push origin feature/xxx # 或者仅 `git push`
 ```
 
-### 🐳Push to docker
+### 🐳推送到 Docker
 
-A new version:
+新版本：
 
 ```
-docker build -t jingyilin/e2m:<version> .
-docker push jingyilin/e2m:<version>
+docker build -t jingyilin/e2m:<版本号> .
+docker push jingyilin/e2m:<版本号>
 ```
 
-For example, the version is `v1.0.0`:
+例如，版本为 `v1.0.0`：
 
 ```
 docker build -t jingyilin/e2m:v1.0.0 .
 docker push jingyilin/e2m:v1.0.0
 ```
 
-Latest version:
+最新版本：
 
 ```
 docker build -t jingyilin/e2m:latest .
 docker push jingyilin/e2m:latest
 ```
 
-### 🔀Pull Request
+### 🔀拉取请求
 
 ```bash
-# create a pull request to develop branch on GitHub
+# 在 GitHub 上向 develop 分支创建拉取请求
 ```
 
-## 🌟Contributing
+## 🌟贡献者
 
-### 👥Contributors
+### 👥贡献者名单
 
 <a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
