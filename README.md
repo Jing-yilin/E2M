@@ -20,11 +20,12 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
+    - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
   - [🚀Get Started](#get-started)
-    - [�Quick Start (Local Docker)](#quick-start-local-docker)
+    - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
-    - [⚙️Quick Start (Source Code)](#️quick-start-source-code)
+    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
       - [🐧Ubuntu](#ubuntu)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
@@ -43,6 +44,8 @@
 ## 🌟Introduction
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+
+### 📸Demo
 
 ![image-20240528122849203](assets/demo_01.png)
 
@@ -129,7 +132,7 @@ docker-compose -f docker-compose.gpu.yml down
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
-### ⚙️Quick Start (Source Code)
+### ⚙️Quick Start (Source Code: Recommended)
 
 Install:
 
@@ -185,6 +188,8 @@ First, you should install `postgresql@15.0`:
     ```
 
 Then, you need to migrate the database:
+
+> You have to change the `DB_ADMIN` and `DB_PASSWORD` in the `setup_db.sh` file.
 
 ```bash
 # make sure you are in E2M/app
