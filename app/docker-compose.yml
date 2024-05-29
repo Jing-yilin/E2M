@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
     e2m_network:
         driver: bridge
