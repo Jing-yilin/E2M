@@ -10,6 +10,12 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.4">
+        <img src="https://img.shields.io/badge/version-v1.1.4-blue" alt="E2M Version">
+    </a>
+    <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
+        <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
+    </a>
 </p>
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
@@ -20,7 +26,9 @@
       - [Ubuntu](#ubuntu)
       - [Mac](#mac)
       - [Windows](#windows)
-    - [Quick Start (Docker)](#quick-start-docker)
+    - [Quick Start (Remote Docker)](#quick-start-remote-docker)
+    - [Quick Start (Local Docker)](#quick-start-local-docker)
+    - [Quick Start with GPU Support (Local Docker)](#quick-start-with-gpu-support-local-docker)
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
     - [How to use](#how-to-use)
@@ -144,7 +152,22 @@ Then you can start the API with the following command:
 flask run --host 0.0.0.0 --port=8765 # --debug
 ```
 
-### Quick Start (Docker)
+
+### Quick Start (Remote Docker)
+
+```bash
+# deploy the app with docker, detach mode
+docker run -d -p 8765:8765 jingyilin/e2m:latest
+# show the container id
+docker ps
+# check the logs with
+docker logs -f <container_id>
+# remove the container with
+docker stop <container_id>
+```
+
+
+### Quick Start (Local Docker)
 
 ```bash
 # deploy the app with docker, detach mode
@@ -157,6 +180,35 @@ docker-compose down
 
 - 🚀API: `http://localhost:8765/api/v1/`
 - 🚀API doc: `http://localhost:8765/swagger/`
+
+
+### Quick Start with GPU Support (Local Docker)
+
+To utilize the local GPU, follow these steps:
+
+1. Install NVIDIA Driver: Ensure the NVIDIA driver is installed on your host machine.
+
+2. Install NVIDIA Container Toolkit:
+
+```bash
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+sudo apt-get install -y nvidia-docker2
+sudo systemctl restart docker
+```
+
+1. Run Docker Container with GPU Support:
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+# check the logs with
+docker-compose -f docker-compose.gpu.yml logs -f
+# remove the container with
+docker-compose -f docker-compose.gpu.yml down
+```
+
 
 ### Set to Development Environment
 
@@ -244,6 +296,13 @@ A new version:
 ```
 docker build -t jingyilin/e2m:<version> .
 docker push jingyilin/e2m:<version>
+```
+
+For example, the version is `v1.0.0`:
+  
+```
+docker build -t jingyilin/e2m:v1.0.0 .
+docker push jingyilin/e2m:v1.0.0
 ```
 
 Latest version:

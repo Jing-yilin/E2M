@@ -1,0 +1,54 @@
+version: "3.8"
+
+networks:
+    e2m_network:
+        driver: bridge
+
+services:
+    postgres:
+        container_name: e2m_postgres
+        image: postgres:15-alpine
+        restart: always
+        environment:
+            POSTGRES_USER: e2m
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: e2m_db
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - e2m_network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U e2m -d e2m_db"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    e2m_api:
+        build: .
+        deploy:
+          resources:
+            reservations:
+              devices:
+                - capabilities: [gpu]
+        container_name: e2m_api
+        ports:
+            - "8765:8765"
+        volumes:
+            - .:/app
+        environment:
+            NVIDIA_VISIBLE_DEVICES: all
+            NVIDIA_DRIVER_CAPABILITIES: compute,utility
+            FLASK_APP: app.py
+            FLASK_ENV: production
+            API_URL: http://localhost:8765
+            TZ: Asia/Shanghai
+            CONVERTER: default
+            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
+            SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
+        depends_on:
+            - postgres
+        networks:
+            - e2m_network
+
+volumes:
+    postgres_data:
