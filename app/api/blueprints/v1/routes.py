@@ -76,16 +76,20 @@ def convert_route():
     # save to cache if successful
     if code == 200:
         logger.info("Storing result to cache")
-        new_cache_entry = ConversionCache(
-            cache_key=cache_key,
-            file_name=file_name,
-            parse_mode=data.parse_mode,
-            langs=str(data.langs),
-            extract_images=data.extract_images,
-            result=md_result,
-        )
-        db.session.add(new_cache_entry)
-        db.session.commit()
+        try:
+            new_cache_entry = ConversionCache(
+                cache_key=cache_key,
+                file_name=file_name,
+                parse_mode=data.parse_mode,
+                langs=str(data.langs),
+                extract_images=data.extract_images,
+                result=md_result,
+            )
+            db.session.add(new_cache_entry)
+            db.session.commit()
+        except Exception as e:
+            logger.error(f"Error storing result to cache: {e}")
+            return jsonify({"error": "Error storing result to cache"}), 500
         logger.info("Result stored to cache")
     else:
         logger.error("Error converting file to markdown")

@@ -1,18 +1,11 @@
 import logging
 
-# from rich.logging import RichHandler
-import argparse
-
 from flask import Flask, jsonify
 from flasgger import Swagger
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
-from api.config import Config, default
 import versions
-
-# load environment variables
-API_URL = Config.API_URL
 
 
 def setup_logging():
@@ -20,7 +13,6 @@ def setup_logging():
         level=logging.DEBUG,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[logging.StreamHandler()],
-        # handlers=[RichHandler()],
     )
 
 
@@ -28,15 +20,20 @@ setup_logging()
 
 logger = logging.getLogger(__name__)
 
-logger.debug(f"Config: {Config}")
 
-
-def create_app(config_class=default.DefaultConfig()):
+def create_app():
     from api.blueprints.v1.routes import bp as api_v1_bp
     from api.blueprints.v1.models import db, migrate
 
     app = Flask(__name__)
-    app.config.from_object(config_class)
+
+    from api.config import Config
+
+    API_URL = Config.API_URL
+
+    logger.debug(f"Config: {Config}")
+
+    app.config.from_object(Config)
 
     # Create engine
     try:
@@ -102,15 +99,13 @@ def create_app(config_class=default.DefaultConfig()):
     return app
 
 
-if __name__ == "__main__":
-    app = create_app(Config)
+app = create_app()
 
-    # enable debug mode by passing --debug
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--debug", action="store_true")
-    args = parser.parse_args()
-    port = "8765"
-    if args.debug:
-        app.run(port=port, debug=True)
-    else:
-        app.run(port=port, debug=False)
+
+if __name__ == "__main__":
+    from werkzeug.middleware.dispatcher import DispatcherMiddleware
+    from werkzeug.serving import run_simple
+
+    application = DispatcherMiddleware(app.wsgi_app)
+
+    run_simple("0.0.0.0", 8765, application)

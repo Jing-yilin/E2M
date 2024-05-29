@@ -41,7 +41,7 @@ flask-migrate = "^4.0.7"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.0.0"
-black = "^24.4.2"
+black = {extras = ["jupyter"], version = "^24.4.2"}
 pymarkdownlnt= "^0.9.19"
 pytest = "^8.2.1"
 

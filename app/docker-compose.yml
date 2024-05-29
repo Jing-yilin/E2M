@@ -6,6 +6,7 @@ networks:
 
 services:
     postgres:
+        container_name: e2m_postgres
         image: postgres:15-alpine
         restart: always
         environment:
@@ -16,10 +17,15 @@ services:
             - postgres_data:/var/lib/postgresql/data
         networks:
             - e2m_network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U e2m -d e2m_db"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
 
-    e2m:
+    e2m_api:
         build: .
-        command: ["gunicorn", "--bind", "0.0.0.0:8765", "--timeout", "500", "app:create_app()"]
+        container_name: e2m_api
         ports:
             - "8765:8765"
         volumes:

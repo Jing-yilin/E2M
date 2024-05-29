@@ -17,6 +17,9 @@
     - [Supported File Types](#supported-file-types)
   - [Get Started](#get-started)
     - [Quick Start (Source Code)](#quick-start-source-code)
+      - [Ubuntu](#ubuntu)
+      - [Mac](#mac)
+      - [Windows](#windows)
     - [Quick Start (Docker)](#quick-start-docker)
     - [Set to Development Environment](#set-to-development-environment)
     - [Set to Production Environment](#set-to-production-environment)
@@ -33,8 +36,6 @@
 ## Introduction
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
-
-
 
 ![image-20240528122849203](assets/demo_01.png)
 
@@ -71,7 +72,6 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
 </table>
 
-
 ## Get Started
 
 ### Quick Start (Source Code)
@@ -81,18 +81,53 @@ Install:
 ```bash
 git clone https://github.com/Jing-yilin/E2M
 cd E2M/app
-conda create -n e2m python=3.10
+conda create -n e2m python=3.10 -y
 conda activate e2m
 python -m pip install -r requirements-dev.txt
 ```
 
 First, you should install `postgresql@15.0`:
 
-- Ubuntu: `sudo apt install postgresql-15` && `sudo service postgresql start`
+#### Ubuntu
 
-- Mac: `brew install postgresql@15` && `brew services start postgresql@15`
+1. Install PostgreSQL 15:
 
-- Windows: `choco install postgresql` && `pg_ctl -D /usr/local/var/postgres start`
+    > Reference: [How to Install PostgreSQL On Ubuntu](https://www.linuxtechi.com/how-to-install-postgresql-on-ubuntu/)
+
+    ```sh
+    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
+    sudo apt update
+    sudo apt install postgresql-15 postgresql-client-15 -y
+    ```
+
+2. Start PostgreSQL:
+    ```sh
+    sudo systemctl status postgresql
+    ```
+
+#### Mac
+
+1. Install PostgreSQL 15:
+    ```sh
+    brew install postgresql@15 -y
+    ```
+2. Start PostgreSQL:
+    ```sh
+    brew services start postgresql@15
+    ```
+
+#### Windows
+
+1. Install PostgreSQL 15:
+    ```sh
+    choco install postgresql15 --version=15.0.1 -y
+    ```
+    _You may have to run the cmd as an administrator_
+2. Start PostgreSQL:
+    ```sh
+    pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
+    ```
 
 Then, you need to migrate the database:
 
@@ -223,7 +258,6 @@ docker push jingyilin/e2m:latest
 ```bash
 # create a pull request to develop branch on GitHub
 ```
-
 
 ## Contributing
 
