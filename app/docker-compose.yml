@@ -1,8 +1,12 @@
 version: "3.8"
 
+networks:
+    e2m_network:
+        driver: bridge
+
 services:
     postgres:
-        image: postgres:15
+        image: postgres:15-alpine
         restart: always
         environment:
             POSTGRES_USER: e2m
@@ -10,6 +14,8 @@ services:
             POSTGRES_DB: e2m_db
         volumes:
             - postgres_data:/var/lib/postgresql/data
+        networks:
+            - e2m_network
 
     e2m:
         build: .
@@ -26,9 +32,10 @@ services:
             CONVERTER: default
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
-
         depends_on:
             - postgres
+        networks:
+            - e2m_network
 
 volumes:
     postgres_data:
