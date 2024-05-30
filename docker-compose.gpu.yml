@@ -23,12 +23,17 @@ services:
 
     e2m_api:
         build: .
+        deploy:
+          resources:
+            reservations:
+              devices:
+                - capabilities: [gpu]
         container_name: e2m_api
         ports:
             - "8765:8765"
-        volumes:
-            - .:/app
         environment:
+            NVIDIA_VISIBLE_DEVICES: all
+            NVIDIA_DRIVER_CAPABILITIES: compute,utility
             FLASK_APP: app.py
             FLASK_ENV: production
             API_URL: http://localhost:8765
@@ -38,6 +43,16 @@ services:
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
         depends_on:
             - postgres
+        networks:
+            - e2m_network
+
+    e2m_web:
+        build: web/
+        container_name: e2m_web
+        ports:
+            - "3000:3000"
+        environment:
+            API_URL: http://localhost:8765
         networks:
             - e2m_network
 
