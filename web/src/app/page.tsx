@@ -49,129 +49,140 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 text-base-content relative">
+        <div className="min-h-screen flex flex-col bg-base-200 text-base-content">
             <Head>
                 <title>E2M Converter</title>
             </Head>
-            <ThemeSwitcher />
-            <main className="card w-full h-full max-w-5xl shadow-lg bg-base-100">
-                <div className="card-body">
-                    <h1 className="card-title text-5xl font-extrabold mb-8 text-center">
-                        E2M Converter
-                    </h1>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="form-control">
-                            <label
-                                htmlFor="file"
-                                className="label text-lg font-medium text-center"
-                            >
-                                Upload file:
-                            </label>
-                            <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                onChange={(e) =>
-                                    setFile(
-                                        e.target.files
-                                            ? e.target.files[0]
-                                            : null
-                                    )
-                                }
-                                className="file-input file-input-bordered file-input-primary w-full"
-                                required
-                            />
-                        </div>
+            <header className="w-full bg-base-100 shadow">
+                <nav className="navbar max-w-7xl mx-auto">
+                    <div className="flex-1">
+                        <a className="btn btn-ghost normal-case text-xl">E2M</a>
+                    </div>
+                    <div className="flex-none">
+                        <a href="http://localhost:8765/swagger/" className="btn btn-ghost">
+                            Documentation
+                        </a>
+                        <ThemeSwitcher />
+                    </div>
+                </nav>
+            </header>
+            {/* 居中 */}
+            <main className="flex flex-col items-center justify-center flex-1 w-full max-w-6xl p-8 mx-auto">
+                <h1 className="text-5xl font-extrabold mb-8 text-center">
+                    E2M Converter
+                </h1>
+                <form onSubmit={handleSubmit} className="space-y-6 w-full bg-base-100 p-6 rounded-lg shadow">
+                    <div className="form-control">
+                        <label
+                            htmlFor="file"
+                            className="label text-lg font-medium text-center"
+                        >
+                            Upload file:
+                        </label>
+                        <input
+                            type="file"
+                            id="file"
+                            name="file"
+                            onChange={(e) =>
+                                setFile(
+                                    e.target.files
+                                        ? e.target.files[0]
+                                        : null
+                                )
+                            }
+                            className="file-input file-input-bordered file-input-primary w-full"
+                            required
+                        />
+                    </div>
 
-                        <div className="form-control">
-                            <label
-                                htmlFor="parse_mode"
-                                className="label text-lg font-medium"
-                            >
-                                Parse mode:
-                            </label>
-                            <select
-                                id="parse_mode"
-                                name="parse_mode"
-                                value={parseMode}
-                                onChange={(e) => setParseMode(e.target.value)}
-                                className="select select-bordered"
-                            >
-                                <option value="auto">Auto</option>
-                                <option value="general">General</option>
-                                <option value="book">Book</option>
-                                <option value="law">Law</option>
-                                <option value="manual">Manual</option>
-                                <option value="paper">Paper</option>
-                            </select>
-                        </div>
-                        <div className="form-control">
-                            <label
-                                htmlFor="langs"
-                                className="label text-lg font-medium"
-                            >
-                                Languages:
-                            </label>
+                    <div className="form-control">
+                        <label
+                            htmlFor="parse_mode"
+                            className="label text-lg font-medium"
+                        >
+                            Parse mode:
+                        </label>
+                        <select
+                            id="parse_mode"
+                            name="parse_mode"
+                            value={parseMode}
+                            onChange={(e) => setParseMode(e.target.value)}
+                            className="select select-bordered"
+                        >
+                            <option value="auto">Auto</option>
+                            <option value="general">General</option>
+                            <option value="book">Book</option>
+                            <option value="law">Law</option>
+                            <option value="manual">Manual</option>
+                            <option value="paper">Paper</option>
+                        </select>
+                    </div>
+                    <div className="form-control">
+                        <label
+                            htmlFor="langs"
+                            className="label text-lg font-medium"
+                        >
+                            Languages:
+                        </label>
+                        <input
+                            type="text"
+                            id="langs"
+                            name="langs"
+                            value={langs}
+                            onChange={(e) => setLangs(e.target.value)}
+                            className="input input-bordered"
+                            placeholder="en,zh"
+                        />
+                    </div>
+                    <div className="form-control">
+                        <label
+                            htmlFor="extract_images"
+                            className="label text-lg font-medium"
+                        >
+                            Extract images:
+                        </label>
+                        <div className="flex items-center mt-2">
                             <input
-                                type="text"
-                                id="langs"
-                                name="langs"
-                                value={langs}
-                                onChange={(e) => setLangs(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="en,zh"
+                                type="checkbox"
+                                id="extract_images"
+                                name="extract_images"
+                                checked={extractImages}
+                                onChange={(e) =>
+                                    setExtractImages(e.target.checked)
+                                }
+                                className="checkbox checkbox-primary"
                             />
-                        </div>
-                        <div className="form-control">
                             <label
                                 htmlFor="extract_images"
-                                className="label text-lg font-medium"
+                                className="ml-2"
                             >
-                                Extract images:
+                                Yes
                             </label>
-                            <div className="flex items-center mt-2">
-                                <input
-                                    type="checkbox"
-                                    id="extract_images"
-                                    name="extract_images"
-                                    checked={extractImages}
-                                    onChange={(e) =>
-                                        setExtractImages(e.target.checked)
-                                    }
-                                    className="checkbox checkbox-primary"
-                                />
-                                <label
-                                    htmlFor="extract_images"
-                                    className="ml-2"
-                                >
-                                    Yes
-                                </label>
-                            </div>
                         </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary w-full"
+                    >
+                        Convert
+                    </button>
+                </form>
+                {result && (
+                    <div className="mt-8 relative w-full bg-base-100 p-6 rounded-lg shadow">
+                        <h2 className="text-2xl font-bold mb-4">
+                            Conversion Result
+                        </h2>
                         <button
-                            type="submit"
-                            className="btn btn-primary w-full"
+                            onClick={handleCopy}
+                            className="absolute top-0 right-0 mt-0.5 mr-0.5 btn btn-outline btn-primary"
                         >
-                            Convert
+                            Copy
                         </button>
-                    </form>
-                    {result && (
-                        <div className="mt-8 relative">
-                            <h2 className="text-2xl font-bold mb-4">
-                                Conversion Result
-                            </h2>
-                            <button
-                                onClick={handleCopy}
-                                className="absolute top-0 right-0 mt-0.5 mr-0.5 btn btn-outline btn-primary"
-                            >
-                                Copy
-                            </button>
-                            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
-                                {result}
-                            </pre>
-                        </div>
-                    )}
-                </div>
+                        <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
+                            {result}
+                        </pre>
+                    </div>
+                )}
             </main>
         </div>
     );
