@@ -72,7 +72,7 @@ def convert_single_pdf(
     total_pages = len(doc)
     logger.info(f"Total pages in document: {total_pages}")
 
-    pages, toc = get_text_blocks(doc)
+    pages, toc = get_text_blocks(fname, doc)
     out_meta.update(
         {
             "toc": toc,

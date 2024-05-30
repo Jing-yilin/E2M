@@ -1,7 +1,8 @@
 from flask import jsonify
 from api.core.converters.base_converter import BaseConverter
 from api.core.converters.converter_strategy import ConverterStrategy
-from typing import Tuple
+from typing import Tuple, Optional
+from pathlib import Path
 
 
 # logging
@@ -15,7 +16,9 @@ def ping():
     return jsonify({"message": "You have successfully connected to the e2m API!"}), 200
 
 
-def file_to_markdown(file_path: str, parse_mode: str, **kwargs) -> Tuple[str, int]:
+def file_to_markdown(
+    file_path: Optional[str | Path], parse_mode: str, **kwargs
+) -> Tuple[str, int]:
     try:
         converter: BaseConverter = ConverterStrategy.get_converter(
             file=file_path, parse_mode=parse_mode

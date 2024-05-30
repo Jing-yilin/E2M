@@ -77,7 +77,8 @@ def pdftext_format_to_blocks(page, pnum: int) -> Page:
 
 
 def get_text_blocks(
-    doc,
+    fname: str,
+    doc: pdfium.PdfDocument,
 ) -> tuple[List[Page], Dict]:
     toc = get_toc(doc)
 
@@ -85,7 +86,7 @@ def get_text_blocks(
 
     logger.info(f"Extracting text from pages: {page_range}")
 
-    char_blocks = dictionary_output(doc, page_range=page_range, keep_chars=True)
+    char_blocks = dictionary_output(fname, page_range=page_range, keep_chars=True)
     logger.debug(f"char_blocks: {char_blocks}")
     marker_blocks = [
         pdftext_format_to_blocks(page, pnum) for pnum, page in enumerate(char_blocks)

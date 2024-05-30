@@ -1,5 +1,5 @@
 #!/bin/bash
-DB_ADMIN="your computer admin name" # Database admin username
+DB_ADMIN="zephyr" # Database admin username
 DB_ADMIN_PASSWORD="password"        # Database admin password
 DB_NAME="e2m_db"                    # Database name
 DB_USER="e2m"                       # Database user
@@ -44,9 +44,9 @@ if check_initial_migration; then
 else
   echo "Initial migration does not exist or migrations directory not found. Initializing database..."
   rm -rf migrations # Remove existing migrations directory (if any)
-  flask db init 1>/dev/null 2>&1
-  flask db migrate -m "Initial migration." 1>/dev/null 2>&1
-  flask db upgrade 1>/dev/null 2>&1
+  flask db init
+  flask db migrate -m "Initial migration."
+  flask db upgrade
 fi
 
 # try connecting to the database

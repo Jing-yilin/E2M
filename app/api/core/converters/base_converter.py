@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
+from pathlib import Path
 from api.core.parsers.base_parser import ParserMode
 
 from typing import Union, List
@@ -52,7 +53,7 @@ def merge_elements_to_md(elements: List[MdElement]) -> str:
 
 class BaseConverter(BaseModel):
 
-    file: FileLikeType = Field(None, title="File to convert")
+    file: Path = Field(..., title="File path")
     parse_mode: ParserMode = Field(ParserMode.AUTO, title="Parser mode")
 
     @abstractmethod
