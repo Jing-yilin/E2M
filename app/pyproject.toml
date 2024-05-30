@@ -38,6 +38,7 @@ rich = "^13.7.1"
 flask-sqlalchemy = "^3.1.1"
 psycopg2-binary = "^2.9.9"
 flask-migrate = "^4.0.7"
+flask-cors = "^4.0.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.0.0"
