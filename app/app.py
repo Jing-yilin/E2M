@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from flasgger import Swagger
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
+from flask_cors import CORS
 
 import versions
 
@@ -67,6 +68,7 @@ def create_app():
     }
 
     Swagger(app, config=swagger_config)  # init swagger
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
     logo_ascii = """
             .----------------------------------.

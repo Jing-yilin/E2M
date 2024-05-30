@@ -25,18 +25,21 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
+    - [🌐Web](#web)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
   - [🚀Get Started](#get-started)
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
-    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
       - [🐧Ubuntu](#ubuntu)
+    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
+      - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
     - [🔧Set to Development Environment](#set-to-development-environment)
     - [🏭Set to Production Environment](#set-to-production-environment)
     - [📖How to use](#how-to-use)
+    - [Language Support](#language-support)
   - [🤝How to contribute](#how-to-contribute)
     - [🌿Create a new branch](#create-a-new-branch)
     - [📝PEP8 style](#pep8-style)
@@ -49,6 +52,10 @@
 ## 🌟Introduction
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+
+### 🌐Web
+
+![image-20240530231739086](assets/web_01.png)
 
 ### 📸Demo
 
@@ -101,10 +108,13 @@ docker-compose logs -f
 docker-compose down
 ```
 
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
+
+#### 🐧Ubuntu
 
 To utilize the local GPU, follow these steps:
 
@@ -133,9 +143,11 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+
+
 
 ### ⚙️Quick Start (Source Code: Recommended)
 
@@ -209,6 +221,14 @@ Then you can start the API with the following command:
 flask run --host 0.0.0.0 --port=8765 # --debug
 ```
 
+If you want a web page, you can start the web with the following command:
+
+```bash
+cd web
+npm install
+npm run start
+```
+
 ### 🔧Set to Development Environment
 
 ```bash
@@ -241,6 +261,106 @@ return:
 ```json
 {
     "message": "This is your markdown content"
+}
+```
+
+### Language Support
+
+```json
+{
+    "af": "Afrikaans",
+    "am": "Amharic",
+    "ar": "Arabic",
+    "as": "Assamese",
+    "az": "Azerbaijani",
+    "be": "Belarusian",
+    "bg": "Bulgarian",
+    "bn": "Bengali",
+    "br": "Breton",
+    "bs": "Bosnian",
+    "ca": "Catalan",
+    "cs": "Czech",
+    "cy": "Welsh",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "en": "English",
+    "eo": "Esperanto",
+    "es": "Spanish",
+    "et": "Estonian",
+    "eu": "Basque",
+    "fa": "Persian",
+    "fi": "Finnish",
+    "fr": "French",
+    "fy": "Western Frisian",
+    "ga": "Irish",
+    "gd": "Scottish Gaelic",
+    "gl": "Galician",
+    "gu": "Gujarati",
+    "ha": "Hausa",
+    "he": "Hebrew",
+    "hi": "Hindi",
+    "hr": "Croatian",
+    "hu": "Hungarian",
+    "hy": "Armenian",
+    "id": "Indonesian",
+    "is": "Icelandic",
+    "it": "Italian",
+    "ja": "Japanese",
+    "jv": "Javanese",
+    "ka": "Georgian",
+    "kk": "Kazakh",
+    "km": "Khmer",
+    "kn": "Kannada",
+    "ko": "Korean",
+    "ku": "Kurdish",
+    "ky": "Kyrgyz",
+    "la": "Latin",
+    "lo": "Lao",
+    "lt": "Lithuanian",
+    "lv": "Latvian",
+    "mg": "Malagasy",
+    "mk": "Macedonian",
+    "ml": "Malayalam",
+    "mn": "Mongolian",
+    "mr": "Marathi",
+    "ms": "Malay",
+    "my": "Burmese",
+    "ne": "Nepali",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "om": "Oromo",
+    "or": "Oriya",
+    "pa": "Punjabi",
+    "pl": "Polish",
+    "ps": "Pashto",
+    "pt": "Portuguese",
+    "ro": "Romanian",
+    "ru": "Russian",
+    "sa": "Sanskrit",
+    "sd": "Sindhi",
+    "si": "Sinhala",
+    "sk": "Slovak",
+    "sl": "Slovenian",
+    "so": "Somali",
+    "sq": "Albanian",
+    "sr": "Serbian",
+    "su": "Sundanese",
+    "sv": "Swedish",
+    "sw": "Swahili",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "th": "Thai",
+    "tl": "Tagalog",
+    "tr": "Turkish",
+    "ug": "Uyghur",
+    "uk": "Ukrainian",
+    "ur": "Urdu",
+    "uz": "Uzbek",
+    "vi": "Vietnamese",
+    "xh": "Xhosa",
+    "yi": "Yiddish",
+    "zh": "Chinese",
 }
 ```
 

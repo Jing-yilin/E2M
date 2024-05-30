@@ -65,7 +65,7 @@ def convert_route():
     ).first()
     if cached_result:
         logger.info("Cache hit")
-        return jsonify({"result": cached_result.result})
+        return jsonify({"message": cached_result.result})
     logger.info("Cache miss")
 
     # 保存文件到临时目录
