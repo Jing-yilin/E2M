@@ -103,6 +103,7 @@ docker-compose logs -f
 docker-compose down
 ```
 
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
@@ -137,7 +138,7 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
@@ -213,6 +214,14 @@ Then you can start the API with the following command:
 
 ```bash
 flask run --host 0.0.0.0 --port=8765 # --debug
+```
+
+If you want a web page, you can start the web with the following command:
+
+```bash
+cd web
+npm install
+npm run start
 ```
 
 ### 🔧Set to Development Environment
