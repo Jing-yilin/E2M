@@ -25,6 +25,7 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
+    - [🌐Web](#web)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
   - [🚀Get Started](#get-started)
@@ -51,6 +52,10 @@
 ## 🌟Introduction
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+
+### 🌐Web
+
+![image-20240530231739086](assets/web_01.png)
 
 ### 📸Demo
 
