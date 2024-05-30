@@ -8,11 +8,6 @@ export default function Home() {
     const [parseMode, setParseMode] = useState("auto");
     const [langs, setLangs] = useState("en,zh");
     const [extractImages, setExtractImages] = useState(false);
-    // result format:
-    //{
-    //   "message": "# 《大学生就业政策形式及应对》\n# 课程论文\n学    院：萨塞克斯人工智能学院\n\n班    级：\n\n学 　 号：\n\n学生姓名：\n\n任教老师：黎美杉\n\n二○二四 年  月\n\n大学生就业形势与政策及对策\n"
-    // }
-
     const [result, setResult] = useState<string | null>(null);
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -35,8 +30,25 @@ export default function Home() {
         console.log(result);
     };
 
+    const handleCopy = () => {
+        if (result) {
+            navigator.clipboard.writeText(result);
+            const alert = document.createElement("div");
+            alert.className =
+                "fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-lg";
+            alert.textContent = "Result copied to clipboard!";
+            document.body.appendChild(alert);
+            setTimeout(() => {
+                alert.classList.add("opacity-0");
+                setTimeout(() => {
+                    document.body.removeChild(alert);
+                }, 1000);
+            }, 1000);
+        }
+    };
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+        <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
             <Head>
                 <title>E2M Converter</title>
             </Head>
@@ -138,10 +150,16 @@ export default function Home() {
                     </button>
                 </form>
                 {result && (
-                    <div className="mt-8">
+                    <div className="mt-8 relative">
                         <h2 className="text-2xl font-bold mb-4">
                             Conversion Result
                         </h2>
+                        <button
+                            onClick={handleCopy}
+                            className="absolute top-0 right-0 mt-2 mr-2 py-1 px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        >
+                            Copy
+                        </button>
                         <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96">
                             {result}
                         </pre>
