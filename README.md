@@ -30,8 +30,9 @@
   - [🚀Get Started](#get-started)
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
-    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
       - [🐧Ubuntu](#ubuntu)
+    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
+      - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
     - [🔧Set to Development Environment](#set-to-development-environment)
@@ -106,6 +107,8 @@ docker-compose down
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
 
+#### 🐧Ubuntu
+
 To utilize the local GPU, follow these steps:
 
 1. Install NVIDIA Driver: Ensure the NVIDIA driver is installed on your host machine.
@@ -136,6 +139,8 @@ docker-compose -f docker-compose.gpu.yml down
 
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+
+
 
 ### ⚙️Quick Start (Source Code: Recommended)
 
