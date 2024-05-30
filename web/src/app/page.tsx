@@ -49,12 +49,12 @@ export default function Home() {
     };
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center bg-base-200 text-base-content relative">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 text-base-content relative">
             <Head>
                 <title>E2M Converter</title>
             </Head>
             <ThemeSwitcher />
-            <main className="card w-full max-w-4xl shadow-lg bg-base-100">
+            <main className="card w-full h-full max-w-5xl shadow-lg bg-base-100">
                 <div className="card-body">
                     <h1 className="card-title text-5xl font-extrabold mb-8 text-center">
                         E2M Converter
@@ -166,7 +166,7 @@ export default function Home() {
                             >
                                 Copy
                             </button>
-                            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96">
+                            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
                                 {result}
                             </pre>
                         </div>
