@@ -66,7 +66,6 @@ export default function Home() {
                     </div>
                 </nav>
             </header>
-            {/* 居中 */}
             <main className="flex flex-col items-center justify-center flex-1 w-full max-w-6xl p-8 mx-auto">
                 <h1 className="text-5xl font-extrabold mb-8 text-center">
                     E2M Converter
