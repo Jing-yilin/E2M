@@ -38,7 +38,8 @@ services:
             FLASK_ENV: production
             API_URL: http://localhost:8765
             TZ: Asia/Shanghai
-            CONVERTER: default
+            DOC_CONVERTER: default
+            DOCX_CONVERTER: default
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
         depends_on:
