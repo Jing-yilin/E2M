@@ -1,13 +1,13 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from pathlib import Path
 from api.core.parsers.base_parser import ParserMode
 
 from typing import Union, List
 
 # FikeLikeType includes str, bytes, and file-like objects
-FileLikeType = Union[str]  # todo: more types
+FileLikeType = Union[str | Path]  # todo: more types
 
 
 @dataclass
@@ -53,8 +53,15 @@ def merge_elements_to_md(elements: List[MdElement]) -> str:
 
 class BaseConverter(BaseModel):
 
-    file: Path = Field(..., title="File path")
+    file: FileLikeType = Field(..., title="File path")
     parse_mode: ParserMode = Field(ParserMode.AUTO, title="Parser mode")
+
+    # file not empty
+    @field_validator("file")
+    def check_file_exists(cls, v):
+        if not Path(v).exists():
+            raise ValueError(f"File {v} does not exist")
+        return v
 
     @abstractmethod
     def convert(self, **kwargs) -> str:
@@ -62,3 +69,8 @@ class BaseConverter(BaseModel):
 
     def to_dict(self):
         return self.model_dump()
+
+    def rm_file(self):
+        if Path(self.file).exists():
+            Path(self.file).unlink()
+            return True

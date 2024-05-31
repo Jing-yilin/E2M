@@ -1,4 +1,4 @@
-name: Check Code
+name: Check Api
 
 on:
     push:

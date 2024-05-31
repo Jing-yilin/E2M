@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.0.4">
-        <img src="https://img.shields.io/badge/version-v1.0.4-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.0.5">
+        <img src="https://img.shields.io/badge/version-v1.0.5-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
@@ -31,18 +31,21 @@
 
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
+    - [🌐Web](#web)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
   - [🚀Get Started](#get-started)
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
-    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
       - [🐧Ubuntu](#ubuntu)
+    - [⚙️Start From Source Code](#️start-from-source-code)
+      - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
     - [🔧Set to Development Environment](#set-to-development-environment)
     - [🏭Set to Production Environment](#set-to-production-environment)
     - [📖How to use](#how-to-use)
+    - [Language Support](#language-support)
   - [🤝How to contribute](#how-to-contribute)
     - [🌿Create a new branch](#create-a-new-branch)
     - [📝PEP8 style](#pep8-style)
@@ -55,6 +58,10 @@
 ## 🌟Introduction
 
 This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+
+### 🌐Web
+
+![image-20240530231739086](assets/web_01.png)
 
 ### 📸Demo
 
@@ -77,7 +84,7 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
   <tr>
     <td align="center">Done</td>
-    <td align="center">docx, pdf</td>
+    <td align="center">md, txt, doc, docx, pdf, py, json, yaml, yml</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
@@ -85,7 +92,7 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
   <tr>
     <td align="center">Todo</td>
-    <td align="center">doc, txt, html, htm</td>
+    <td align="center">html, htm</td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
     <td align="center">mp3, wav, flac</td>
@@ -94,7 +101,6 @@ This project aims to provide an API, which can convert everything to markdown (L
 </table>
 
 ## 🚀Get Started
-
 
 ### 📦Quick Start (Local Docker)
 
@@ -107,10 +113,13 @@ docker-compose logs -f
 docker-compose down
 ```
 
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
+
+#### 🐧Ubuntu
 
 To utilize the local GPU, follow these steps:
 
@@ -139,11 +148,11 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-
+- 🚀Web: [http://localhost:3000](http://localhost:3000)
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
-### ⚙️Quick Start (Source Code: Recommended)
+### ⚙️Start From Source Code
 
 Install:
 
@@ -155,11 +164,11 @@ conda activate e2m
 python -m pip install -r requirements-dev.txt
 ```
 
-First, you should install `postgresql@15.0`:
+First, you should install `postgresql@15.0` and `libreoffice`:
 
 #### 🐧Ubuntu
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
 
     > Reference: [How to Install PostgreSQL On Ubuntu](https://www.linuxtechi.com/how-to-install-postgresql-on-ubuntu/)
 
@@ -168,6 +177,7 @@ First, you should install `postgresql@15.0`:
     wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
     sudo apt update
     sudo apt install postgresql-15 postgresql-client-15 -y
+    sudo apt install libreoffice -y
     ```
 
 2. Start PostgreSQL:
@@ -177,9 +187,10 @@ First, you should install `postgresql@15.0`:
 
 #### 🍏Mac
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
     ```sh
     brew install postgresql@15 -y
+    brew install --cask libreoffice -y
     ```
 2. Start PostgreSQL:
     ```sh
@@ -188,11 +199,17 @@ First, you should install `postgresql@15.0`:
 
 #### 🖥️Windows
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
+
     ```sh
     choco install postgresql15 --version=15.0.1 -y
+    choco install libreoffice -y
     ```
+
     _You may have to run the cmd as an administrator_
+
+    > Also, you can download the libreoffice from [here](https://www.libreoffice.org/download/download/)
+
 2. Start PostgreSQL:
     ```sh
     pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
@@ -213,6 +230,14 @@ Then you can start the API with the following command:
 
 ```bash
 flask run --host 0.0.0.0 --port=8765 # --debug
+```
+
+If you want a web page, you can start the web with the following command:
+
+```bash
+cd web
+npm install
+npm run start
 ```
 
 ### 🔧Set to Development Environment
@@ -247,6 +272,106 @@ return:
 ```json
 {
     "message": "This is your markdown content"
+}
+```
+
+### Language Support
+
+```json
+{
+    "af": "Afrikaans",
+    "am": "Amharic",
+    "ar": "Arabic",
+    "as": "Assamese",
+    "az": "Azerbaijani",
+    "be": "Belarusian",
+    "bg": "Bulgarian",
+    "bn": "Bengali",
+    "br": "Breton",
+    "bs": "Bosnian",
+    "ca": "Catalan",
+    "cs": "Czech",
+    "cy": "Welsh",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "en": "English",
+    "eo": "Esperanto",
+    "es": "Spanish",
+    "et": "Estonian",
+    "eu": "Basque",
+    "fa": "Persian",
+    "fi": "Finnish",
+    "fr": "French",
+    "fy": "Western Frisian",
+    "ga": "Irish",
+    "gd": "Scottish Gaelic",
+    "gl": "Galician",
+    "gu": "Gujarati",
+    "ha": "Hausa",
+    "he": "Hebrew",
+    "hi": "Hindi",
+    "hr": "Croatian",
+    "hu": "Hungarian",
+    "hy": "Armenian",
+    "id": "Indonesian",
+    "is": "Icelandic",
+    "it": "Italian",
+    "ja": "Japanese",
+    "jv": "Javanese",
+    "ka": "Georgian",
+    "kk": "Kazakh",
+    "km": "Khmer",
+    "kn": "Kannada",
+    "ko": "Korean",
+    "ku": "Kurdish",
+    "ky": "Kyrgyz",
+    "la": "Latin",
+    "lo": "Lao",
+    "lt": "Lithuanian",
+    "lv": "Latvian",
+    "mg": "Malagasy",
+    "mk": "Macedonian",
+    "ml": "Malayalam",
+    "mn": "Mongolian",
+    "mr": "Marathi",
+    "ms": "Malay",
+    "my": "Burmese",
+    "ne": "Nepali",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "om": "Oromo",
+    "or": "Oriya",
+    "pa": "Punjabi",
+    "pl": "Polish",
+    "ps": "Pashto",
+    "pt": "Portuguese",
+    "ro": "Romanian",
+    "ru": "Russian",
+    "sa": "Sanskrit",
+    "sd": "Sindhi",
+    "si": "Sinhala",
+    "sk": "Slovak",
+    "sl": "Slovenian",
+    "so": "Somali",
+    "sq": "Albanian",
+    "sr": "Serbian",
+    "su": "Sundanese",
+    "sv": "Swedish",
+    "sw": "Swahili",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "th": "Thai",
+    "tl": "Tagalog",
+    "tr": "Turkish",
+    "ug": "Uyghur",
+    "uk": "Ukrainian",
+    "ur": "Urdu",
+    "uz": "Uzbek",
+    "vi": "Vietnamese",
+    "xh": "Xhosa",
+    "yi": "Yiddish",
+    "zh": "Chinese"
 }
 ```
 

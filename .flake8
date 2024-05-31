@@ -8,3 +8,5 @@ exclude =
     dist,
     .venv
     migrations
+    web
+    temp

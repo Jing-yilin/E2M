@@ -1,0 +1,58 @@
+name: Check Web
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+            - feature/*
+    pull_request:
+        branches:
+            - main
+            - develop
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [18.x, 21.x]
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install dependencies
+              run: |
+                  cd web
+                  npm install
+
+            - name: Run build
+              run: |
+                  cd web
+                  npm run build
+
+            - name: Start server
+              run: |
+                  cd web
+                  npm start &
+              env:
+                  NODE_ENV: test
+
+            - name: Wait for server to be ready
+              run: |
+                  cd web
+                  npm install --save-dev wait-on
+                  npx wait-on http://localhost:3000
+
+            - name: Run server test
+              run: |
+                  cd web
+                  chmod +x test_server.sh
+                  ./test_server.sh
