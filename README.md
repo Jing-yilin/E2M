@@ -107,9 +107,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
-- 🚀Web: [http://localhost:3000](http://localhost:3000)
-- 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
 
@@ -142,9 +142,9 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-- 🚀Web: [http://localhost:3000](http://localhost:3000)
-- 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### ⚙️Start From Source Code
 
@@ -253,7 +253,7 @@ export FLASK_DEBUG=0
 bash script:
 
 ```bash
-curl -X POST "http://localhost:8765/api/v1/convert" \
+curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data; charset=utf-8" \
   -H "Accept-Charset: utf-8" \

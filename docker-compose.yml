@@ -29,7 +29,7 @@ services:
         environment:
             FLASK_APP: app.py
             FLASK_ENV: production
-            API_URL: http://localhost:8765
+            API_URL: http://127.0.0.1:8765
             TZ: Asia/Shanghai
             DOC_CONVERTER: default
             DOCX_CONVERTER: default
@@ -46,7 +46,7 @@ services:
         ports:
             - "3000:3000"
         environment:
-            API_URL: http://localhost:8765
+            API_URL: http://127.0.0.1:8765
         networks:
             - e2m_network
 

@@ -72,7 +72,7 @@ export default function Home() {
                     </div>
                     <div className="flex-none">
                         <a
-                            href="http://localhost:8765/swagger/"
+                            href="http://127.0.0.1:8765/swagger/"
                             className="btn btn-ghost"
                         >
                             Documentation

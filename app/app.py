@@ -69,7 +69,7 @@ def create_app():
     }
 
     Swagger(app, config=swagger_config)  # init swagger
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    CORS(app, resources={r"/api/*": {"origins": WEB_URL}})
 
     # check gpu and cpu availability
     import torch

@@ -107,9 +107,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
-- 🚀 网页：[http://localhost:3000](http://localhost:3000)
-- 🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️ 快速开始（支持 GPU）（本地 Docker）
 
@@ -142,9 +142,9 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-- 🚀 网页：[http://localhost:3000](http://localhost:3000)
-- 🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### ⚙️ 从源码开始
 
@@ -255,7 +255,7 @@ export FLASK_DEBUG=0
 bash 脚本：
 
 ```bash
-curl -X POST "http://localhost:8765/api/v1/convert" \
+curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data; charset=utf-8" \
   -H "Accept-Charset: utf-8" \
