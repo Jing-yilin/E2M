@@ -16,9 +16,9 @@ def _parse_pdf_and_return_markdown(
     langs: list = ["zh"],
 ):
     from api.core.marker.convert import convert_single_pdf
-    from api.core.marker.models import load_all_models
+    from api.core.marker.models import ModelHandler
 
-    model_list = load_all_models()
+    model_list = ModelHandler.get_models(langs=langs)
 
     if not os.path.exists(Config.TRANSFORMERS_CACHE):
         os.makedirs(Config.TRANSFORMERS_CACHE)
