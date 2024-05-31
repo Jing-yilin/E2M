@@ -31,6 +31,7 @@ def create_app():
     from api.config import Config
 
     API_URL = Config.API_URL
+    WEB_URL = Config.WEB_URL
 
     logger.debug(f"Config: {Config}")
 
@@ -70,6 +71,11 @@ def create_app():
     Swagger(app, config=swagger_config)  # init swagger
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
+    # check gpu and cpu availability
+    import torch
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
     logo_ascii = """
             .----------------------------------.
             |      _____   ____    __  __      |
@@ -84,8 +90,10 @@ def create_app():
     logger.info("Welcome to E2M API")
     logger.info(logo_ascii)
     logger.info(f"🚀API: {API_URL}/api/v1/")
+    logger.info(f"🚀WEB: {WEB_URL}")
     logger.info(f"🚀API doc: {API_URL}/swagger/")
-    logger.info(f"The github repo: {versions.__github__}")
+    logger.info(f"🔥The github repo: {versions.__github__}")
+    logger.info(f"🔥The version: {versions.__version__}" f" is running on {device}")
     logger.info("+-----------------------------------------------------------+")
 
     # version endpoint
