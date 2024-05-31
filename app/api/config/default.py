@@ -78,6 +78,9 @@ class DefaultConfig(BaseSettings):
     API_URL: str = Field(
         default="http://127.0.0.1:8765", env="API_URL", description="Base API URL"
     )
+    WEB_URL: str = Field(
+        default="http://127.0.0.1:3000", env="WEB_URL", description="Base WEB URL"
+    )
 
     # DB_USER: str = Field(default="e2m", env="DB_USER", description="Database user")
     # DB_PASSWORD: str = Field(
