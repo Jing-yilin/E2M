@@ -38,10 +38,11 @@
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
       - [🐧Ubuntu](#ubuntu)
+      - [🖥️Windows](#️windows)
     - [⚙️Start From Source Code](#️start-from-source-code)
       - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
-      - [🖥️Windows](#️windows)
+      - [🖥️Windows](#️windows-1)
     - [🔧Set to Development Environment](#set-to-development-environment)
     - [🏭Set to Production Environment](#set-to-production-environment)
     - [📖How to use](#how-to-use)
@@ -113,9 +114,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
-- 🚀Web: [http://localhost:3000](http://localhost:3000)
-- 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
 
@@ -148,9 +149,26 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-- 🚀Web: [http://localhost:3000](http://localhost:3000)
-- 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
-- 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+
+#### 🖥️Windows
+
+If you are using Windows, you can use Docker Desktop with GPU support.
+
+> You can refer to: [https://docs.docker.com/desktop/gpu/](https://docs.docker.com/desktop/gpu/)
+
+Then you can run docker-compose as usual:
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+# check the logs with
+docker-compose -f docker-compose.gpu.yml logs -f
+# remove the container with
+docker-compose -f docker-compose.gpu.yml down
+```
+
 
 ### ⚙️Start From Source Code
 
@@ -259,7 +277,7 @@ export FLASK_DEBUG=0
 bash script:
 
 ```bash
-curl -X POST "http://localhost:8765/api/v1/convert" \
+curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data; charset=utf-8" \
   -H "Accept-Charset: utf-8" \

@@ -38,10 +38,11 @@
     - [📦 快速开始（本地 Docker）](#-快速开始本地-docker)
     - [🎛️ 快速开始（支持 GPU）（本地 Docker）](#️-快速开始支持-gpu本地-docker)
       - [🐧Ubuntu](#ubuntu)
+      - [🖥️Windows](#️windows)
     - [⚙️ 从源码开始](#️-从源码开始)
       - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
-      - [🖥️Windows](#️windows)
+      - [🖥️Windows](#️windows-1)
     - [🔧 设置开发环境](#-设置开发环境)
     - [🏭 设置生产环境](#-设置生产环境)
     - [📖 如何使用](#-如何使用)
@@ -113,9 +114,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
--   🚀 网页：[http://localhost:3000](http://localhost:3000)
--   🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
--   🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️ 快速开始（支持 GPU）（本地 Docker）
 
@@ -148,9 +149,25 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
--   🚀 网页：[http://localhost:3000](http://localhost:3000)
--   🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
--   🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+
+#### 🖥️Windows
+
+如果你使用 Windows，你可以使用 Docker Desktop 来支持 GPU：
+
+> 安装gpu版docker请参考: [https://docs.docker.com/desktop/gpu/](https://docs.docker.com/desktop/gpu/)
+
+然后，你可以使用以下命令启动容器：
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+# check the logs with
+docker-compose -f docker-compose.gpu.yml logs -f
+# remove the container with
+docker-compose -f docker-compose.gpu.yml down
+```
 
 ### ⚙️ 从源码开始
 
@@ -261,7 +278,7 @@ export FLASK_DEBUG=0
 bash 脚本：
 
 ```bash
-curl -X POST "http://localhost:8765/api/v1/convert" \
+curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data; charset=utf-8" \
   -H "Accept-Charset: utf-8" \
@@ -383,8 +400,8 @@ curl -X POST "http://localhost:8765/api/v1/convert" \
 
 在提交代码之前，请创建一个新分支：
 
--   `feature/xxx` 用于新功能
--   `bugfix/xxx` 用于修复错误
+- `feature/xxx` 用于新功能
+- `bugfix/xxx` 用于修复错误
 
 你可以使用以下命令创建一个新分支：
 

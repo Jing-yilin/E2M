@@ -19,16 +19,16 @@ def ping():
 def file_to_markdown(
     file_path: Optional[str | Path], parse_mode: str, **kwargs
 ) -> Tuple[str, int]:
-    # try:
-    converter: BaseConverter = ConverterStrategy.get_converter(
-        file=file_path, parse_mode=parse_mode
-    )
+    try:
+        converter: BaseConverter = ConverterStrategy.get_converter(
+            file=file_path, parse_mode=parse_mode
+        )
 
-    md_result = converter.convert(**kwargs)
+        md_result = converter.convert(**kwargs)
 
-    logger.info(f"Converted file to markdown: {md_result}")
+        logger.info(f"Converted file to markdown: {md_result}")
 
-    return (md_result, 200)
-    # except Exception as e:
-    #     logger.error(f"Error converting file to markdown: {e}")
-    #     return (f"Error converting file to markdown: {e}", 500)
+        return (md_result, 200)
+    except Exception as e:
+        logger.error(f"Error converting file to markdown: {e}")
+        return (f"Error converting file to markdown: {e}", 500)

@@ -72,7 +72,7 @@ export default function Home() {
                     </div>
                     <div className="flex-none">
                         <a
-                            href="http://localhost:8765/swagger/"
+                            href="http://127.0.0.1:8765/swagger/"
                             className="btn btn-ghost"
                         >
                             Documentation
@@ -85,8 +85,11 @@ export default function Home() {
                 <h1 className="text-5xl font-extrabold mb-8 text-center">
                     E2M Converter
                 </h1>
-                <p className="mb-4 text-center text-lg">
-                    Supported file types: md, txt, doc, docx, pdf, py, json, yaml, yml
+                <p className="mb-4 text-center text-sm">
+                    📂Supported file types: md, txt, doc, docx, pdf, py, json, yaml, yml
+                </p>
+                <p className="mb-4 text-center text-sm">
+                    💡Tip: It may take a few miniutes to download the model for the first time converting pdf.
                 </p>
                 <form
                     onSubmit={handleSubmit}

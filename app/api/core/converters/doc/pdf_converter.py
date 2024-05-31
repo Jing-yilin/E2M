@@ -1,13 +1,11 @@
-# logging
 import logging
 import base64
 import os
-
 from api.core.converters.base_converter import (
     BaseConverter,
 )
 from api.core.marker.settings import Settings
-
+from api.config import Config
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +19,9 @@ def _parse_pdf_and_return_markdown(
     from api.core.marker.models import load_all_models
 
     model_list = load_all_models()
+
+    if not os.path.exists(Config.TRANSFORMERS_CACHE):
+        os.makedirs(Config.TRANSFORMERS_CACHE)
 
     full_text, images, out_meta = convert_single_pdf(pdf_file, model_list, langs=langs)
     # todo: to handle images

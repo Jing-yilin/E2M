@@ -22,7 +22,7 @@ services:
             retries: 5
 
     e2m_api:
-        build: .
+        build: app/
         deploy:
           resources:
             reservations:
@@ -36,9 +36,10 @@ services:
             NVIDIA_DRIVER_CAPABILITIES: compute,utility
             FLASK_APP: app.py
             FLASK_ENV: production
-            API_URL: http://localhost:8765
+            API_URL: http://127.0.0.1:8765
             TZ: Asia/Shanghai
-            CONVERTER: default
+            DOC_CONVERTER: default
+            DOCX_CONVERTER: default
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
         depends_on:
@@ -52,7 +53,7 @@ services:
         ports:
             - "3000:3000"
         environment:
-            API_URL: http://localhost:8765
+            API_URL: http://127.0.0.1:8765
         networks:
             - e2m_network
 

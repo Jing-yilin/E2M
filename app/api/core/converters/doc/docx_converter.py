@@ -26,7 +26,7 @@ class DocxConverter(BaseConverter):
         elements: List[MdElement] = []
 
         # method 1： default
-        if Config.CONVERTER == "default":
+        if Config.DOCX_CONVERTER == "default":
             logger.info(f"Converting [{self.file}] with default converter")
             from docx import Document
 
@@ -109,7 +109,7 @@ class DocxConverter(BaseConverter):
                     elements.append(Paragraph(para.text))
 
         # method 2: unstructured
-        elif Config.CONVERTER == "unstructured":
+        elif Config.DOCX_CONVERTER == "unstructured":
             logger.info(f"Converting [{self.file}] with unstructured converter")
             from unstructured.partition.docx import partition_docx
 
@@ -123,7 +123,7 @@ class DocxConverter(BaseConverter):
 
         else:
             raise ValueError(
-                f"Invalid CONVERTER: {Config.CONVERTER}, you should set\
+                f"Invalid CONVERTER: {Config.DOCX_CONVERTER}, you should set\
                       CONVERTER to 'default' or 'unstructured'"
             )
 

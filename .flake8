@@ -10,3 +10,4 @@ exclude =
     migrations
     web
     temp
+    transformers_cache
