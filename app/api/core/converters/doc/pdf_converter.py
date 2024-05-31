@@ -10,8 +10,6 @@ from api.config import Config
 logger = logging.getLogger(__name__)
 
 
-
-
 def _parse_pdf_and_return_markdown(
     pdf_file: bytes,
     extract_images: bool = False,
@@ -19,6 +17,7 @@ def _parse_pdf_and_return_markdown(
 ):
     from api.core.marker.convert import convert_single_pdf
     from api.core.marker.models import load_all_models
+
     model_list = load_all_models()
 
     if not os.path.exists(Config.TRANSFORMERS_CACHE):

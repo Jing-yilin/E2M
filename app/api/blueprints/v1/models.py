@@ -19,4 +19,3 @@ class ConversionCache(db.Model):
 
     def __repr__(self):
         return f"<ConversionCache {self.cache_key}>"
-
