@@ -10,10 +10,13 @@ export default function Home() {
     const [langs, setLangs] = useState("en,zh");
     const [extractImages, setExtractImages] = useState(false);
     const [result, setResult] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!file) return;
+
+        setLoading(true); // 开始加载动画
 
         const formData = new FormData();
         formData.append("file", file);
@@ -21,14 +24,23 @@ export default function Home() {
         formData.append("langs", langs);
         formData.append("extract_images", String(extractImages));
 
-        const response = await fetch("http://127.0.0.1:8765/api/v1/convert", {
-            method: "POST",
-            body: formData,
-        });
+        try {
+            const response = await fetch(
+                "http://127.0.0.1:8765/api/v1/convert",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
 
-        const result = await response.json();
-        setResult(result.message);
-        console.log(result);
+            const result = await response.json();
+            setResult(result.message);
+            console.log(result);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setLoading(false); // 停止加载动画
+        }
     };
 
     const handleCopy = () => {
@@ -59,7 +71,10 @@ export default function Home() {
                         <a className="btn btn-ghost normal-case text-xl">E2M</a>
                     </div>
                     <div className="flex-none">
-                        <a href="http://localhost:8765/swagger/" className="btn btn-ghost">
+                        <a
+                            href="http://localhost:8765/swagger/"
+                            className="btn btn-ghost"
+                        >
                             Documentation
                         </a>
                         <ThemeSwitcher />
@@ -70,7 +85,13 @@ export default function Home() {
                 <h1 className="text-5xl font-extrabold mb-8 text-center">
                     E2M Converter
                 </h1>
-                <form onSubmit={handleSubmit} className="space-y-6 w-full bg-base-100 p-6 rounded-lg shadow">
+                <p className="mb-4 text-center text-lg">
+                    Supported file types: md, txt, doc, docx, pdf, py, json, yaml, yml
+                </p>
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6 w-full bg-base-100 p-6 rounded-lg shadow"
+                >
                     <div className="form-control">
                         <label
                             htmlFor="file"
@@ -84,9 +105,7 @@ export default function Home() {
                             name="file"
                             onChange={(e) =>
                                 setFile(
-                                    e.target.files
-                                        ? e.target.files[0]
-                                        : null
+                                    e.target.files ? e.target.files[0] : null
                                 )
                             }
                             className="file-input file-input-bordered file-input-primary w-full"
@@ -151,21 +170,20 @@ export default function Home() {
                                 }
                                 className="checkbox checkbox-primary"
                             />
-                            <label
-                                htmlFor="extract_images"
-                                className="ml-2"
-                            >
+                            <label htmlFor="extract_images" className="ml-2">
                                 Yes
                             </label>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className="btn btn-primary w-full"
-                    >
+                    <button type="submit" className="btn btn-primary w-full">
                         Convert
                     </button>
                 </form>
+                {loading && (
+                    <div className="mt-8 flex justify-center items-center">
+                        <div className="loader"></div>
+                    </div>
+                )}
                 {result && (
                     <div className="mt-8 relative w-full bg-base-100 p-6 rounded-lg shadow">
                         <h2 className="text-2xl font-bold mb-4">

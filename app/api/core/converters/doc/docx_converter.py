@@ -127,4 +127,5 @@ class DocxConverter(BaseConverter):
                       CONVERTER to 'default' or 'unstructured'"
             )
 
+        self.rm_file()
         return merge_elements_to_md(elements)

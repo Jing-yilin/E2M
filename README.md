@@ -32,7 +32,7 @@
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
       - [🐧Ubuntu](#ubuntu)
-    - [⚙️Quick Start (Source Code: Recommended)](#️quick-start-source-code-recommended)
+    - [⚙️Start From Source Code](#️start-from-source-code)
       - [🐧Ubuntu](#ubuntu-1)
       - [🍏Mac](#mac)
       - [🖥️Windows](#️windows)
@@ -78,7 +78,7 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
   <tr>
     <td align="center">Done</td>
-    <td align="center">docx, pdf</td>
+    <td align="center">md, txt, doc, docx, pdf, py, json, yaml, yml</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
@@ -86,7 +86,7 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
   <tr>
     <td align="center">Todo</td>
-    <td align="center">doc, txt, html, htm</td>
+    <td align="center">html, htm</td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
     <td align="center">mp3, wav, flac</td>
@@ -95,7 +95,6 @@ This project aims to provide an API, which can convert everything to markdown (L
 </table>
 
 ## 🚀Get Started
-
 
 ### 📦Quick Start (Local Docker)
 
@@ -147,9 +146,7 @@ docker-compose -f docker-compose.gpu.yml down
 - 🚀API: [http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
 - 🚀API doc: [http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
-
-
-### ⚙️Quick Start (Source Code: Recommended)
+### ⚙️Start From Source Code
 
 Install:
 
@@ -161,11 +158,11 @@ conda activate e2m
 python -m pip install -r requirements-dev.txt
 ```
 
-First, you should install `postgresql@15.0`:
+First, you should install `postgresql@15.0` and `libreoffice`:
 
 #### 🐧Ubuntu
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
 
     > Reference: [How to Install PostgreSQL On Ubuntu](https://www.linuxtechi.com/how-to-install-postgresql-on-ubuntu/)
 
@@ -174,6 +171,7 @@ First, you should install `postgresql@15.0`:
     wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
     sudo apt update
     sudo apt install postgresql-15 postgresql-client-15 -y
+    sudo apt install libreoffice -y
     ```
 
 2. Start PostgreSQL:
@@ -183,9 +181,10 @@ First, you should install `postgresql@15.0`:
 
 #### 🍏Mac
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
     ```sh
     brew install postgresql@15 -y
+    brew install --cask libreoffice -y
     ```
 2. Start PostgreSQL:
     ```sh
@@ -194,11 +193,17 @@ First, you should install `postgresql@15.0`:
 
 #### 🖥️Windows
 
-1. Install PostgreSQL 15:
+1. Install PostgreSQL 15 and LibreOffice:
+
     ```sh
     choco install postgresql15 --version=15.0.1 -y
+    choco install libreoffice -y
     ```
+
     _You may have to run the cmd as an administrator_
+
+    > Also, you can download the libreoffice from [here](https://www.libreoffice.org/download/download/)
+
 2. Start PostgreSQL:
     ```sh
     pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
@@ -360,7 +365,7 @@ return:
     "vi": "Vietnamese",
     "xh": "Xhosa",
     "yi": "Yiddish",
-    "zh": "Chinese",
+    "zh": "Chinese"
 }
 ```
 

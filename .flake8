@@ -9,3 +9,4 @@ exclude =
     .venv
     migrations
     web
+    temp

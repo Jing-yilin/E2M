@@ -1,3 +1,4 @@
+from api.core.converters.doc.txt_converter import TxtConverter
 from api.core.converters.doc.docx_converter import DocxConverter
 from api.core.converters.doc.doc_converter import DocConverter
 from api.core.converters.doc.html_converter import HtmlConverter
@@ -8,6 +9,12 @@ from api.core.converters.doc.rtf_converter import RtfConverter
 
 
 support_types = [
+    "md",
+    "py",
+    "json",
+    "yaml",
+    "yml",
+    "txt",
     "docx",
     "doc",
     "html",
@@ -18,6 +25,7 @@ support_types = [
 ]
 
 __all__ = [
+    "TxtConverter",
     "DocxConverter",
     "DocConverter",
     "HtmlConverter",
