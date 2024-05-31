@@ -7,6 +7,12 @@ class DefaultConfig(BaseSettings):
     DEBUG: bool = Field(default=True, description="Enable or disable debug mode")
     TESTING: bool = Field(default=False, description="Enable or disable testing mode")
 
+    TRANSFORMERS_CACHE: str = Field(
+        default="./transformers_cache",
+        env="TRANSFORMERS_CACHE",
+        description="Transformers cache directory",
+    )
+
     # converters
     # pydantic.errors.PydanticUserError: Field 'DOC_CONVERTER' requires a type annotation
     DOC_CONVERTER: str = Field(

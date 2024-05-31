@@ -16,3 +16,7 @@ class ConversionCache(db.Model):
     extract_images = db.Column(db.Boolean, nullable=False)
     result = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
+
+    def __repr__(self):
+        return f"<ConversionCache {self.cache_key}>"
+

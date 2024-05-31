@@ -64,8 +64,8 @@ def convert_route():
         extract_images=data.extract_images,
     ).first()
     if cached_result:
-        logger.info("Cache hit")
-        return jsonify({"message": cached_result.result})
+        logger.info(f"Cache hit: {cached_result}")
+        return jsonify({"message": cached_result.result}), 200
     logger.info("Cache miss")
 
     # 保存文件到临时目录
