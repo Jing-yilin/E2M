@@ -107,9 +107,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
--   🚀 网页：[http://localhost:3000](http://localhost:3000)
--   🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
--   🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://localhost:3000](http://localhost:3000)
+- 🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
+- 🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
 ### 🎛️ 快速开始（支持 GPU）（本地 Docker）
 
@@ -142,9 +142,9 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
--   🚀 网页：[http://localhost:3000](http://localhost:3000)
--   🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
--   🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
+- 🚀 网页：[http://localhost:3000](http://localhost:3000)
+- 🚀API：[http://localhost:8765/api/v1/](http://localhost:8765/api/v1/)
+- 🚀API 文档：[http://localhost:8765/swagger/](http://localhost:8765/swagger/)
 
 ### ⚙️ 从源码开始
 
@@ -377,8 +377,8 @@ curl -X POST "http://localhost:8765/api/v1/convert" \
 
 在提交代码之前，请创建一个新分支：
 
--   `feature/xxx` 用于新功能
--   `bugfix/xxx` 用于修复错误
+- `feature/xxx` 用于新功能
+- `bugfix/xxx` 用于修复错误
 
 你可以使用以下命令创建一个新分支：
 

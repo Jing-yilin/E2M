@@ -2,6 +2,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings
 from typing import Dict
 
+
 class DefaultConfig(BaseSettings):
     DEBUG: bool = Field(default=True, description="Enable or disable debug mode")
     TESTING: bool = Field(default=False, description="Enable or disable testing mode")
