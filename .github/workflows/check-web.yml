@@ -46,7 +46,13 @@ jobs:
                   NODE_ENV: test
 
             - name: Wait for server to be ready
-              run: npx wait-on http://localhost:3000
+              run: |
+                  cd web
+                  npm install --save-dev wait-on
+                  npx wait-on http://localhost:3000
 
             - name: Run server test
-              run: ./test_server.sh
+              run: |
+                  cd web
+                  chmod +x test_server.sh
+                  ./test_server.sh
