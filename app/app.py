@@ -32,6 +32,8 @@ def create_app():
 
     API_URL = Config.API_URL
     WEB_URL = Config.WEB_URL
+    WEB_PORT = WEB_URL.split(":")[-1]
+    LOCAL_WEB_URL = f"http://localhost:{WEB_PORT}"
 
     logger.debug(f"Config: {Config}")
 
@@ -69,7 +71,7 @@ def create_app():
     }
 
     Swagger(app, config=swagger_config)  # init swagger
-    CORS(app, resources={r"/api/*": {"origins": WEB_URL}})
+    CORS(app, resources={r"/api/*": {"origins": [WEB_URL, LOCAL_WEB_URL]}})
 
     # check gpu and cpu availability
     import torch
