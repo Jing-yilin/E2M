@@ -63,6 +63,7 @@ nvidia-nvtx-cu12==12.1.105 ; platform_system == "Linux" and platform_machine == 
 opencv-python==4.9.0.80 ; python_version >= "3.10" and python_version < "3.12"
 ordered-set==4.1.0 ; python_version >= "3.10" and python_version < "3.12"
 packaging==24.0 ; python_version >= "3.10" and python_version < "3.12"
+pdf2image==1.17.0 ; python_version >= "3.10" and python_version < "3.12"
 pdftext==0.3.10 ; python_version >= "3.10" and python_version < "3.12"
 pillow==10.3.0 ; python_version >= "3.10" and python_version < "3.12"
 psycopg2-binary==2.9.9 ; python_version >= "3.10" and python_version < "3.12"

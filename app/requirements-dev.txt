@@ -78,6 +78,7 @@ ordered-set==4.1.0 ; python_version >= "3.10" and python_version < "3.12"
 packaging==24.0 ; python_version >= "3.10" and python_version < "3.12"
 parso==0.8.4 ; python_version >= "3.10" and python_version < "3.12"
 pathspec==0.12.1 ; python_version >= "3.10" and python_version < "3.12"
+pdf2image==1.17.0 ; python_version >= "3.10" and python_version < "3.12"
 pdftext==0.3.10 ; python_version >= "3.10" and python_version < "3.12"
 pexpect==4.9.0 ; python_version >= "3.10" and python_version < "3.12" and (sys_platform != "win32" and sys_platform != "emscripten")
 pillow==10.3.0 ; python_version >= "3.10" and python_version < "3.12"

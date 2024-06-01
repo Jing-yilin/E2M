@@ -1685,6 +1685,20 @@ files = [
 ]
 
 [[package]]
+name = "pdf2image"
+version = "1.17.0"
+description = "A wrapper around the pdftoppm and pdftocairo command line tools to convert PDF to a PIL Image list."
+optional = false
+python-versions = "*"
+files = [
+    {file = "pdf2image-1.17.0-py3-none-any.whl", hash = "sha256:ecdd58d7afb810dffe21ef2b1bbc057ef434dabbac6c33778a38a3f7744a27e2"},
+    {file = "pdf2image-1.17.0.tar.gz", hash = "sha256:eaa959bc116b420dd7ec415fcae49b98100dda3dd18cd2fdfa86d09f112f6d57"},
+]
+
+[package.dependencies]
+pillow = "*"
+
+[[package]]
 name = "pdftext"
 version = "0.3.10"
 description = "Extract structured text from pdfs quickly"
@@ -3724,4 +3738,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "ff5cd785cf675a4470a99b31a1acca44caaf98ad9b5477458079b2a98f3e1021"
+content-hash = "35df6f22c3b9bf31a8f69eeb089a715d069fb439a873e61203e6fe15ea8e0355"
