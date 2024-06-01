@@ -86,7 +86,7 @@ export default function Home() {
                     E2M Converter
                 </h1>
                 <p className="mb-4 text-center text-sm">
-                    📂Supported file types: md, txt, doc, docx, pdf, py, json, yaml, yml
+                    📂Supported file types: doc, docx, pdf
                 </p>
                 <p className="mb-4 text-center text-sm">
                     💡Tip: It may take a few miniutes to download the model for the first time converting pdf.

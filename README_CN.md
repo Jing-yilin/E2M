@@ -79,7 +79,7 @@
   </tr>
   <tr>
     <td align="center">完成</td>
-    <td align="center">md, txt, doc, docx, pdf, py, json, yaml, yml</td>
+    <td align="center">doc, docx, pdf</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>

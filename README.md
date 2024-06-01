@@ -79,7 +79,7 @@ This project aims to provide an API, which can convert everything to markdown (L
   </tr>
   <tr>
     <td align="center">Done</td>
-    <td align="center">md, txt, doc, docx, pdf, py, json, yaml, yml</td>
+    <td align="center">doc, docx, pdf</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
