@@ -1,8 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import ThemeSwitcher from "../components/ThemeSwitcher";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Head from "next/head";
+import FileUploadForm from "@/components/FileUploadForm";
+import ConversionResult from "@/components/ConversionResult";
+import Loader from "@/components/Loader";
+import MarkdownPreview from "@/components/MarkdownPreview";
 
 export default function Home() {
     const [file, setFile] = useState<File | null>(null);
@@ -11,6 +15,8 @@ export default function Home() {
     const [extractImages, setExtractImages] = useState(false);
     const [result, setResult] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [firstPage, setFirstPage] = useState<number | null>(null);
+    const [lastPage, setLastPage] = useState<number | null>(null);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -23,6 +29,9 @@ export default function Home() {
         formData.append("parse_mode", parseMode);
         formData.append("langs", langs);
         formData.append("extract_images", String(extractImages));
+        if (firstPage !== null)
+            formData.append("first_page", String(firstPage));
+        if (lastPage !== null) formData.append("last_page", String(lastPage));
 
         try {
             const response = await fetch(
@@ -89,119 +98,33 @@ export default function Home() {
                     📂Supported file types: doc, docx, pdf
                 </p>
                 <p className="mb-4 text-center text-sm">
-                    💡Tip: It may take a few miniutes to download the model for the first time converting pdf.
+                    💡Tip: It may take a few miniutes to download the model for
+                    the first time converting pdf.
                 </p>
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6 w-full bg-base-100 p-6 rounded-lg shadow"
-                >
-                    <div className="form-control">
-                        <label
-                            htmlFor="file"
-                            className="label text-lg font-medium text-center"
-                        >
-                            Upload file:
-                        </label>
-                        <input
-                            type="file"
-                            id="file"
-                            name="file"
-                            onChange={(e) =>
-                                setFile(
-                                    e.target.files ? e.target.files[0] : null
-                                )
-                            }
-                            className="file-input file-input-bordered file-input-primary w-full"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-control">
-                        <label
-                            htmlFor="parse_mode"
-                            className="label text-lg font-medium"
-                        >
-                            Parse mode:
-                        </label>
-                        <select
-                            id="parse_mode"
-                            name="parse_mode"
-                            value={parseMode}
-                            onChange={(e) => setParseMode(e.target.value)}
-                            className="select select-bordered"
-                        >
-                            <option value="auto">Auto</option>
-                            <option value="general">General</option>
-                            <option value="book">Book</option>
-                            <option value="law">Law</option>
-                            <option value="manual">Manual</option>
-                            <option value="paper">Paper</option>
-                        </select>
-                    </div>
-                    <div className="form-control">
-                        <label
-                            htmlFor="langs"
-                            className="label text-lg font-medium"
-                        >
-                            Languages:
-                        </label>
-                        <input
-                            type="text"
-                            id="langs"
-                            name="langs"
-                            value={langs}
-                            onChange={(e) => setLangs(e.target.value)}
-                            className="input input-bordered"
-                            placeholder="en,zh"
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label
-                            htmlFor="extract_images"
-                            className="label text-lg font-medium"
-                        >
-                            Extract images:
-                        </label>
-                        <div className="flex items-center mt-2">
-                            <input
-                                type="checkbox"
-                                id="extract_images"
-                                name="extract_images"
-                                checked={extractImages}
-                                onChange={(e) =>
-                                    setExtractImages(e.target.checked)
-                                }
-                                className="checkbox checkbox-primary"
-                            />
-                            <label htmlFor="extract_images" className="ml-2">
-                                Yes
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary w-full">
-                        Convert
-                    </button>
-                </form>
-                {loading && (
-                    <div className="mt-8 flex justify-center items-center">
-                        <div className="loader"></div>
-                    </div>
-                )}
+                <FileUploadForm
+                    file={file}
+                    setFile={setFile}
+                    parseMode={parseMode}
+                    setParseMode={setParseMode}
+                    langs={langs}
+                    setLangs={setLangs}
+                    extractImages={extractImages}
+                    setExtractImages={setExtractImages}
+                    firstPage={firstPage}
+                    setFirstPage={setFirstPage}
+                    lastPage={lastPage}
+                    setLastPage={setLastPage}
+                    handleSubmit={handleSubmit}
+                />
+                {loading && <Loader />}
                 {result && (
-                    <div className="mt-8 relative w-full bg-base-100 p-6 rounded-lg shadow">
-                        <h2 className="text-2xl font-bold mb-4">
-                            Conversion Result
-                        </h2>
-                        <button
-                            onClick={handleCopy}
-                            className="absolute top-0 right-0 mt-0.5 mr-0.5 btn btn-outline btn-primary"
-                        >
-                            Copy
-                        </button>
-                        <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
-                            {result}
-                        </pre>
-                    </div>
+                    <>
+                        <ConversionResult
+                            result={result}
+                            handleCopy={handleCopy}
+                        />
+                        <MarkdownPreview markdownContent={result} />
+                    </>
                 )}
             </main>
         </div>
