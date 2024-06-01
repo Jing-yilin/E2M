@@ -42,16 +42,21 @@ def convert_route():
 
     try:
         data = ConvertRequest(
-            parse_mode=request.args.get("parse_mode", default="auto"),
-            langs=request.args.get("langs", default="zh").split(","),
-            extract_images=request.args.get("extract_images", default=False),
+            parse_mode=request.form.get("parse_mode", default="auto"),
+            langs=request.form.get("langs", default="zh").split(","),
+            extract_images=request.form.get("extract_images", default=False),
+            first_page=int(request.form.get("first_page", default=1)),
+            last_page=request.form.get("last_page", default=None),
         )
+        if data.last_page is not None:
+            data.last_page = int(data.last_page)
+        logger.debug(f"Request data: {data}")
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400
 
     # 生成缓存键
     cache_key = hashlib.md5(
-        f"{file_name}{data.parse_mode}{data.extract_images}".encode()
+        f"{file_name}{data.parse_mode}{data.extract_images}{data.langs}{data.first_page}{data.last_page}".encode()
     ).hexdigest()
 
     # 检查缓存
@@ -79,7 +84,10 @@ def convert_route():
     md_result, code = file_to_markdown(  # Response
         file_path=file_path,
         parse_mode=data.parse_mode,
+        langs=data.langs,
         extract_images=data.extract_images,
+        first_page=data.first_page,
+        last_page=data.last_page,
     )
 
     # save to cache if successful
@@ -92,6 +100,8 @@ def convert_route():
                 parse_mode=data.parse_mode,
                 langs=str(data.langs),
                 extract_images=data.extract_images,
+                first_page=data.first_page,
+                last_page=data.last_page,
                 result=md_result,
             )
             db.session.add(new_cache_entry)

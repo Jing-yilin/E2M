@@ -74,3 +74,14 @@ class BaseConverter(BaseModel):
         if Path(self.file).exists():
             Path(self.file).unlink()
             return True
+
+    @property
+    def file_stem(self):
+        """stem of the file
+        e.g. /path/to/file.pdf -> file
+
+        """
+        if isinstance(self.file, str):
+            return Path(self.file).stem
+        elif isinstance(self.file, Path):
+            return self.file.stem

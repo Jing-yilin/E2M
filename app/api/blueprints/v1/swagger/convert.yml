@@ -7,7 +7,7 @@ parameters:
     required: true
     description: File to be converted to Markdown
   - name: parse_mode
-    in: query
+    in: formData
     type: string
     required: false
     description: Parse mode for the file
@@ -21,19 +21,29 @@ parameters:
     default: general
     example: general
   - name: langs
-    in: query
-    type: array
-    items:
-      type: string
+    in: formData
+    type: string
     required: false
-    description: Language codes to be used for parsing
-    example: ['en', 'zh']
+    description: Language codes to be used for parsing, separated by commas
+    example: "en,zh"
   - name: extract_images
-    in: query
+    in: formData
     type: boolean
     required: false
     description: Extract images from the file
     example: true
+  - name: first_page
+    in: formData
+    type: integer
+    required: false
+    description: First page to convert
+    example: 1
+  - name: last_page
+    in: formData
+    type: integer
+    required: false
+    description: Last page to convert
+    example: 10
 
 responses:
   200:
