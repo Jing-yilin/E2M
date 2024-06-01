@@ -24,10 +24,10 @@ services:
     e2m_api:
         build: app/
         deploy:
-          resources:
-            reservations:
-              devices:
-                - capabilities: [gpu]
+            resources:
+                reservations:
+                    devices:
+                        - capabilities: [gpu]
         container_name: e2m_api
         ports:
             - "8765:8765"
@@ -40,6 +40,7 @@ services:
             TZ: Asia/Shanghai
             DOC_CONVERTER: default
             DOCX_CONVERTER: default
+            USE_DB: true
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
         depends_on:

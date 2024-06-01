@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flasgger import swag_from
 from api.blueprints.v1.controllers import ping, file_to_markdown
 from api.blueprints.v1.schemas import ConvertRequest
+from api.config import Config
 from pydantic import ValidationError
 import hashlib
 import os
@@ -54,24 +55,25 @@ def convert_route():
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400
 
-    # 生成缓存键
-    cache_key = hashlib.md5(
-        f"{file_name}{data.parse_mode}{data.extract_images}{data.langs}{data.first_page}{data.last_page}".encode()
-    ).hexdigest()
+    if Config.USE_DB:
+        # 生成缓存键
+        cache_key = hashlib.md5(
+            f"{file_name}{data.parse_mode}{data.extract_images}{data.langs}{data.first_page}{data.last_page}".encode()
+        ).hexdigest()
 
-    # 检查缓存
-    logger.info("Checking cache")
-    cached_result = ConversionCache.query.filter_by(
-        cache_key=cache_key,
-        # file_name=file_name,
-        parse_mode=data.parse_mode,
-        langs=str(data.langs),
-        extract_images=data.extract_images,
-    ).first()
-    if cached_result:
-        logger.info(f"Cache hit: {cached_result}")
-        return jsonify({"message": cached_result.result}), 200
-    logger.info("Cache miss")
+        # 检查缓存
+        logger.info("Checking cache")
+        cached_result = ConversionCache.query.filter_by(
+            cache_key=cache_key,
+            # file_name=file_name,
+            parse_mode=data.parse_mode,
+            langs=str(data.langs),
+            extract_images=data.extract_images,
+        ).first()
+        if cached_result:
+            logger.info(f"Cache hit: {cached_result}")
+            return jsonify({"message": cached_result.result}), 200
+        logger.info("Cache miss")
 
     # 保存文件到临时目录
     logger.info("Saving file to temp directory")
@@ -90,27 +92,28 @@ def convert_route():
         last_page=data.last_page,
     )
 
-    # save to cache if successful
-    if code == 200:
-        logger.info("Storing result to cache")
-        try:
-            new_cache_entry = ConversionCache(
-                cache_key=cache_key,
-                file_name=file_name,
-                parse_mode=data.parse_mode,
-                langs=str(data.langs),
-                extract_images=data.extract_images,
-                first_page=data.first_page,
-                last_page=data.last_page,
-                result=md_result,
-            )
-            db.session.add(new_cache_entry)
-            db.session.commit()
-        except Exception as e:
-            logger.error(f"Error storing result to cache: {e}")
-            return jsonify({"error": "Error storing result to cache"}), 500
-        logger.info("Result stored to cache")
-    else:
-        logger.error("Error converting file to markdown")
+    if Config.USE_DB:
+        # save to cache if successful
+        if code == 200:
+            logger.info("Storing result to cache")
+            try:
+                new_cache_entry = ConversionCache(
+                    cache_key=cache_key,
+                    file_name=file_name,
+                    parse_mode=data.parse_mode,
+                    langs=str(data.langs),
+                    extract_images=data.extract_images,
+                    first_page=data.first_page,
+                    last_page=data.last_page,
+                    result=md_result,
+                )
+                db.session.add(new_cache_entry)
+                db.session.commit()
+            except Exception as e:
+                logger.error(f"Error storing result to cache: {e}")
+                return jsonify({"error": "Error storing result to cache"}), 500
+            logger.info("Result stored to cache")
+        else:
+            logger.error(f"Code: {code}, Message: {md_result}")
 
     return jsonify({"message": md_result}), code

@@ -88,14 +88,7 @@ class DefaultConfig(BaseSettings):
         default="http://127.0.0.1:3000", env="WEB_URL", description="Base WEB URL"
     )
 
-    # DB_USER: str = Field(default="e2m", env="DB_USER", description="Database user")
-    # DB_PASSWORD: str = Field(
-    #     default="password", env="DB_PASSWORD", description="Database password"
-    # )
-    # DB_HOST: str = Field(
-    #     default="localhost", env="DB_HOST", description="Database host"
-    # )
-    # DB_NAME: str = Field(default="e2m_db", env="DB_NAME", description="Database name")
+    USE_DB: bool = Field(default=True, description="Use database")
 
     # SQLAlchemy database URI
     SQLALCHEMY_DATABASE_URI: str = Field(
