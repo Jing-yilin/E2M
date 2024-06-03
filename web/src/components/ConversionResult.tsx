@@ -20,7 +20,7 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
                     Copy
                 </button>
             </div>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
+            <pre className=" p-4 rounded-lg overflow-auto max-h-96 text-sm">
                 {result}
             </pre>
         </div>

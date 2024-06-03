@@ -28,6 +28,7 @@
     - [🌐 网页](#-网页)
     - [📸 演示](#-演示)
     - [📂 支持的文件类型](#-支持的文件类型)
+    - [待完成](#待完成)
   - [🚀 快速开始](#-快速开始)
     - [📦 快速开始（本地 Docker）](#-快速开始本地-docker)
     - [🎛️ 快速开始（支持 GPU）（本地 Docker）](#️-快速开始支持-gpu本地-docker)
@@ -56,7 +57,11 @@
 
 ### 🌐 网页
 
-![image-20240530231739086](assets/web_01.png)
+![Input Form](assets/web_01.png)
+
+![Conversion Result](assets/web_02.png)
+
+![API Response](assets/web_03.png)
 
 ### 📸 演示
 
@@ -94,6 +99,17 @@
     <td align="center">mp4, avi, mkv</td>
   </tr>
 </table>
+
+### 待完成
+
+- [x] 解析模式：`auto`，`ocr-low(tesseract)`，`ocr-high(Surya)`，`fast`
+- [x] 更新 API 结构
+- [ ] 添加一个新表来存储原始数据
+- [ ] 在 API 和前端添加流模式
+- [ ] 在 API 中添加异步功能
+- [ ] 为 E2M API 开发一个 SDK
+- [ ] 添加更多的 LLM API
+- [ ] 开放一个在线演示
 
 ## 🚀 快速开始
 

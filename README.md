@@ -28,6 +28,7 @@
     - [🌐Web](#web)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
+    - [Todo](#todo)
   - [🚀Get Started](#get-started)
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
@@ -56,7 +57,11 @@ This project aims to provide an API, which can convert everything to markdown (L
 
 ### 🌐Web
 
-![image-20240530231739086](assets/web_01.png)
+![Input Form](assets/web_01.png)
+
+![Conversion Result](assets/web_02.png)
+
+![API Response](assets/web_03.png)
 
 ### 📸Demo
 
@@ -94,6 +99,17 @@ This project aims to provide an API, which can convert everything to markdown (L
     <td align="center">mp4, avi, mkv</td>
   </tr>
 </table>
+
+### Todo
+
+- [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
+- [x] Update API structure
+- [ ] Add a new table to store raw data
+- [ ] Add stream mode in API and frontend
+- [ ] Add Async feature in API
+- [ ] Develop a SDK for E2M API
+- [ ] Add more LLM API
+- [ ] Open an online demo
 
 ## 🚀Get Started
 
