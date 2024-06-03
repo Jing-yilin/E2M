@@ -1,8 +1,8 @@
 # temp
 temp/
 
-# tests
-tests/
+# local_tests
+local_tests/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

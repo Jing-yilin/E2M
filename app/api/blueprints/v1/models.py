@@ -14,6 +14,12 @@ class ConversionCache(db.Model):
     parse_mode = db.Column(db.String(255), nullable=False)
     langs = db.Column(db.String(255), nullable=False)
     extract_images = db.Column(db.Boolean, nullable=False)
+    first_page = db.Column(db.Integer, nullable=False)
+    last_page = db.Column(db.Integer, nullable=True)
+    use_llm = db.Column(db.Boolean, nullable=False)
+    model = db.Column(db.String(255), nullable=True)
+    return_type = db.Column(db.String(255), nullable=True)
+    enforced_json_format = db.Column(db.Text, nullable=True)
     result = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
 

@@ -1,13 +1,19 @@
 from api.core.converters.base_converter import (
     BaseConverter,
-    MdElement,
+)
+
+from api.core.converters.md_elements import (
     Header1,
     Header2,
     Header3,
     Paragraph,
-    merge_elements_to_md,
+    MdElement,
+    MarkdownPage,
 )
+from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
 
+
+import json
 from typing import List
 
 from api.config import Config
@@ -20,9 +26,13 @@ logger = logging.getLogger(__name__)
 
 class DocxConverter(BaseConverter):
 
-    def convert(self, **kwargs) -> str:
-        if not self.file:
-            raise ValueError("File not set")
+    def convert(
+        self,
+        file_info: FileInfo,
+        request_data: RequestData,
+        **kwargs,
+    ) -> ResponseData:
+
         elements: List[MdElement] = []
 
         # method 1： default
@@ -100,13 +110,13 @@ class DocxConverter(BaseConverter):
                     continue
 
                 if para.runs[0].font.size == header1_font_size:
-                    elements.append(Header1(para.text))
+                    elements.append(Header1(text=para.text))
                 elif para.runs[0].font.size == header2_font_size:
-                    elements.append(Header2(para.text))
+                    elements.append(Header2(text=para.text))
                 elif para.runs[0].font.size == header3_font_size:
-                    elements.append(Header3(para.text))
+                    elements.append(Header3(text=para.text))
                 else:
-                    elements.append(Paragraph(para.text))
+                    elements.append(Paragraph(text=para.text))
 
         # method 2: unstructured
         elif Config.DOCX_CONVERTER == "unstructured":
@@ -116,10 +126,10 @@ class DocxConverter(BaseConverter):
             unstructured_elements = partition_docx(filename=self.file)
             for element in unstructured_elements:
                 # todo: need a more accurate way to determine the category
-                if element.category == "Title":
-                    elements.append(Header1(element.text))
-                else:
-                    elements.append(Paragraph(element.text))
+                # if element.category == "Title":
+                #     elements.append(Header1(element.text))
+                # else:
+                elements.append(Paragraph(text=element.text))
 
         else:
             raise ValueError(
@@ -128,4 +138,27 @@ class DocxConverter(BaseConverter):
             )
 
         self.rm_file()
-        return merge_elements_to_md(elements)
+        result = MarkdownPage.from_elements(elements)
+
+        use_llm = request_data.use_llm
+
+        if Config.ENABLE_LLM and use_llm:
+
+            model = request_data.model
+            return_type = request_data.return_type
+            enforced_json_format = request_data.enforced_json_format
+
+            if return_type == "json":
+                fixed_result = self.ocr_fix_to_json(
+                    result, enforced_json_format=enforced_json_format, model=model
+                )
+                fixed_result = json.dumps(fixed_result, ensure_ascii=False, indent=4)
+            elif return_type == "md":
+                fixed_result = self.ocr_fix_to_markdown(result, model=model)
+                return MarkdownPage.from_md(fixed_result)
+            else:
+                raise ValueError("return_type must be one of 'md' or 'json")
+
+            return fixed_result
+
+        return result

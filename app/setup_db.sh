@@ -1,9 +1,9 @@
 #!/bin/bash
-DB_ADMIN="zephyr" # Database admin username
-DB_ADMIN_PASSWORD="password"        # Database admin password
-DB_NAME="e2m_db"                    # Database name
-DB_USER="e2m"                       # Database user
-DB_HOST="localhost"                 # PostgreSQL container hostname
+DB_ADMIN="your computer user name"            # Database admin username
+DB_ADMIN_PASSWORD="password" # Database admin password
+DB_NAME="e2m_db"             # Database name
+DB_USER="e2m"                # Database user
+DB_HOST="localhost"          # PostgreSQL container hostname
 
 # Check if the database exists, if not, create the database
 if PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -lqt | cut -d \| -f 1 | grep -qw $DB_NAME; then
@@ -49,9 +49,9 @@ else
   flask db upgrade
 fi
 
-# try connecting to the database
-if PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "SELECT 1" 1>/dev/null 2>&1; then
-  echo "🚀 Database connection successful."
+# try connecting to the database, and check table creation
+if PGPASSWORD=$DB_ADMIN_PASSWORD psql -h $DB_HOST -U $DB_ADMIN -d $DB_NAME -c "\dt" | grep -qw "alembic_version"; then
+  echo "🚀Database setup successful."
 else
-  echo "❌ Database connection failed."
+  echo "❌Database setup failed."
 fi

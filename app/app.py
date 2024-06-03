@@ -49,8 +49,12 @@ def create_app():
         logger.error(f"Database connection error: {e}")
 
     # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
+    if Config.USE_DB:
+        logger.info("Using database")
+        db.init_app(app)
+        migrate.init_app(app, db)
+    else:
+        logger.info("Not using database")
 
     # register blueprints
     app.register_blueprint(api_v1_bp, url_prefix="/api/v1")

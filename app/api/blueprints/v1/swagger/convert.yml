@@ -7,45 +7,227 @@ parameters:
     required: true
     description: File to be converted to Markdown
   - name: parse_mode
-    in: query
+    in: formData
     type: string
     required: false
     description: Parse mode for the file
     enum:
       - auto
-      - general
-      - book
-      - law
-      - manual
-      - paper
-    default: general
-    example: general
+      - ocr-low
+      - ocr-high
+      - fast
+    default: auto
+    example: auto
   - name: langs
-    in: query
-    type: array
-    items:
-      type: string
+    in: formData
+    type: string
     required: false
-    description: Language codes to be used for parsing
-    example: ['en', 'zh']
+    description: Language codes to be used for parsing, separated by commas
+    example: "en,zh"
   - name: extract_images
-    in: query
+    in: formData
     type: boolean
     required: false
     description: Extract images from the file
     example: true
+  - name: first_page
+    in: formData
+    type: integer
+    required: false
+    description: First page to convert
+    example: 1
+  - name: last_page
+    in: formData
+    type: integer
+    required: false
+    description: Last page to convert
+    example: 10
+  - name: use_llm
+    in: formData
+    type: boolean
+    required: false
+    description: Use LLM for parsing
+    example: true
+  - name: model
+    in: formData
+    type: string
+    required: false
+    description: Model to be used for parsing
+    enum:
+      - gpt-3.5-turbo
+      - gpt-3.5-turbo-0125
+      - gpt-3.5-turbo-0301
+      - gpt-3.5-turbo-0613
+      - gpt-3.5-turbo-1106
+      - gpt-3.5-turbo-16k
+      - gpt-3.5-turbo-16k-0613
+      - gpt-3.5-turbo-instruct
+      - gpt-4
+      - gpt-4-0125-preview
+      - gpt-4-0314
+      - gpt-4-0613
+      - gpt-4-1106-preview
+      - gpt-4-1106-vision-preview
+      - gpt-4-32k
+      - gpt-4-32k-0314
+      - gpt-4-32k-0613
+      - gpt-4-turbo
+      - gpt-4-turbo-2024-04-09
+      - gpt-4-turbo-preview
+      - gpt-4-vision-preview
+      - gpt-4o
+      - gpt-4o-2024-05-13
+    default: gpt-3.5-turbo
+    example: gpt-3.5-turbo
+  - name: return_type
+    in: formData
+    type: string
+    required: false
+    description: Return type for the conversion
+    enum:
+      - md
+      - json
+    default: md
+    example: md
+  - name: enforced_json_format
+    in: formData
+    type: string
+    required: false
+    description: Enforce JSON format for the conversion
+  - name: save_to_cache
+    in: formData
+    type: boolean
+    required: false
+    description: Whether to save the result to the cache
+    example: true
+  - name: use_cache
+    in: formData
+    type: boolean
+    required: false
+    description: Whether to use the cache
+    example: true
 
 responses:
   200:
-    description: File successfully converted to Markdown
+    description: File successfully converted
     content:
       application/json:
         schema:
           type: object
           properties:
-            markdown:
+            status:
               type: string
-              example: '# Sample Markdown\n\nThis is a converted markdown content.'
+              example: success
+            raw:
+              type: string
+              example: "Raw extracted content"
+            md_data:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: '# Sample Markdown\n\nThis is a converted markdown content.'
+                elements:
+                  type: array
+                  items:
+                    type: object
+                toc:
+                  type: array
+                  items:
+                    type: object
+            json_data:
+              type: object
+              example: { "key": "value" }
+            metadata:
+              type: object
+              properties:
+                request_data:
+                  type: object
+                  properties:
+                    file_hash:
+                      type: string
+                      example: 1234567890abcdef
+                    parse_mode:
+                      type: string
+                      example: auto
+                    langs:
+                      type: array
+                      items:
+                        type: string
+                      example: ["zh"]
+                    extract_images:
+                      type: boolean
+                      example: false
+                    first_page:
+                      type: integer
+                      example: 1
+                    last_page:
+                      type: integer
+                      example: 10
+                    use_llm:
+                      type: boolean
+                      example: false
+                    model:
+                      type: string
+                      example: gpt-3.5-turbo
+                    return_type:
+                      type: string
+                      example: md
+                    enforced_json_format:
+                      type: string
+                      example: '{"key": "value"}'
+                    save_to_cache:
+                      type: boolean
+                      example: true
+                    use_cache:
+                      type: boolean
+                      example: true
+                file_info:
+                  type: object
+                  properties:
+                    file_path:
+                      type: string
+                      example: /path/to/test.pdf
+                    file_name:
+                      type: string
+                      example: test.pdf
+                    file_size:
+                      type: integer
+                      example: 12345
+                    file_type:
+                      type: string
+                      example: pdf
+                    file_hash:
+                      type: string
+                      example: 1234567890abcdef
+                llm_info:
+                  type: object
+                  properties:
+                    model:
+                      type: string
+                      example: gpt-3.5-turbo
+                    messages:
+                      type: array
+                      items:
+                        type: object
+                    total_tokens:
+                      type: integer
+                      example: 1500
+                    prompt_tokens:
+                      type: integer
+                      example: 500
+                    completion_tokens:
+                      type: integer
+                      example: 1000
+                    successful_requests:
+                      type: integer
+                      example: 1
+                    total_cost:
+                      type: number
+                      example: 0.05
+            error:
+              type: string
+              example: null
   400:
     description: No file uploaded or conversion failed
     content:
@@ -53,6 +235,22 @@ responses:
         schema:
           type: object
           properties:
+            status:
+              type: string
+              example: error
             error:
               type: string
               example: No file uploaded
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: error
+            error:
+              type: string
+              example: Internal server error

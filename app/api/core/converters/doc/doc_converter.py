@@ -1,10 +1,14 @@
 import logging
 import os
 import subprocess
+
 from pathlib import Path
 from api.core.converters.base_converter import (
     BaseConverter,
 )
+
+from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +43,12 @@ def _convert_doc_to_docx(doc_path: str, docx_path: str):
 
 class DocConverter(BaseConverter):
 
-    def convert(self, **kwargs) -> str:
+    def convert(
+        self,
+        file_info: FileInfo,
+        request_data: RequestData,
+        **kwargs,
+    ) -> ResponseData:
         # save as docx
         if isinstance(self.file, str) and self.file.endswith(".doc"):
             stem = os.path.splitext(self.file)[0]
@@ -59,7 +68,9 @@ class DocConverter(BaseConverter):
             from api.core.converters.doc.docx_converter import DocxConverter
 
             docx_converter = DocxConverter(file=out_file, parse_mode=self.parse_mode)
-            content = docx_converter.convert()
+            content = docx_converter.convert(
+                file_info=file_info, request_data=request_data, **kwargs
+            )
         except Exception as e:
             logger.error(f"Error converting file: {self.file}, error: {e}")
         finally:
