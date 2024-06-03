@@ -55,7 +55,11 @@
 
 ## 🌟Introduction
 
-This project aims to provide an API, which can convert everything to markdown (LLM-friendly Format).
+E2M is an API tool converting everything to markdown or json(both LLM-friendly Format).
+
+🔥You'd better set `USE_LLM=True` and use a LLM API to get the best result.
+
+> Why I create this API? Because I do believe data is the most important thing in this AI era, but many resources are not in the right format. **They are only information, not data.** So I want to create a tool to convert everything to markdown or json, which is the most common format in the AI field. I hope E2M can be used in any AI application that needs format conversion, such as AI knowledge base, AI dataset, etc., so that developers can focus on the core functions of AI applications, not data format conversion.
 
 ### 🌐Web
 
