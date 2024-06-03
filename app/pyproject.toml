@@ -40,6 +40,10 @@ psycopg2-binary = "^2.9.9"
 flask-migrate = "^4.0.7"
 flask-cors = "^4.0.1"
 pdf2image = "^1.17.0"
+langchain = "^0.2.1"
+langchain-openai = "^0.1.8"
+langchain-community = "^0.2.1"
+mistune = "^3.0.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.0.0"

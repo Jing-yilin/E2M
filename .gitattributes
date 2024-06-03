@@ -320,3 +320,9 @@ Procfile          text
 
 # RC files (like .babelrc or .eslintrc)
 *.*rc             text
+
+
+# Tmp
+*.tmp
+*.log
+*.swp
