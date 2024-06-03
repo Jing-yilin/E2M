@@ -16,6 +16,12 @@
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
     </a>
+    <a href="https://github.com/Jing-yilin/E2M/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="E2M License">
+    </a>
+    <a href="https://www.python.org/downloads/">
+        <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11-blue" alt="Python Version">
+    </a>
 </p>
 
 <div align="center">
