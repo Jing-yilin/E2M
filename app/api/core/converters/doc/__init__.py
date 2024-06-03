@@ -7,7 +7,7 @@ from api.core.converters.doc.pdf_converter import PdfConverter
 from api.core.converters.doc.rtf_converter import RtfConverter
 
 
-support_types = [
+ALL_SUPPORT_TYPES = [
     "docx",
     "doc",
     "html",

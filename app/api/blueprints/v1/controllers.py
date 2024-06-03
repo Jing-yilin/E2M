@@ -1,9 +1,8 @@
 from flask import jsonify
 from api.core.converters.base_converter import BaseConverter
 from api.core.converters.converter_strategy import ConverterStrategy
-from typing import Tuple, Optional
-from pathlib import Path
-
+from typing import Tuple
+from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
 
 # logging
 import logging
@@ -17,18 +16,21 @@ def ping():
 
 
 def file_to_markdown(
-    file_path: Optional[str | Path], parse_mode: str, **kwargs
-) -> Tuple[str, int]:
-    try:
-        converter: BaseConverter = ConverterStrategy.get_converter(
-            file=file_path, parse_mode=parse_mode
-        )
+    file_info: FileInfo, request_data: RequestData, **kwargs
+) -> Tuple[dict, int]:
+    # try:
+    converter: BaseConverter = ConverterStrategy.get_converter(
+        file=file_info.file_path, parse_mode=request_data.parse_mode
+    )
 
-        md_result = converter.convert(**kwargs)
+    converter.set_file_info(file_info=file_info)
+    converter.set_request_data(request_data=request_data)
 
-        logger.info(f"Converted file to markdown: {md_result}")
+    resp: ResponseData = converter.convert(file_info, request_data, **kwargs)  # todo
 
-        return (md_result, 200)
-    except Exception as e:
-        logger.error(f"Error converting file to markdown: {e}")
-        return (f"Error converting file to markdown: {e}", 500)
+    logger.info(f"Converted file to markdown: {resp}")
+
+    return (resp.to_dict(), 200)
+    # except Exception as e:
+    #     logger.error(f"Error converting file to markdown: {e}")
+    #     return (f"Error converting file to markdown: {e}", 500)

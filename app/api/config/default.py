@@ -7,6 +7,8 @@ class DefaultConfig(BaseSettings):
     DEBUG: bool = Field(default=True, description="Enable or disable debug mode")
     TESTING: bool = Field(default=False, description="Enable or disable testing mode")
 
+    ENABLE_LLM: bool = Field(default=False, description="Use LLM")
+
     TRANSFORMERS_CACHE: str = Field(
         default="./transformers_cache",
         env="TRANSFORMERS_CACHE",
