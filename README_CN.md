@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.0.5">
-        <img src="https://img.shields.io/badge/version-v1.0.5-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.0">
+        <img src="https://img.shields.io/badge/version-v1.1.0-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
