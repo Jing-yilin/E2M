@@ -1016,23 +1016,25 @@ git push origin feature/xxx # or simply `git push`
 A new version:
 
 ```
-docker build -t jingyilin/e2m:<version> .
-docker push jingyilin/e2m:<version>
+cd app
+docker build -t jingyilin/e2m_api:<version> .
+docker push jingyilin/e2m_api:<version>
+cd ../web
+docker build -t jingyilin/e2m_web:<version> .
+docker push jingyilin/e2m_web:<version>
 ```
 
 For example, the version is `v1.0.0`:
 
 ```
-docker build -t jingyilin/e2m:v1.0.0 .
-docker push jingyilin/e2m:v1.0.0
+cd app
+docker build -t jingyilin/e2m_api:v1.0.0 .
+docker push jingyilin/e2m_api:v1.0.0
+cd ../web
+docker build -t jingyilin/e2m_web:v1.0.0 .
+docker push jingyilin/e2m_web:v1.0.0
 ```
 
-Latest version:
-
-```
-docker build -t jingyilin/e2m:latest .
-docker push jingyilin/e2m:latest
-```
 
 ### 🔀Pull Request
 
