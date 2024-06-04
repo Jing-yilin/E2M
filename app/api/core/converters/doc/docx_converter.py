@@ -15,6 +15,8 @@ from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
 
 import json
 from typing import List
+from pathlib import Path
+import os
 
 from api.config import Config
 
@@ -25,15 +27,23 @@ logger = logging.getLogger(__name__)
 
 
 class DocxConverter(BaseConverter):
-
     def convert(
         self,
         file_info: FileInfo,
         request_data: RequestData,
         **kwargs,
     ) -> ResponseData:
+        # doc -> docx
+        if file_info.file_path.endswith(".doc"):
+            from api.core.utils.file_utils import convert_doc_to_docx
+
+            stem = Path(file_info.file_path).stem
+            docx_file = os.path.join(Config.TEMP_DIR, f"{stem}.docx")
+            convert_doc_to_docx(file_info.file_path, docx_file)
+            self.file = docx_file
 
         elements: List[MdElement] = []
+        use_llm = request_data.use_llm
 
         # method 1： default
         if Config.DOCX_CONVERTER == "default":
@@ -73,7 +83,9 @@ class DocxConverter(BaseConverter):
                         font_size_count[font_size]["paragraph"].append(i)
 
             if not font_size_count:
-                return ""
+                return ResponseData(
+                    status="error", error="No content found in the document"
+                )
 
             all_font_size = set(font_size_count.keys())
             logger.debug(f"all_font_size: {all_font_size}")
@@ -138,27 +150,27 @@ class DocxConverter(BaseConverter):
             )
 
         self.rm_file()
-        result = MarkdownPage.from_elements(elements)
+        result = MarkdownPage.from_elements(elements).to_md()
 
-        use_llm = request_data.use_llm
-
-        if Config.ENABLE_LLM and use_llm:
+        if not (Config.ENABLE_LLM and use_llm):
+            self.set_response_data(status="success", raw=result)
+        else:
 
             model = request_data.model
             return_type = request_data.return_type
             enforced_json_format = request_data.enforced_json_format
+            try:
+                if return_type == "json":
+                    self.ocr_fix_to_json(
+                        result, enforced_json_format=enforced_json_format, model=model
+                    )
+                elif return_type == "md":
+                    self.ocr_fix_to_markdown(result, model=model)
+                else:
+                    raise ValueError("return_type must be one of 'md' or 'json")
+                self.set_response_data(status="success", raw=result)
+            except Exception as e:
+                logger.error(f"Error in LLM: {e}")
+                self.set_response_data(status="error", raw=result, error=str(e))
 
-            if return_type == "json":
-                fixed_result = self.ocr_fix_to_json(
-                    result, enforced_json_format=enforced_json_format, model=model
-                )
-                fixed_result = json.dumps(fixed_result, ensure_ascii=False, indent=4)
-            elif return_type == "md":
-                fixed_result = self.ocr_fix_to_markdown(result, model=model)
-                return MarkdownPage.from_md(fixed_result)
-            else:
-                raise ValueError("return_type must be one of 'md' or 'json")
-
-            return fixed_result
-
-        return result
+        return self.resp_data

@@ -1,5 +1,4 @@
 from api.core.converters.doc.docx_converter import DocxConverter
-from api.core.converters.doc.doc_converter import DocConverter
 from api.core.converters.doc.html_converter import HtmlConverter
 from api.core.converters.doc.htm_converter import HtmConverter
 from api.core.converters.doc.epub_converter import EpubConverter
@@ -19,7 +18,6 @@ ALL_SUPPORT_TYPES = [
 
 __all__ = [
     "DocxConverter",
-    "DocConverter",
     "HtmlConverter",
     "HtmConverter",
     "EpubConverter",
