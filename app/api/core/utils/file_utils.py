@@ -1,9 +1,38 @@
 from typing import Union, Literal
 import os
-import subprocess
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def sub_pdf(
+    original_pdf: str,
+    first_page: int,
+    last_page: int,
+    output_pdf: str,
+    rm_original: bool = True,
+):
+    import pymupdf
+
+    # from first_page to last_page
+    tmp_pdf = pymupdf.open(original_pdf)
+    total_pages = tmp_pdf.page_count
+    # rm other pages, only keep the first page -> last page
+    logger.info(f"tmp_pdf.page_count: {tmp_pdf.page_count}")
+    # delete right
+    if last_page is not None:
+        from_page = last_page
+        tmp_pdf.delete_pages(from_page=from_page, to_page=total_pages - 1)
+
+    if first_page > 1:
+        to_page = first_page - 1
+        tmp_pdf.delete_pages(from_page=0, to_page=to_page - 1)
+
+    if rm_original:
+        os.remove(original_pdf)
+
+    # save to original pdf
+    tmp_pdf.save(output_pdf)
 
 
 def convert_doc_to_docx(doc_path: str, docx_path: str, rm_original: bool = True):
@@ -18,6 +47,8 @@ def convert_doc_to_docx(doc_path: str, docx_path: str, rm_original: bool = True)
         subprocess.CalledProcessError: If the conversion command fails.
 
     """
+    import subprocess
+
     logger.info(f"Converting [{doc_path}] to [{docx_path}]")
     # Construct the command to convert .doc to .docx using LibreOffice
     # you have to install LibreOffice on your system

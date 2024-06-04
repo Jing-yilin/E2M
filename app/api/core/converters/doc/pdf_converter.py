@@ -24,6 +24,7 @@ def _parse_pdf_and_return_markdown(
     extract_images: bool = False,
     langs: list = ["zh"],
 ):
+    """OCR-High Parse Mode"""
     from api.core.marker.convert import convert_single_pdf
     from api.core.marker.models import ModelHandler
 
@@ -80,6 +81,11 @@ class PdfConverter(BaseConverter):
         return_type = request_data.return_type
         enforced_json_format = request_data.enforced_json_format
 
+        tmp_file = self.file + ".tmp"
+        from api.core.utils.file_utils import sub_pdf
+
+        sub_pdf(self.file, first_page, last_page, tmp_file)
+
         if Config.PDF_CONVERTER == "default" or parse_mode == "ocr_high":
 
             # save pdf as images into a pdf
@@ -134,8 +140,6 @@ class PdfConverter(BaseConverter):
             from unstructured.partition.pdf import partition_pdf
 
             # from unstructured.partition.lang import PYTESSERACT_LANG_CODES
-            import fitz
-
             # todo: support multiple languages
             lang_map = {
                 "zh": "chi_sim",
@@ -143,28 +147,9 @@ class PdfConverter(BaseConverter):
             }
             new_langs = []
             for lang in langs:
+                if lang not in lang_map:
+                    raise ValueError(f"Unsupported language: {lang}")
                 new_langs.append(lang_map[lang])
-
-            # from first_page to last_page
-            fitz_pdf = fitz.open(self.file)
-            total_pages = fitz_pdf.page_count
-            # rm other pages, only keep the first page -> last page
-            logger.info(f"fitz_pdf.page_count: {fitz_pdf.page_count}")
-            # delete right
-            if last_page is not None:
-                from_page = last_page
-                fitz_pdf.delete_pages(from_page=from_page, to_page=total_pages - 1)
-            logger.info(f"fitz_pdf.page_count: {fitz_pdf.page_count}")
-
-            if first_page > 1:
-                to_page = first_page - 1
-                fitz_pdf.delete_pages(from_page=0, to_page=to_page - 1)
-
-            logger.info(f"fitz_pdf.page_count: {fitz_pdf.page_count}")
-
-            # save to original pdf
-            tmp_file = self.file + ".tmp"
-            fitz_pdf.save(self.file + ".tmp")
 
             if parse_mode == "auto":
                 strategy = "auto"
@@ -192,34 +177,24 @@ class PdfConverter(BaseConverter):
                 #     elements.append(Header1(element.text))
                 # else:
                 elements.append(Paragraph(text=element.text))
-
             raw_result = merge_elements_to_md(elements)
-
-            # rm tmp
-            os.remove(tmp_file)
-
         else:
             raise ValueError(f"Unknown PDF_CONVERTER: {Config.PDF_CONVERTER}")
-
-        self.rm_file()
 
         if not (Config.ENABLE_LLM and use_llm):
             self.set_response_data(status="success", raw=raw_result)
         else:
-            try:
-                if return_type == "json":
-                    self.ocr_fix_to_json(
-                        raw_result,
-                        enforced_json_format=enforced_json_format,
-                        model=model,
-                    )
-                elif return_type == "md":
-                    self.ocr_fix_to_markdown(raw_result, model=model)
-                else:
-                    raise ValueError("return_type must be one of 'md' or 'json'")
-                self.set_response_data(status="success", raw=raw_result)
-            except Exception as e:
-                logger.error(f"Error in LLM: {e}")
-                self.set_response_data(status="error", raw=raw_result, error=str(e))
+            if return_type == "json":
+                self.ocr_fix_to_json(
+                    raw_result,
+                    enforced_json_format=enforced_json_format,
+                    model=model,
+                )
+            elif return_type == "md":
+                self.ocr_fix_to_markdown(raw_result, model=model)
+            else:
+                raise ValueError("return_type must be one of 'md' or 'json'")
+            self.set_response_data(status="success", raw=raw_result)
 
+        os.remove(tmp_file)
         return self.resp_data

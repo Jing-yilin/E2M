@@ -159,18 +159,15 @@ class DocxConverter(BaseConverter):
             model = request_data.model
             return_type = request_data.return_type
             enforced_json_format = request_data.enforced_json_format
-            try:
-                if return_type == "json":
-                    self.ocr_fix_to_json(
-                        result, enforced_json_format=enforced_json_format, model=model
-                    )
-                elif return_type == "md":
-                    self.ocr_fix_to_markdown(result, model=model)
-                else:
-                    raise ValueError("return_type must be one of 'md' or 'json")
-                self.set_response_data(status="success", raw=result)
-            except Exception as e:
-                logger.error(f"Error in LLM: {e}")
-                self.set_response_data(status="error", raw=result, error=str(e))
+
+            if return_type == "json":
+                self.ocr_fix_to_json(
+                    result, enforced_json_format=enforced_json_format, model=model
+                )
+            elif return_type == "md":
+                self.ocr_fix_to_markdown(result, model=model)
+            else:
+                raise ValueError("return_type must be one of 'md' or 'json")
+            self.set_response_data(status="success", raw=result)
 
         return self.resp_data
