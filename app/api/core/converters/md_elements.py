@@ -150,6 +150,10 @@ class MarkdownPage(BaseModel):
         logger.info("Converting markdown to elements")
         elements = md_to_elements(md)
         return MarkdownPage(elements=elements)
+    
+    @staticmethod
+    def from_elements(elements: TypingList[MdElement]) -> "MarkdownPage":
+        return MarkdownPage(elements=elements)
 
     def toc(self, wrapped: bool = False) -> TypingList[dict]:
         toc = []

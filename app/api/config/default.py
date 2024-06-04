@@ -7,6 +7,10 @@ class DefaultConfig(BaseSettings):
     DEBUG: bool = Field(default=True, description="Enable or disable debug mode")
     TESTING: bool = Field(default=False, description="Enable or disable testing mode")
 
+    TEMP_DIR: str = Field(
+        default="./temp", env="TEMP_DIR", description="Temporary directory"
+    )
+
     ENABLE_LLM: bool = Field(default=False, description="Use LLM")
 
     TRANSFORMERS_CACHE: str = Field(
