@@ -697,6 +697,11 @@ docker-compose down
 docker-compose -f docker-compose.gpu.yml up --build -d
 ```
 
+- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+
+
 ### 🐬运行本地Docker
 
 > 您需要提前安装 `docker` 和 `docker-compose`。
