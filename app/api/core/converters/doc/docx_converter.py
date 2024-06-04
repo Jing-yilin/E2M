@@ -12,8 +12,6 @@ from api.core.converters.md_elements import (
 )
 from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
 
-
-import json
 from typing import List
 from pathlib import Path
 import os

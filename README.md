@@ -660,15 +660,15 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ### 🗳️Todo
 
--   [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
--   [x] Update API structure
--   [ ] Support long text parsing
--   [ ] Add a new table to store raw data
--   [ ] Add stream mode in API and frontend
--   [ ] Add Async feature in API
--   [ ] Develop a SDK for E2M API
--   [ ] Add more LLM API
--   [ ] Open an online demo
+- [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
+- [x] Update API structure
+- [ ] Support long text parsing
+- [ ] Add a new table to store raw data
+- [ ] Add stream mode in API and frontend
+- [ ] Add Async feature in API
+- [ ] Develop a SDK for E2M API
+- [ ] Add more LLM API
+- [ ] Open an online demo
 
 ## 🚀Get Started
 
@@ -687,9 +687,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
--   🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
--   🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
--   🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
 
@@ -722,9 +722,9 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
--   🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
--   🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
--   🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 #### 🖥️Windows
 
@@ -973,8 +973,8 @@ return:
 
 Before you commit your code, please create a new branch:
 
--   `feature/xxx` for new features
--   `bugfix/xxx` for bug fixes
+- `feature/xxx` for new features
+- `bugfix/xxx` for bug fixes
 
 You can create a new branch with the following command:
 

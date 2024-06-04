@@ -124,8 +124,9 @@ class BaseConverter(BaseModel):
             llm_info=self.llm_info,
         )
 
-    def set_response_data(self, status: str = None, raw: str = None, error: str =None
-                          ) -> None:
+    def set_response_data(
+        self, status: str = None, raw: str = None, error: str = None
+    ) -> None:
         """
         status: Optional[str] = Field(..., description="The status of the response.")
         raw: Optional[str] = Field(..., description="The raw content extracted from the file.")
@@ -149,7 +150,7 @@ class BaseConverter(BaseModel):
             md_data=self.md_data,
             json_data=self.json_data,
             metadata=self.metadata,
-            error=error
+            error=error,
         )
 
     def ocr_fix_to_markdown(
