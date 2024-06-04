@@ -62,6 +62,9 @@ jobs:
 
             - name: Run test cases
               run: |
+                  apt-get update
+                  apt-get install -y python3 python3-pip
+                  pip3 install pytest
                   pytest **/tests/
 
             - name: Stop and remove Docker Compose services
