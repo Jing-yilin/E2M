@@ -32,9 +32,7 @@ const isPageSelectable = (file: File | null) => {
     if (!file) return false;
     const fileExtension = file.name.split(".").pop()?.toLowerCase();
     return (
-        fileExtension === "pdf" ||
-        fileExtension === "doc" ||
-        fileExtension === "docx"
+        fileExtension === "pdf"
     );
 };
 

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Head from "next/head";
 import FileUploadForm from "@/components/FileUploadForm";
-import ConversionResult from "@/components/ConversionResult";
+// import ConversionResult from "@/components/ConversionResult";
 import Loader from "@/components/Loader";
 import MarkdownPreview from "@/components/MarkdownPreview";
 import JSONPreview from "@/components/JSONPreview";
@@ -68,23 +68,23 @@ export default function Home() {
         }
     };
 
-    const handleCopy = () => {
-        if (result) {
-            const resultString = JSON.stringify(result, null, 2);
-            navigator.clipboard.writeText(resultString);
-            const alert = document.createElement("div");
-            alert.className =
-                "fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-lg";
-            alert.textContent = "Result copied to clipboard!";
-            document.body.appendChild(alert);
-            setTimeout(() => {
-                alert.classList.add("opacity-0");
-                setTimeout(() => {
-                    document.body.removeChild(alert);
-                }, 1000);
-            }, 1000);
-        }
-    };
+    // const handleCopy = () => {
+    //     if (result) {
+    //         const resultString = JSON.stringify(result, null, 2);
+    //         navigator.clipboard.writeText(resultString);
+    //         const alert = document.createElement("div");
+    //         alert.className =
+    //             "fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-lg";
+    //         alert.textContent = "Result copied to clipboard!";
+    //         document.body.appendChild(alert);
+    //         setTimeout(() => {
+    //             alert.classList.add("opacity-0");
+    //             setTimeout(() => {
+    //                 document.body.removeChild(alert);
+    //             }, 1000);
+    //         }, 1000);
+    //     }
+    // };
 
     return (
         <div className="min-h-screen flex flex-col bg-base-200 text-base-content">
@@ -148,16 +148,16 @@ export default function Home() {
                 {loading && <Loader />}
                 {result && (
                     <>
-                        <ConversionResult
+                        {/* <ConversionResult
                             result={JSON.stringify(result, null, 2)}
                             handleCopy={handleCopy}
-                        />
+                        /> */}
                         {result.md_data && (
                             <MarkdownPreview
                                 markdownContent={result.md_data.content}
                             />
                         )}
-                        {use_llm && <JSONPreview jsonContent={result} />}
+                        {<JSONPreview jsonContent={result} />}
                     </>
                 )}
             </main>
