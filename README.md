@@ -32,14 +32,15 @@
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
     - [🌐Web](#web)
-      - [To Markdown](#to-markdown)
-      - [To Json](#to-json)
+      - [📃To Markdown](#to-markdown)
+      - [📃To Json](#to-json)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
     - [🗳️Todo](#️todo)
   - [🚀Get Started](#get-started)
-    - [📦Quick Start (Local Docker)](#quick-start-local-docker)
-    - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
+    - [📦Quick Start (Remote Docker)](#quick-start-remote-docker)
+    - [🐬Run Local Docker](#run-local-docker)
+    - [🐬Run Local Docker With GPU](#run-local-docker-with-gpu)
       - [🐧Ubuntu](#ubuntu)
       - [🖥️Windows](#️windows)
     - [⚙️Start From Source Code](#️start-from-source-code)
@@ -49,7 +50,7 @@
     - [🔧Set to Development Environment](#set-to-development-environment)
     - [🏭Set to Production Environment](#set-to-production-environment)
     - [📖How to use](#how-to-use)
-    - [Language Support](#language-support)
+    - [🔖Language Support](#language-support)
   - [🤝How to contribute](#how-to-contribute)
     - [🌿Create a new branch](#create-a-new-branch)
     - [📝PEP8 style](#pep8-style)
@@ -74,7 +75,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ![Input Form](assets/web_01.png)
 
-#### To Markdown
+#### 📃To Markdown
 
 ![Conversion Result](assets/web_02.png)
 
@@ -524,7 +525,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 ```
 </details>
 
-#### To Json
+#### 📃To Json
 
 ![Conversion Result](assets/web_04.png)
 
@@ -672,13 +673,36 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ## 🚀Get Started
 
-### 📦Quick Start (Local Docker)
+### 📦Quick Start (Remote Docker)
+
+> You should have `docker` and `docker-compose` installed on your machine in advance.
+
+```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M/docker
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
+# deploy the app with docker, detach mode
+docker-compose up --build -d
+# check the logs with
+docker-compose logs -f
+# remove the container with
+docker-compose down
+```
+
+If you have GPU support, you can use the `docker-compose.gpu.yml` file:
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+```
+
+### 🐬Run Local Docker
 
 > You should have `docker` and `docker-compose` installed on your machine in advance.
 
 ```bash
 git clone https://github.com/Jing-yilin/E2M
 cd E2M
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # deploy the app with docker, detach mode
 docker-compose up --build -d
 # check the logs with
@@ -691,7 +715,7 @@ docker-compose down
 - 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
 - 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
-### 🎛️Quick Start with GPU Support (Local Docker)
+### 🐬Run Local Docker With GPU
 
 #### 🐧Ubuntu
 
@@ -716,6 +740,7 @@ sudo systemctl restart docker
 
 ```bash
 docker-compose -f docker-compose.gpu.yml up --build -d
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # check the logs with
 docker-compose -f docker-compose.gpu.yml logs -f
 # remove the container with
@@ -867,7 +892,9 @@ return:
 }
 ```
 
-### Language Support
+### 🔖Language Support
+
+Currently, only English and Chinese are supported. 
 
 ```json
 {
@@ -1035,7 +1062,6 @@ docker build -t jingyilin/e2m_web:v1.0.0 .
 docker push jingyilin/e2m_web:v1.0.0
 ```
 
-
 ### 🔀Pull Request
 
 ```bash
@@ -1050,11 +1076,9 @@ docker push jingyilin/e2m_web:v1.0.0
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
 
-
 ## 📱Community
 
 ### WeChat
-
 
 <img src="assets/wechat_community.jpg" width="30%">
 
