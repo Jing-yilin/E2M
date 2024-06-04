@@ -13,6 +13,7 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
+    poppler-utils \
     mupdf \
     libmupdf-dev \
     libreoffice \
