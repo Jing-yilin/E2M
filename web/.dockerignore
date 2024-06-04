@@ -37,3 +37,7 @@ yarn-error.log
 
 # Ignore temporary files
 tmp
+
+
+# tests
+tests

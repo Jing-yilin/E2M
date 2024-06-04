@@ -60,5 +60,9 @@ jobs:
                     exit 1
                   fi
 
+            - name: Run test cases
+              run: |
+                  pytest **/tests/
+
             - name: Stop and remove Docker Compose services
               run: docker-compose down
