@@ -13,6 +13,12 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
+    libleptonica-dev \
+    tesseract-ocr \ 
+    libtesseract-dev \ 
+    python3-pil \
+    tesseract-ocr-eng \
+    tesseract-ocr-script-latn \
     poppler-utils \
     mupdf \
     libmupdf-dev \
