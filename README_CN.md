@@ -58,6 +58,9 @@
     - [🔀 拉取请求](#-拉取请求)
   - [🌟 贡献者](#-贡献者)
     - [👥 贡献者名单](#-贡献者名单)
+  - [社区](#社区)
+    - [微信](#微信)
+    - [Discord](#discord)
 
 ## 🌟 介绍
 
@@ -672,7 +675,11 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
 
 ### 📦 快速开始（本地 Docker）
 
+> 您需要提前安装 `docker` 和 `docker-compose`。
+
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
 # 部署应用到 docker，分离模式
 docker-compose up --build -d
 # 查看日志
@@ -1041,3 +1048,14 @@ docker push jingyilin/e2m:latest
 <a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
+
+
+## 社区
+
+### 微信
+
+<img src="assets/wechat_community.jpg" width="30%">
+
+### Discord
+
+<img src="assets/discord_community.png" width="30%">

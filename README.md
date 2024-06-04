@@ -58,6 +58,9 @@
     - [🔀Pull Request](#pull-request)
   - [🌟Contributing](#contributing)
     - [👥Contributors](#contributors)
+  - [Comunity](#comunity)
+    - [WeChat](#wechat)
+    - [Discord](#discord)
 
 ## 🌟Introduction
 
@@ -657,20 +660,24 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ### Todo
 
-- [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
-- [x] Update API structure
-- [ ] Add a new table to store raw data
-- [ ] Add stream mode in API and frontend
-- [ ] Add Async feature in API
-- [ ] Develop a SDK for E2M API
-- [ ] Add more LLM API
-- [ ] Open an online demo
+-   [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
+-   [x] Update API structure
+-   [ ] Add a new table to store raw data
+-   [ ] Add stream mode in API and frontend
+-   [ ] Add Async feature in API
+-   [ ] Develop a SDK for E2M API
+-   [ ] Add more LLM API
+-   [ ] Open an online demo
 
 ## 🚀Get Started
 
 ### 📦Quick Start (Local Docker)
 
+> You should have `docker` and `docker-compose` installed on your machine in advance.
+
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
 # deploy the app with docker, detach mode
 docker-compose up --build -d
 # check the logs with
@@ -679,9 +686,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
-- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
-- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
-- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+-   🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+-   🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+-   🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 ### 🎛️Quick Start with GPU Support (Local Docker)
 
@@ -714,9 +721,9 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
-- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
-- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+-   🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+-   🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+-   🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 #### 🖥️Windows
 
@@ -727,6 +734,8 @@ If you are using Windows, you can use Docker Desktop with GPU support.
 Then you can run docker-compose as usual:
 
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
 docker-compose -f docker-compose.gpu.yml up --build -d
 # check the logs with
 docker-compose -f docker-compose.gpu.yml logs -f
@@ -963,8 +972,8 @@ return:
 
 Before you commit your code, please create a new branch:
 
-- `feature/xxx` for new features
-- `bugfix/xxx` for bug fixes
+-   `feature/xxx` for new features
+-   `bugfix/xxx` for bug fixes
 
 You can create a new branch with the following command:
 
@@ -1037,3 +1046,15 @@ docker push jingyilin/e2m:latest
 <a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
+
+
+## Comunity
+
+### WeChat
+
+
+<img src="assets/wechat_community.jpg" width="30%">
+
+### Discord
+
+<img src="assets/discord_community.png" width="30%">
