@@ -695,6 +695,11 @@ If you have GPU support, you can use the `docker-compose.gpu.yml` file:
 docker-compose -f docker-compose.gpu.yml up --build -d
 ```
 
+- 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+- 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+
+
 ### 🐬Run Local Docker
 
 > You should have `docker` and `docker-compose` installed on your machine in advance.
