@@ -36,7 +36,7 @@
       - [To Json](#to-json)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
-    - [Todo](#todo)
+    - [🗳️Todo](#️todo)
   - [🚀Get Started](#get-started)
     - [📦Quick Start (Local Docker)](#quick-start-local-docker)
     - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
@@ -58,7 +58,7 @@
     - [🔀Pull Request](#pull-request)
   - [🌟Contributing](#contributing)
     - [👥Contributors](#contributors)
-  - [Comunity](#comunity)
+  - [📱Community](#community)
     - [WeChat](#wechat)
     - [Discord](#discord)
 
@@ -68,7 +68,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 🔥You'd better set `USE_LLM=True` and use a LLM API to get the best result.
 
-> Why I create this API? Because I do believe data is the most important thing in this AI era, but many resources are not in the right format. **They are only information, not data.** So I want to create a tool to convert everything to markdown or json, which is the most common format in the AI field. I hope E2M can be used in any AI application that needs format conversion, such as AI knowledge base, AI dataset, etc., so that developers can focus on the core functions of AI applications, not data format conversion.
+> Why do I create this API? Because I do believe data is the most important thing in this AI era, but many resources are not in the right format. **They are only information, not data.** So I want to create a tool to convert everything to markdown or json, which is the most common format in the AI field. I hope E2M can be used in any AI application that needs format conversion, such as AI knowledge base, AI dataset, etc., so that developers can focus on the core functions of AI applications, not data format conversion.
 
 ### 🌐Web
 
@@ -658,10 +658,11 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
 </table>
 
-### Todo
+### 🗳️Todo
 
 -   [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
 -   [x] Update API structure
+-   [ ] Support long text parsing
 -   [ ] Add a new table to store raw data
 -   [ ] Add stream mode in API and frontend
 -   [ ] Add Async feature in API
@@ -1048,7 +1049,7 @@ docker push jingyilin/e2m:latest
 </a>
 
 
-## Comunity
+## 📱Community
 
 ### WeChat
 
