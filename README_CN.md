@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.0">
-        <img src="https://img.shields.io/badge/version-v1.1.0-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.1">
+        <img src="https://img.shields.io/badge/version-v1.1.1-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
@@ -32,14 +32,15 @@
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟 介绍](#-介绍)
     - [🌐 网页](#-网页)
-      - [转换为 Markdown](#转换为-markdown)
-      - [转换为 Json](#转换为-json)
+      - [📃转换为 Markdown](#转换为-markdown)
+      - [📃转换为 Json](#转换为-json)
     - [📸 演示](#-演示)
     - [📂 支持的文件类型](#-支持的文件类型)
-    - [待完成](#待完成)
+    - [🗳️待完成](#️待完成)
   - [🚀 快速开始](#-快速开始)
-    - [📦 快速开始（本地 Docker）](#-快速开始本地-docker)
-    - [🎛️ 快速开始（支持 GPU）（本地 Docker）](#️-快速开始支持-gpu本地-docker)
+    - [📦快速启动（远程docker）](#快速启动远程docker)
+    - [🐬运行本地Docker](#运行本地docker)
+    - [🐬运行本地Docker-GPU版本](#运行本地docker-gpu版本)
       - [🐧Ubuntu](#ubuntu)
       - [🖥️Windows](#️windows)
     - [⚙️ 从源码开始](#️-从源码开始)
@@ -49,7 +50,7 @@
     - [🔧 设置开发环境](#-设置开发环境)
     - [🏭 设置生产环境](#-设置生产环境)
     - [📖 如何使用](#-如何使用)
-    - [语言支持](#语言支持)
+    - [🔖语言支持](#语言支持)
   - [🤝 如何贡献](#-如何贡献)
     - [🌿 创建新分支](#-创建新分支)
     - [📝PEP8 风格](#pep8-风格)
@@ -58,6 +59,9 @@
     - [🔀 拉取请求](#-拉取请求)
   - [🌟 贡献者](#-贡献者)
     - [👥 贡献者名单](#-贡献者名单)
+  - [📱社区](#社区)
+    - [微信](#微信)
+    - [Discord](#discord)
 
 ## 🌟 介绍
 
@@ -71,7 +75,7 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
 
 ![Input Form](assets/web_01.png)
 
-#### 转换为 Markdown
+#### 📃转换为 Markdown
 
 ![Conversion Result](assets/web_02.png)
 
@@ -521,7 +525,7 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
 ```
 </details>
 
-#### 转换为 Json
+#### 📃转换为 Json
 
 ![Conversion Result](assets/web_04.png)
 
@@ -657,10 +661,11 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
   </tr>
 </table>
 
-### 待完成
+### 🗳️待完成
 
 - [x] 解析模式：`auto`，`ocr-low(tesseract)`，`ocr-high(Surya)`，`fast`
 - [x] 更新 API 结构
+- [ ] 支持长文档解析
 - [ ] 添加一个新表来存储原始数据
 - [ ] 在 API 和前端添加流模式
 - [ ] 在 API 中添加异步功能
@@ -670,9 +675,36 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
 
 ## 🚀 快速开始
 
-### 📦 快速开始（本地 Docker）
+### 📦快速启动（远程docker）
+
+> 您需要提前安装 `docker` 和 `docker-compose`。
 
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M/docker
+# 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
+# 部署应用到 docker，分离模式
+docker-compose up --build -d
+# 查看日志
+docker-compose logs -f
+# 删除容器
+docker-compose down
+```
+
+如果您想使用 GPU 版本，请使用以下命令(目前暂不支持mps)：
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+```
+
+### 🐬运行本地Docker
+
+> 您需要提前安装 `docker` 和 `docker-compose`。
+
+```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
+# 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
 # 部署应用到 docker，分离模式
 docker-compose up --build -d
 # 查看日志
@@ -685,7 +717,7 @@ docker-compose down
 - 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
 - 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
-### 🎛️ 快速开始（支持 GPU）（本地 Docker）
+### 🐬运行本地Docker-GPU版本
 
 #### 🐧Ubuntu
 
@@ -709,7 +741,9 @@ sudo systemctl restart docker
 1. 运行支持 GPU 的 Docker 容器：
 
 ```bash
+# 运行容器
 docker-compose -f docker-compose.gpu.yml up --build -d
+# 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
 # 查看日志
 docker-compose -f docker-compose.gpu.yml logs -f
 # 删除容器
@@ -861,7 +895,9 @@ curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
 }
 ```
 
-### 语言支持
+### 🔖语言支持
+
+目前暂时只支持中文和英文。
 
 ```json
 {
@@ -1041,3 +1077,14 @@ docker push jingyilin/e2m:latest
 <a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
+
+
+## 📱社区
+
+### 微信
+
+<img src="assets/wechat_community.jpg" width="30%">
+
+### Discord
+
+<img src="assets/discord_community.png" width="30%">

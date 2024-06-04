@@ -6,7 +6,6 @@ from api.core.converters.base_converter import ParseMode
 from api.core.converters.base_converter import BaseConverter
 from api.core.converters.doc import (
     ALL_SUPPORT_TYPES,
-    DocConverter,
     DocxConverter,
     HtmlConverter,
     HtmConverter,
@@ -61,10 +60,8 @@ class ConverterStrategy:
                 f"Unsupported file type: {file_extension}, your file type should be \
                 one of {ALL_SUPPORT_TYPES}"
             )
-        if file_extension == "docx":
+        if file_extension in ["docx", "doc"]:
             return DocxConverter(file=file, parse_mode=parse_mode, **kwargs)
-        elif file_extension == "doc":
-            return DocConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "html":
             return HtmlConverter(file=file, parse_mode=parse_mode, **kwargs)
         elif file_extension == "htm":

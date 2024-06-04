@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.0">
-        <img src="https://img.shields.io/badge/version-v1.1.0-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.1">
+        <img src="https://img.shields.io/badge/version-v1.1.1-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
@@ -32,14 +32,15 @@
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟Introduction](#introduction)
     - [🌐Web](#web)
-      - [To Markdown](#to-markdown)
-      - [To Json](#to-json)
+      - [📃To Markdown](#to-markdown)
+      - [📃To Json](#to-json)
     - [📸Demo](#demo)
     - [📂Supported File Types](#supported-file-types)
-    - [Todo](#todo)
+    - [🗳️Todo](#️todo)
   - [🚀Get Started](#get-started)
-    - [📦Quick Start (Local Docker)](#quick-start-local-docker)
-    - [🎛️Quick Start with GPU Support (Local Docker)](#️quick-start-with-gpu-support-local-docker)
+    - [📦Quick Start (Remote Docker)](#quick-start-remote-docker)
+    - [🐬Run Local Docker](#run-local-docker)
+    - [🐬Run Local Docker With GPU](#run-local-docker-with-gpu)
       - [🐧Ubuntu](#ubuntu)
       - [🖥️Windows](#️windows)
     - [⚙️Start From Source Code](#️start-from-source-code)
@@ -49,7 +50,7 @@
     - [🔧Set to Development Environment](#set-to-development-environment)
     - [🏭Set to Production Environment](#set-to-production-environment)
     - [📖How to use](#how-to-use)
-    - [Language Support](#language-support)
+    - [🔖Language Support](#language-support)
   - [🤝How to contribute](#how-to-contribute)
     - [🌿Create a new branch](#create-a-new-branch)
     - [📝PEP8 style](#pep8-style)
@@ -58,6 +59,9 @@
     - [🔀Pull Request](#pull-request)
   - [🌟Contributing](#contributing)
     - [👥Contributors](#contributors)
+  - [📱Community](#community)
+    - [WeChat](#wechat)
+    - [Discord](#discord)
 
 ## 🌟Introduction
 
@@ -65,13 +69,13 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 🔥You'd better set `USE_LLM=True` and use a LLM API to get the best result.
 
-> Why I create this API? Because I do believe data is the most important thing in this AI era, but many resources are not in the right format. **They are only information, not data.** So I want to create a tool to convert everything to markdown or json, which is the most common format in the AI field. I hope E2M can be used in any AI application that needs format conversion, such as AI knowledge base, AI dataset, etc., so that developers can focus on the core functions of AI applications, not data format conversion.
+> Why do I create this API? Because I do believe data is the most important thing in this AI era, but many resources are not in the right format. **They are only information, not data.** So I want to create a tool to convert everything to markdown or json, which is the most common format in the AI field. I hope E2M can be used in any AI application that needs format conversion, such as AI knowledge base, AI dataset, etc., so that developers can focus on the core functions of AI applications, not data format conversion.
 
 ### 🌐Web
 
 ![Input Form](assets/web_01.png)
 
-#### To Markdown
+#### 📃To Markdown
 
 ![Conversion Result](assets/web_02.png)
 
@@ -521,7 +525,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 ```
 </details>
 
-#### To Json
+#### 📃To Json
 
 ![Conversion Result](assets/web_04.png)
 
@@ -655,10 +659,11 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
 </table>
 
-### Todo
+### 🗳️Todo
 
 - [x] ParseMode: `auto`, `ocr-low(tesseract)`, `ocr-high(Surya)`, `fast`
 - [x] Update API structure
+- [ ] Support long text parsing
 - [ ] Add a new table to store raw data
 - [ ] Add stream mode in API and frontend
 - [ ] Add Async feature in API
@@ -668,9 +673,36 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ## 🚀Get Started
 
-### 📦Quick Start (Local Docker)
+### 📦Quick Start (Remote Docker)
+
+> You should have `docker` and `docker-compose` installed on your machine in advance.
 
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M/docker
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
+# deploy the app with docker, detach mode
+docker-compose up --build -d
+# check the logs with
+docker-compose logs -f
+# remove the container with
+docker-compose down
+```
+
+If you have GPU support, you can use the `docker-compose.gpu.yml` file:
+
+```bash
+docker-compose -f docker-compose.gpu.yml up --build -d
+```
+
+### 🐬Run Local Docker
+
+> You should have `docker` and `docker-compose` installed on your machine in advance.
+
+```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # deploy the app with docker, detach mode
 docker-compose up --build -d
 # check the logs with
@@ -683,7 +715,7 @@ docker-compose down
 - 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
 - 🚀API doc: [http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
-### 🎛️Quick Start with GPU Support (Local Docker)
+### 🐬Run Local Docker With GPU
 
 #### 🐧Ubuntu
 
@@ -708,6 +740,7 @@ sudo systemctl restart docker
 
 ```bash
 docker-compose -f docker-compose.gpu.yml up --build -d
+# edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # check the logs with
 docker-compose -f docker-compose.gpu.yml logs -f
 # remove the container with
@@ -727,6 +760,8 @@ If you are using Windows, you can use Docker Desktop with GPU support.
 Then you can run docker-compose as usual:
 
 ```bash
+git clone https://github.com/Jing-yilin/E2M
+cd E2M
 docker-compose -f docker-compose.gpu.yml up --build -d
 # check the logs with
 docker-compose -f docker-compose.gpu.yml logs -f
@@ -857,7 +892,9 @@ return:
 }
 ```
 
-### Language Support
+### 🔖Language Support
+
+Currently, only English and Chinese are supported. 
 
 ```json
 {
@@ -1006,22 +1043,23 @@ git push origin feature/xxx # or simply `git push`
 A new version:
 
 ```
-docker build -t jingyilin/e2m:<version> .
-docker push jingyilin/e2m:<version>
+cd app
+docker build -t jingyilin/e2m_api:<version> .
+docker push jingyilin/e2m_api:<version>
+cd ../web
+docker build -t jingyilin/e2m_web:<version> .
+docker push jingyilin/e2m_web:<version>
 ```
 
 For example, the version is `v1.0.0`:
 
 ```
-docker build -t jingyilin/e2m:v1.0.0 .
-docker push jingyilin/e2m:v1.0.0
-```
-
-Latest version:
-
-```
-docker build -t jingyilin/e2m:latest .
-docker push jingyilin/e2m:latest
+cd app
+docker build -t jingyilin/e2m_api:v1.0.0 .
+docker push jingyilin/e2m_api:v1.0.0
+cd ../web
+docker build -t jingyilin/e2m_web:v1.0.0 .
+docker push jingyilin/e2m_web:v1.0.0
 ```
 
 ### 🔀Pull Request
@@ -1037,3 +1075,13 @@ docker push jingyilin/e2m:latest
 <a href="https://github.com/Jing-yilin/E2M/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
+
+## 📱Community
+
+### WeChat
+
+<img src="assets/wechat_community.jpg" width="30%">
+
+### Discord
+
+<img src="assets/discord_community.png" width="30%">

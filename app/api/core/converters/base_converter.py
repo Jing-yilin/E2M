@@ -35,7 +35,7 @@ class ParseMode(str, Enum):
 
 class BaseConverter(BaseModel):
     file: FileLikeType = Field(..., title="File path")
-    parse_mode: ParseMode = Field(ParseMode.AUTO, title="Parser mode")
+    parse_mode: Optional[ParseMode] = Field(ParseMode.AUTO, title="Parser mode")
     # response
     md_data: Optional[MdData] = Field(None, title="Markdown data")
     json_data: Optional[dict] = Field(None, title="JSON data")
@@ -124,7 +124,9 @@ class BaseConverter(BaseModel):
             llm_info=self.llm_info,
         )
 
-    def set_response_data(self, status: str = None, raw: str = None) -> None:
+    def set_response_data(
+        self, status: str = None, raw: str = None, error: str = None
+    ) -> None:
         """
         status: Optional[str] = Field(..., description="The status of the response.")
         raw: Optional[str] = Field(..., description="The raw content extracted from the file.")
@@ -148,6 +150,7 @@ class BaseConverter(BaseModel):
             md_data=self.md_data,
             json_data=self.json_data,
             metadata=self.metadata,
+            error=error,
         )
 
     def ocr_fix_to_markdown(

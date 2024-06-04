@@ -37,6 +37,7 @@ services:
             FLASK_APP: app.py
             FLASK_ENV: production
             API_URL: http://127.0.0.1:8765
+            WEB_URL: http://127.0.0.1:3000
             TZ: Asia/Shanghai
             DOC_CONVERTER: unstructured
             DOCX_CONVERTER: unstructured

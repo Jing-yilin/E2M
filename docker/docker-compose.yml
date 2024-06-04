@@ -22,7 +22,7 @@ services:
             retries: 5
 
     e2m_api:
-        build: app/
+        image: jingyilin/e2m_api:latest
         container_name: e2m_api
         ports:
             - "8765:8765"
@@ -47,7 +47,7 @@ services:
             - e2m_network
 
     e2m_web:
-        build: web/
+        image: jingyilin/e2m_web:latest
         container_name: e2m_web
         ports:
             - "3000:3000"

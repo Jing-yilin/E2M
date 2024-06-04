@@ -22,11 +22,18 @@ services:
             retries: 5
 
     e2m_api:
-        build: app/
+        image: jingyilin/e2m_api:latest
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - capabilities: [gpu]
         container_name: e2m_api
         ports:
             - "8765:8765"
         environment:
+            NVIDIA_VISIBLE_DEVICES: all
+            NVIDIA_DRIVER_CAPABILITIES: compute,utility
             FLASK_APP: app.py
             FLASK_ENV: production
             API_URL: http://127.0.0.1:8765
@@ -47,7 +54,7 @@ services:
             - e2m_network
 
     e2m_web:
-        build: web/
+        image: jingyilin/e2m_web:latest
         container_name: e2m_web
         ports:
             - "3000:3000"
