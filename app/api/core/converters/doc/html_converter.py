@@ -1,6 +1,11 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
+from api.core.converters.base_converter import BaseConverter
+from api.blueprints.v1.schemas import ResponseData
+from api.config import Config
+
+from typing import Optional
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class HtmlConverter(BaseConverter):
@@ -10,18 +15,32 @@ class HtmlConverter(BaseConverter):
         return ["htm", "html"]
 
     def convert_htm(self, **kwargs) -> str:
-        raise NotImplementedError("Subclasses must implement this method")
+        # use unstructured
+        return self.convert_html(**kwargs)
 
     def convert_html(self, **kwargs) -> str:
-        raise NotImplementedError("Subclasses must implement this method")
+        # use unstructured
+        from unstructured.partition.html import partition_html
+
+        logger.info(f"Converting [{self.file}] with unstructured converter")
+
+        pptx_elements = partition_html(self.file)
+        raw = "\n".join([element.text for element in pptx_elements])
+
+        return raw
 
     def convert(self, **kwargs) -> str:
         if self.file_info.file_type == "htm":
-            self.convert_htm(**kwargs)
+            raw = self.convert_htm(**kwargs)
         elif self.file_info.file_type == "html":
-            self.convert_html(**kwargs)
+            raw = self.convert_html(**kwargs)
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
+
+        if Config.ENABLE_LLM and self.request_data.use_llm:
+            self.llm_enforce(raw)
+
+        self.set_response_data(status="success", raw=raw)
 
         self.rm_file()
         return self.resp_data

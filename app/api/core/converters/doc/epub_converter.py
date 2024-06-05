@@ -1,6 +1,4 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
+from api.core.converters.base_converter import BaseConverter
 
 
 class EpubConverter(BaseConverter):
