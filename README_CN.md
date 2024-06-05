@@ -1051,22 +1051,23 @@ git push origin feature/xxx # 或者简单地 `git push`
 新版本：
 
 ```
-docker build -t jingyilin/e2m:<version> .
-docker push jingyilin/e2m:<version>
+cd app
+docker build -t jingyilin/e2m-api:<version> .
+docker push jingyilin/e2m-api:<version>
+cd ../web
+docker build -t jingyilin/e2m-web:<version> .
+docker push jingyilin/e2m-web:<version>
 ```
 
 例如，版本是 `v1.0.0`：
 
 ```
-docker build -t jingyilin/e2m:v1.0.0 .
-docker push jingyilin/e2m:v1.0.0
-```
-
-最新版本：
-
-```
-docker build -t jingyilin/e2m:latest .
-docker push jingyilin/e2m:latest
+cd app
+docker build -t jingyilin/e2m-api:v1.0.0 .
+docker push jingyilin/e2m-api:v1.0.0
+cd ../web
+docker build -t jingyilin/e2m-web:v1.0.0 .
+docker push jingyilin/e2m-web:v1.0.0
 ```
 
 ### 🔀 拉取请求
