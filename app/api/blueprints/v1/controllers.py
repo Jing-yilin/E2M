@@ -19,9 +19,7 @@ def file_to_markdown(
     file_info: FileInfo, request_data: RequestData, **kwargs
 ) -> Tuple[dict, int]:
     # try:
-    converter: BaseConverter = ConverterStrategy.get_converter(
-        file=file_info.file_path
-    )
+    converter: BaseConverter = ConverterStrategy.get_converter(file=file_info.file_path)
 
     converter.set_file_info(file_info=file_info)
     converter.set_request_data(request_data=request_data)
