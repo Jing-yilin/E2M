@@ -20,7 +20,7 @@ def file_to_markdown(
 ) -> Tuple[dict, int]:
     # try:
     converter: BaseConverter = ConverterStrategy.get_converter(
-        file=file_info.file_path, parse_mode=request_data.parse_mode
+        file=file_info.file_path
     )
 
     converter.set_file_info(file_info=file_info)

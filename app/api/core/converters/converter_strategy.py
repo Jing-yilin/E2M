@@ -1,6 +1,5 @@
 # get a converter by extension
 
-from api.core.converters.base_converter import ParseMode
 from api.core.converters.base_converter import BaseConverter
 from api.core.converters.doc import (
     ALL_SUPPORT_TYPES,
@@ -13,15 +12,7 @@ class ConverterStrategy:
     """This class is used to get a converter by extension."""
 
     @classmethod
-    def get_converter(
-        cls, file: str, parse_mode: str = "auto", **kwargs
-    ) -> BaseConverter:
-
-        # identify parse mode
-        for mode in ParseMode:
-            if parse_mode == mode.value:
-                parse_mode = mode
-                break
+    def get_converter(cls, file: str, **kwargs) -> BaseConverter:
 
         # get a converter by extension
         file_extension = file.split(".")[-1]
@@ -33,6 +24,6 @@ class ConverterStrategy:
 
         for converter in BaseConverter.__subclasses__():
             if file_extension in converter.allowed_formats():
-                return converter(file=file, parse_mode=parse_mode, **kwargs)
+                return converter(file=file, **kwargs)
 
         raise ValueError(f"Unsupported file type: {file_extension}")
