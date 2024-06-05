@@ -1,5 +1,4 @@
 from api.core.converters.base_converter import BaseConverter
-from api.blueprints.v1.schemas import ResponseData
 from api.config import Config
 
 from pptx import Presentation

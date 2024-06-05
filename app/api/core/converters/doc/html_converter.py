@@ -1,5 +1,4 @@
 from api.core.converters.base_converter import BaseConverter
-from api.config import Config
 import logging
 
 logger = logging.getLogger(__name__)
