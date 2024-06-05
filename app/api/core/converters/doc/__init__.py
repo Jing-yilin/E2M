@@ -14,6 +14,7 @@ ALL_SUPPORT_TYPES = [
     "epub",
     "pdf",
     "pptx",
+    "ppt",
     "rtf",
 ]
 
