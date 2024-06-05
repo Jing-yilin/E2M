@@ -13,7 +13,7 @@ from api.core.converters.md_elements import (
     merge_elements_to_md,
 )
 
-from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
+from api.blueprints.v1.schemas import ResponseData
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

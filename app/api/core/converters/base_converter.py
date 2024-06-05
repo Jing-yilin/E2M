@@ -204,8 +204,7 @@ class BaseConverter(BaseModel):
         return result
 
     def llm_enforce(self, text: str):
-        """Use LLM to clean and enforce the text to structured format
-        """
+        """Use LLM to clean and enforce the text to structured format"""
         model = self.request_data.model
         return_type = self.request_data.return_type
         enforced_json_format = self.request_data.enforced_json_format

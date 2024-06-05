@@ -26,9 +26,7 @@ def file_to_markdown(
     converter.set_file_info(file_info=file_info)
     converter.set_request_data(request_data=request_data)
 
-    resp: ResponseData = converter.convert(
-        **kwargs
-    )
+    resp: ResponseData = converter.convert(**kwargs)
 
     logger.info(f"Converted file to markdown: {resp}")
 

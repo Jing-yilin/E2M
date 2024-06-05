@@ -2,20 +2,21 @@ from api.core.converters.base_converter import (
     BaseConverter,
 )
 
-from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
+from api.blueprints.v1.schemas import ResponseData
 
 from typing import List
-from pathlib import Path
-import os
-
 from api.config import Config
 
 # read ppt text
 from pptx import Presentation
-import os
 
 from dataclasses import dataclass
 import json
+
+# logging
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -45,12 +46,6 @@ def get_pptx_slide_elements(pptx_file: str) -> List[SlideElement]:
         content = "\n".join(shapes)
         slide_elements.append(SlideElement(i, shapes, content))
     return slide_elements
-
-
-# logging
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class PptxConverter(BaseConverter):
