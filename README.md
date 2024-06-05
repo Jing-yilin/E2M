@@ -643,7 +643,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
   <tr>
     <td align="center">Done</td>
-    <td align="center">doc, docx, ppt, pptx, pdf</td>
+    <td align="center">doc, docx, ppt, pptx, pdf, html, htm</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
@@ -651,7 +651,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
   <tr>
     <td align="center">Todo</td>
-    <td align="center">html, htm</td>
+    <td align="center"></td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
     <td align="center">mp3, wav, flac</td>

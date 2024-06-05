@@ -645,7 +645,7 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
   </tr>
   <tr>
     <td align="center">完成</td>
-    <td align="center">doc, docx, ppt, pptx, pdf</td>
+    <td align="center">doc, docx, ppt, pptx, pdf, html, htm</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
@@ -653,7 +653,7 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
   </tr>
   <tr>
     <td align="center">待完成</td>
-    <td align="center">html, htm</td>
+    <td align="center"></td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
     <td align="center">mp3, wav, flac</td>

@@ -1,6 +1,5 @@
 from api.core.converters.base_converter import BaseConverter
 from api.core.marker.settings import Settings
-from api.core.converters.md_elements import Paragraph, merge_elements_to_md
 from api.blueprints.v1.schemas import ResponseData
 from api.config import Config
 

@@ -112,7 +112,7 @@ export default function Home() {
                     E2M Converter
                 </h1>
                 <p className="mb-4 text-center text-sm">
-                    📂Supported file types: doc, docx, ppt, pptx, pdf
+                    📂Supported file types: [doc, docx, ppt, pptx, pdf, html, htm]
                 </p>
                 <p className="mb-4 text-center text-sm">
                     💡Tip: It may take a few minutes to download the model for
