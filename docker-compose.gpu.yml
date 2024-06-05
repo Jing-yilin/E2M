@@ -1,10 +1,10 @@
 networks:
-    e2m_network:
+    e2m-network:
         driver: bridge
 
 services:
     postgres:
-        container_name: e2m_postgres
+        container_name: e2m-postgres
         image: postgres:15-alpine
         restart: always
         environment:
@@ -14,21 +14,21 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data
         networks:
-            - e2m_network
+            - e2m-network
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U e2m -d e2m_db"]
             interval: 30s
             timeout: 10s
             retries: 5
 
-    e2m_api:
+    e2m-api:
         build: app/
         deploy:
             resources:
                 reservations:
                     devices:
                         - capabilities: [gpu]
-        container_name: e2m_api
+        container_name: e2m-api
         ports:
             - "8765:8765"
         environment:
@@ -51,18 +51,18 @@ services:
         depends_on:
             - postgres
         networks:
-            - e2m_network
+            - e2m-network
 
-    e2m_web:
+    e2m-web:
         build: web/
-        container_name: e2m_web
+        container_name: e2m-web
         ports:
             - "3000:3000"
         environment:
             API_URL: http://127.0.0.1:8765
             NEXT_FONT_OPTIMIZATION: 'false'
         networks:
-            - e2m_network
+            - e2m-network
 
 volumes:
     postgres_data:
