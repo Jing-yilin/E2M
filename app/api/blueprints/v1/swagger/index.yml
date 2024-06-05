@@ -1,6 +1,6 @@
 info:
   description: "This is the API documentation for E2M (Everything to Markdown)."
-  version: "v1.1.1"
+  version: "v1.1.2"
   title: "E2M API"
   contact:
     email: "yilin.jing.ai@outlook.com"
