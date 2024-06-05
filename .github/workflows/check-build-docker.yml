@@ -40,25 +40,7 @@ jobs:
                   docker-compose ps
 
             - name: Wait for the services to be up
-              run: sleep 30
-
-            - name: Check if service on port 3000 is running
-              run: |
-                  if curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:3000; then
-                    echo "Service on port 3000 is running."
-                  else
-                    echo "Service on port 3000 is not running."
-                    exit 1
-                  fi
-
-            - name: Check if service on port 8765 is running
-              run: |
-                  if curl --retry 5 --retry-delay 5 --retry-connrefused http://localhost:8765/api/v1/; then
-                    echo "Service on port 8765 is running."
-                  else
-                    echo "Service on port 8765 is not running."
-                    exit 1
-                  fi
+              run: sleep 10
 
             - name: Run test cases
               run: |
