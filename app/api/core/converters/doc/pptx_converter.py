@@ -46,12 +46,10 @@ class PptxConverter(BaseConverter):
     def allowed_formats(cls) -> list[str]:
         return ["ppt", "pptx"]
 
-    def convert_pptx(
+    def process_pptx(
         self,
         **kwargs,
     ) -> str:
-
-        use_llm = self.request_data.use_llm
 
         if Config.PPTX_CONVERTER == "default":
             logger.info(f"Converting [{self.file}] with default converter")
@@ -69,7 +67,7 @@ class PptxConverter(BaseConverter):
 
         return raw
 
-    def convert_ppt(
+    def process_ppt(
         self,
         **kwargs,
     ) -> str:
@@ -82,21 +80,15 @@ class PptxConverter(BaseConverter):
 
         return raw
 
-    def convert(
+    def process(
         self,
         **kwargs,
-    ) -> ResponseData:
+    ) -> str:
         if self.file_info.file_type == "pptx":
-            raw = self.convert_pptx(**kwargs)
+            raw = self.process_pptx(**kwargs)
         elif self.file_info.file_type == "ppt":
-            raw = self.convert_ppt(**kwargs)
+            raw = self.process_ppt(**kwargs)
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
 
-        if Config.ENABLE_LLM and self.request_data.use_llm:
-            self.llm_enforce(raw)
-
-        self.set_response_data(status="success", raw=raw)
-
-        self.rm_file()
-        return self.resp_data
+        return raw

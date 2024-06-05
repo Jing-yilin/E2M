@@ -26,7 +26,7 @@ class HtmlConverter(BaseConverter):
 
         return raw
 
-    def convert(self, **kwargs) -> str:
+    def process(self, **kwargs) -> str:
         if self.file_info.file_type == "htm":
             raw = self.convert_htm(**kwargs)
         elif self.file_info.file_type == "html":
@@ -34,10 +34,4 @@ class HtmlConverter(BaseConverter):
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
 
-        if Config.ENABLE_LLM and self.request_data.use_llm:
-            self.llm_enforce(raw)
-
-        self.set_response_data(status="success", raw=raw)
-
-        self.rm_file()
-        return self.resp_data
+        return raw

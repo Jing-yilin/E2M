@@ -7,5 +7,5 @@ class EpubConverter(BaseConverter):
     def allowed_formats(cls) -> list[str]:
         return ["epub"]
 
-    def convert(self, **kwargs) -> str:
+    def process(self, **kwargs) -> str:
         raise NotImplementedError("Subclasses must implement this method")

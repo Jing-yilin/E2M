@@ -24,7 +24,7 @@ class DocxConverter(BaseConverter):
     def allowed_formats(cls) -> list[str]:
         return ["doc", "docx"]
 
-    def convert_doc(self, **kwargs):
+    def process_doc(self, **kwargs) -> str:
         from api.core.utils.file_utils import convert_doc_to_docx
 
         stem = Path(self.file_info.file_path).stem
@@ -33,9 +33,9 @@ class DocxConverter(BaseConverter):
         convert_doc_to_docx(self.file_info.file_path, docx_file)
         self.file = docx_file
 
-        return self.convert_docx(**kwargs)
+        return self.process_docx(**kwargs)
 
-    def convert_docx(self, **kwargs):
+    def process_docx(self, **kwargs) -> str:
         elements: List[MdElement] = []
 
         # method 1： default
@@ -137,25 +137,19 @@ class DocxConverter(BaseConverter):
         else:
             raise ValueError(f"Invalid DOCX_CONVERTER: {Config.DOCX_CONVERTER}")
 
-        result = MarkdownPage.from_elements(elements).to_md()
+        raw = MarkdownPage.from_elements(elements).to_md()
 
-        return result
+        return raw
 
-    def convert(
+    def process(
         self,
         **kwargs,
-    ) -> ResponseData:
+    ) -> str:
         if self.file_info.file_type == "docx":
-            raw = self.convert_docx(**kwargs)
+            raw = self.process_docx(**kwargs)
         elif self.file_info.file_type == "doc":
-            raw = self.convert_doc(**kwargs)
+            raw = self.process_doc(**kwargs)
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
 
-        if Config.ENABLE_LLM and self.request_data.use_llm:
-            self.llm_enforce(raw)
-
-        self.set_response_data(status="success", raw=raw)
-
-        self.rm_file()
-        return self.resp_data
+        return raw
