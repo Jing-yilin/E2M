@@ -25,23 +25,25 @@ logger = logging.getLogger(__name__)
 
 
 class DocxConverter(BaseConverter):
-    def convert(
-        self,
-        file_info: FileInfo,
-        request_data: RequestData,
-        **kwargs,
-    ) -> ResponseData:
+
+    @classmethod
+    def allowed_formats(cls) -> list[str]:
+        return ["doc", "docx"]
+
+    def convert_doc(self, **kwargs):
+        from api.core.utils.file_utils import convert_doc_to_docx
+
+        stem = Path(self.file_info.file_path).stem
+        docx_file = os.path.join(Config.TEMP_DIR, f"{stem}.docx")
         # doc -> docx
-        if file_info.file_path.endswith(".doc"):
-            from api.core.utils.file_utils import convert_doc_to_docx
+        convert_doc_to_docx(self.file_info.file_path, docx_file)
+        self.file = docx_file
 
-            stem = Path(file_info.file_path).stem
-            docx_file = os.path.join(Config.TEMP_DIR, f"{stem}.docx")
-            convert_doc_to_docx(file_info.file_path, docx_file)
-            self.file = docx_file
+        self.convert_docx(**kwargs)
 
+    def convert_docx(self, **kwargs):
         elements: List[MdElement] = []
-        use_llm = request_data.use_llm
+        use_llm = self.request_data.use_llm
 
         # method 1： default
         if Config.DOCX_CONVERTER == "default":
@@ -60,7 +62,6 @@ class DocxConverter(BaseConverter):
                 },
                 ...
             }
-
             """
 
             font_size_count = {}
@@ -140,32 +141,26 @@ class DocxConverter(BaseConverter):
                 #     elements.append(Header1(element.text))
                 # else:
                 elements.append(Paragraph(text=element.text))
-
         else:
-            raise ValueError(
-                f"Invalid CONVERTER: {Config.DOCX_CONVERTER}, you should set\
-                      CONVERTER to 'default' or 'unstructured'"
-            )
+            raise ValueError(f"Invalid DOCX_CONVERTER: {Config.DOCX_CONVERTER}")
 
-        self.rm_file()
         result = MarkdownPage.from_elements(elements).to_md()
 
-        if not (Config.ENABLE_LLM and use_llm):
-            self.set_response_data(status="success", raw=result)
+        if Config.ENABLE_LLM and use_llm:
+            self.llm_enforce(result)
+
+        self.set_response_data(status="success", raw=result)
+
+    def convert(
+        self,
+        **kwargs,
+    ) -> ResponseData:
+        if self.file_info.file_type == "docx":
+            self.convert_docx(**kwargs)
+        elif self.file_info.file_type == "doc":
+            self.convert_doc(**kwargs)
         else:
+            raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
 
-            model = request_data.model
-            return_type = request_data.return_type
-            enforced_json_format = request_data.enforced_json_format
-
-            if return_type == "json":
-                self.ocr_fix_to_json(
-                    result, enforced_json_format=enforced_json_format, model=model
-                )
-            elif return_type == "md":
-                self.ocr_fix_to_markdown(result, model=model)
-            else:
-                raise ValueError("return_type must be one of 'md' or 'json")
-            self.set_response_data(status="success", raw=result)
-
+        self.rm_file()
         return self.resp_data

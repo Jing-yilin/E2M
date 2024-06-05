@@ -60,26 +60,25 @@ def _parse_pdf_and_return_markdown(
 
 class PdfConverter(BaseConverter):
 
+    @classmethod
+    def allowed_formats(cls) -> list[str]:
+        return ["pdf"]
+
     def convert(
         self,
-        file_info: FileInfo,
-        request_data: RequestData,
         **kwargs,
     ) -> ResponseData:
 
         logger.info(f"Converting PDF file to markdown: {self.file}")
         logger.info(f"kwargs: {kwargs}")
 
-        extract_images = request_data.extract_images
-        parse_mode = request_data.parse_mode
+        extract_images = self.request_data.extract_images
+        parse_mode = self.request_data.parse_mode
         # you can find supported languages in https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
-        langs = request_data.langs
-        first_page = request_data.first_page
-        last_page = request_data.last_page
-        use_llm = request_data.use_llm
-        model = request_data.model
-        return_type = request_data.return_type
-        enforced_json_format = request_data.enforced_json_format
+        langs = self.request_data.langs
+        first_page = self.request_data.first_page
+        last_page = self.request_data.last_page
+        use_llm = self.request_data.use_llm
 
         tmp_file = self.file + ".tmp"
         from api.core.utils.file_utils import sub_pdf
@@ -133,7 +132,7 @@ class PdfConverter(BaseConverter):
                 if os.path.exists(single_image_pdf):
                     os.remove(single_image_pdf)
 
-            raw_result = "\n".join(content)
+            raw = "\n".join(content)
 
         elif Config.PDF_CONVERTER == "unstructured":
             logger.info(f"Converting [{self.file}] with unstructured converter")
@@ -177,24 +176,14 @@ class PdfConverter(BaseConverter):
                 #     elements.append(Header1(element.text))
                 # else:
                 elements.append(Paragraph(text=element.text))
-            raw_result = merge_elements_to_md(elements)
-        else:
-            raise ValueError(f"Unknown PDF_CONVERTER: {Config.PDF_CONVERTER}")
+            raw = merge_elements_to_md(elements)
 
-        if not (Config.ENABLE_LLM and use_llm):
-            self.set_response_data(status="success", raw=raw_result)
         else:
-            if return_type == "json":
-                self.ocr_fix_to_json(
-                    raw_result,
-                    enforced_json_format=enforced_json_format,
-                    model=model,
-                )
-            elif return_type == "md":
-                self.ocr_fix_to_markdown(raw_result, model=model)
-            else:
-                raise ValueError("return_type must be one of 'md' or 'json'")
-            self.set_response_data(status="success", raw=raw_result)
+            raise ValueError(f"Invalid PDF_CONVERTER: {Config.PDF_CONVERTER}")
 
+        if Config.ENABLE_LLM and use_llm:
+            self.llm_enforce(raw)
+
+        self.set_response_data(status="success", raw=raw)
         os.remove(tmp_file)
         return self.resp_data

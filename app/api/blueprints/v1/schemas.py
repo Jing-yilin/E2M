@@ -62,7 +62,9 @@ class RequestData(BaseModel):
 
     @field_validator("parse_mode")
     def check_parse_mode(cls, parse_mode, info: ValidationInfo):
-        if parse_mode not in ["auto", "ocr-low", "ocr-high", "fast"]:
+        from api.core.converters.base_converter import ParseMode
+
+        if parse_mode not in ParseMode.all_modes():
             raise ValueError(
                 'parse_mode must be one of "auto", "ocr-low", "ocr-high", "fast"'
             )

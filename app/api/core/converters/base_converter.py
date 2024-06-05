@@ -32,8 +32,13 @@ class ParseMode(str, Enum):
     OCR_LOW = "ocr_low"  # use tesseract, fast but less accurate
     OCR_HIGH = "ocr_high"  # use surya model, accurate but slow
 
+    @classmethod
+    def all_modes(cls) -> list[str]:
+        return [mode.value for mode in cls.__members__.values()]
+
 
 class BaseConverter(BaseModel):
+
     file: FileLikeType = Field(..., title="File path")
     parse_mode: Optional[ParseMode] = Field(ParseMode.AUTO, title="Parser mode")
     # response
@@ -44,6 +49,11 @@ class BaseConverter(BaseModel):
     llm_info: Optional[LlmInfo] = Field(None, title="LLM info")
     metadata: Optional[Metadata] = Field(None, title="Metadata")
     resp_data: Optional[ResponseData] = Field(None, title="Response data")
+
+    @classmethod
+    @abstractmethod
+    def allowed_formats(cls) -> list[str]:
+        pass
 
     # file not empty
     @field_validator("file")
@@ -192,6 +202,22 @@ class BaseConverter(BaseModel):
         self.set_json_data(result)
 
         return result
+
+    def llm_enforce(self, text: str):
+        """Use LLM to clean and enforce the text to structured format
+        """
+        model = self.request_data.model
+        return_type = self.request_data.return_type
+        enforced_json_format = self.request_data.enforced_json_format
+
+        if return_type == "json":
+            self.ocr_fix_to_json(
+                text, enforced_json_format=enforced_json_format, model=model
+            )
+        elif return_type == "md":
+            self.ocr_fix_to_markdown(text, model=model)
+        else:
+            raise ValueError("return_type must be one of 'md' or 'json")
 
     # todo: add model
     def extract_markdown(self, image: str, model: Optional[str] = None) -> str:
