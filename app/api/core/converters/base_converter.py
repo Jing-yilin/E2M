@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from enum import Enum
 from pydantic import BaseModel, Field, field_validator
 from pathlib import Path
 from api.core.llms.chains.chains import ChainHandler
@@ -14,7 +15,6 @@ from api.blueprints.v1.schemas import (
 from api.config import Config
 from typing import Union, Optional, Tuple
 from langchain_community.callbacks import get_openai_callback, OpenAICallbackHandler
-from enum import Enum
 
 import logging
 

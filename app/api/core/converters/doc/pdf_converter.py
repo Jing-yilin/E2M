@@ -1,19 +1,14 @@
-import logging
+from api.core.converters.base_converter import BaseConverter
+from api.core.marker.settings import Settings
+from api.core.converters.md_elements import Paragraph, merge_elements_to_md
+from api.blueprints.v1.schemas import ResponseData
+from api.config import Config
+
 from tqdm import tqdm
 import base64
 import os
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
-from api.core.marker.settings import Settings
-from api.config import Config
 
-from api.core.converters.md_elements import (
-    Paragraph,
-    merge_elements_to_md,
-)
-
-from api.blueprints.v1.schemas import ResponseData
+import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -169,14 +164,8 @@ class PdfConverter(BaseConverter):
                 # form_extraction_skip_tables=False,
                 strategy=strategy,
             )
-            elements = []
-            for element in unstructured_elements:
-                logger.debug(f"element: {element.metadata.to_dict()}")
-                # if element.category == "Title":
-                #     elements.append(Header1(element.text))
-                # else:
-                elements.append(Paragraph(text=element.text))
-            raw = merge_elements_to_md(elements)
+
+            raw = "\n\n".join([element.text for element in unstructured_elements])
 
         else:
             raise ValueError(f"Invalid PDF_CONVERTER: {Config.PDF_CONVERTER}")

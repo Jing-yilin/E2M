@@ -1,19 +1,11 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
-
+from api.core.converters.base_converter import BaseConverter
 from api.blueprints.v1.schemas import ResponseData
-
-from typing import List
 from api.config import Config
 
-# read ppt text
 from pptx import Presentation
-
+from typing import List
 from dataclasses import dataclass
 import json
-
-# logging
 import logging
 
 logger = logging.getLogger(__name__)
@@ -57,7 +49,7 @@ class PptxConverter(BaseConverter):
     def convert_pptx(
         self,
         **kwargs,
-    ) -> ResponseData:
+    ) -> str:
 
         use_llm = self.request_data.use_llm
 
@@ -75,15 +67,12 @@ class PptxConverter(BaseConverter):
         else:
             raise ValueError(f"Invalid PPTX_CONVERTER: {Config.PPTX_CONVERTER}")
 
-        if Config.ENABLE_LLM and use_llm:
-            self.llm_enforce(raw)
-
-        self.set_response_data(status="success", raw=raw)
+        return raw
 
     def convert_ppt(
         self,
         **kwargs,
-    ) -> ResponseData:
+    ) -> str:
         # always use unstructured
         logger.info(f"Converting [{self.file}] with unstructured converter")
         from unstructured.partition.ppt import partition_ppt
@@ -91,21 +80,23 @@ class PptxConverter(BaseConverter):
         ppt_elements = partition_ppt(self.file)
         raw = "\n".join([element.text for element in ppt_elements])
 
-        if Config.ENABLE_LLM and self.request_data.use_llm:
-            self.llm_enforce(raw)
-
-        self.set_response_data(status="success", raw=raw)
+        return raw
 
     def convert(
         self,
         **kwargs,
     ) -> ResponseData:
         if self.file_info.file_type == "pptx":
-            self.convert_pptx(**kwargs)
+            raw = self.convert_pptx(**kwargs)
         elif self.file_info.file_type == "ppt":
-            self.convert_ppt(**kwargs)
+            raw = self.convert_ppt(**kwargs)
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
+
+        if Config.ENABLE_LLM and self.request_data.use_llm:
+            self.llm_enforce(raw)
+
+        self.set_response_data(status="success", raw=raw)
 
         self.rm_file()
         return self.resp_data

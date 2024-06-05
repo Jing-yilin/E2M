@@ -1,7 +1,3 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
-
 from api.core.converters.md_elements import (
     Header1,
     Header2,
@@ -11,14 +7,12 @@ from api.core.converters.md_elements import (
     MarkdownPage,
 )
 from api.blueprints.v1.schemas import ResponseData
+from api.core.converters.base_converter import BaseConverter
+from api.config import Config
 
 from typing import List
 from pathlib import Path
 import os
-
-from api.config import Config
-
-# logging
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,11 +33,10 @@ class DocxConverter(BaseConverter):
         convert_doc_to_docx(self.file_info.file_path, docx_file)
         self.file = docx_file
 
-        self.convert_docx(**kwargs)
+        return self.convert_docx(**kwargs)
 
     def convert_docx(self, **kwargs):
         elements: List[MdElement] = []
-        use_llm = self.request_data.use_llm
 
         # method 1： default
         if Config.DOCX_CONVERTER == "default":
@@ -146,21 +139,23 @@ class DocxConverter(BaseConverter):
 
         result = MarkdownPage.from_elements(elements).to_md()
 
-        if Config.ENABLE_LLM and use_llm:
-            self.llm_enforce(result)
-
-        self.set_response_data(status="success", raw=result)
+        return result
 
     def convert(
         self,
         **kwargs,
     ) -> ResponseData:
         if self.file_info.file_type == "docx":
-            self.convert_docx(**kwargs)
+            raw = self.convert_docx(**kwargs)
         elif self.file_info.file_type == "doc":
-            self.convert_doc(**kwargs)
+            raw = self.convert_doc(**kwargs)
         else:
             raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
+
+        if Config.ENABLE_LLM and self.request_data.use_llm:
+            self.llm_enforce(raw)
+
+        self.set_response_data(status="success", raw=raw)
 
         self.rm_file()
         return self.resp_data
