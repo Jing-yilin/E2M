@@ -53,7 +53,7 @@ jobs:
               shell: bash -l {0}
 
             - name: Wait for server to start
-              run: sleep 10
+              run: sleep 30
 
             - name: Check API availability
               run: |
