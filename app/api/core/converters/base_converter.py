@@ -29,8 +29,8 @@ chain_handler = ChainHandler()
 class ParseMode(str, Enum):
     AUTO = "auto"
     FAST = "fast"
-    OCR_LOW = "ocr_low"  # use tesseract, fast but less accurate
-    OCR_HIGH = "ocr_high"  # use surya model, accurate but slow
+    OCR_LOW = "ocr-low"  # use tesseract, fast but less accurate
+    OCR_HIGH = "ocr-high"  # use surya model, accurate but slow
 
     @classmethod
     def all_modes(cls) -> list[str]:
@@ -63,8 +63,26 @@ class BaseConverter(BaseModel):
         return v
 
     @abstractmethod
-    def convert(self, **kwargs) -> ResponseData:
+    def process(self, **kwargs) -> str:
+        """Core function to convert the file to raw"""
         pass
+
+    def convert(self, **kwargs) -> ResponseData:
+        """Main method to convert the file to markdown or json.
+        function process() should be implemented in the subclass.
+        """
+        try:
+            raw = self.process(**kwargs)
+            if Config.ENABLE_LLM and self.request_data.use_llm:
+                self.llm_enforce(raw)
+            self.set_response_data(status="success", raw=raw)
+        except Exception as e:
+            logger.error(f"Error converting file: {e}")
+            self.set_response_data(status="error", error=str(e))
+        finally:
+            self.rm_file()
+
+        return self.resp_data
 
     def to_dict(self):
         return self.model_dump()
@@ -225,14 +243,3 @@ class BaseConverter(BaseModel):
     # todo: add model
     def extract_json(self, image: str, model: Optional[str] = None) -> dict:
         raise NotImplementedError
-
-    @property
-    def file_stem(self):
-        """stem of the file
-        e.g. /path/to/file.pdf -> file
-
-        """
-        if isinstance(self.file, str):
-            return Path(self.file).stem
-        elif isinstance(self.file, Path):
-            return self.file.stem
