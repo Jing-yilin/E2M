@@ -683,13 +683,18 @@ E2M 是一个将所有内容转换为 Markdown 或 JSON（两者都是 LLM 友�
 git clone https://github.com/Jing-yilin/E2M
 cd E2M/docker
 # 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
-# 部署应用到 docker，分离模式
-docker-compose up --build -d
+# 部署应用到 docker
+docker-compose -f docker-compose.yml up --build -d
 # 查看日志
-docker-compose logs -f
+docker-compose -f docker-compose.yml logs -f
 # 删除容器
-docker-compose down
+docker-compose -f docker-compose.yml down
 ```
+
+> Tip: If you encounter platform promblems, you can try amd64 versoin:
+> ```
+> docker-compose -f docker-compose.amd64.yml up --build -d
+> ```
 
 如果您想使用 GPU 版本，请使用以下命令(目前暂不支持mps)：
 
@@ -710,7 +715,7 @@ docker-compose -f docker-compose.gpu.yml up --build -d
 git clone https://github.com/Jing-yilin/E2M
 cd E2M
 # 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
-# 部署应用到 docker，分离模式
+# 部署应用到 docker
 docker-compose up --build -d
 # 查看日志
 docker-compose logs -f

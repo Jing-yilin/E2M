@@ -1,4 +1,4 @@
-name: Check Docker
+name: Check Build Docker
 
 on:
     push:
@@ -36,9 +36,8 @@ jobs:
 
             - name: Build and run Docker Compose
               run: |
-                  cd docker
-                  docker-compose -f docker-compose.yml up --build -d
-                  docker ps
+                  docker-compose up --build -d
+                  docker-compose ps
 
             - name: Wait for the services to be up
               run: sleep 15

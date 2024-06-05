@@ -682,12 +682,17 @@ git clone https://github.com/Jing-yilin/E2M
 cd E2M/docker
 # edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # deploy the app with docker, detach mode
-docker-compose up --build -d
+docker-compose -f docker-compose.yml up --build -d
 # check the logs with
-docker-compose logs -f
+docker-compose -f docker-compose.yml logs -f
 # remove the container with
-docker-compose down
+docker-compose -f docker-compose.yml down
 ```
+
+> Tip: If you encounter platform promblems, you can try amd64 versoin:
+> ```
+> docker-compose -f docker-compose.amd64.yml up --build -d
+> ```
 
 If you have GPU support, you can use the `docker-compose.gpu.yml` file:
 
@@ -709,11 +714,11 @@ git clone https://github.com/Jing-yilin/E2M
 cd E2M
 # edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # deploy the app with docker, detach mode
-docker-compose up --build -d
+docker-compose -f docker-compose.yml up --build -d
 # check the logs with
-docker-compose logs -f
+docker-compose -f docker-compose.yml logs -f
 # remove the container with
-docker-compose down
+docker-compose -f docker-compose.yml down
 ```
 
 - 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
@@ -899,7 +904,7 @@ return:
 
 ### 🔖Language Support
 
-Currently, only English and Chinese are supported. 
+Currently, only English and Chinese are supported.
 
 ```json
 {

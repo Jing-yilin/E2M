@@ -1,0 +1,2 @@
+I have created multiple versions of docker files to solve platform problems.
+If you can't run `docker-compose.yml` or `docker-compose.gpu.yml`, please try `docker-compose.amd64.yml` or `docker-compose.gpu.amd64.yml`.

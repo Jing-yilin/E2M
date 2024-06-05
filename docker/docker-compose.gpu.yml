@@ -60,7 +60,7 @@ services:
             - "3000:3000"
         environment:
             API_URL: http://127.0.0.1:8765
-            NEXT_FONT_OPTIMIZATION: 'false'
+            NEXT_FONT_OPTIMIZATION: "false"
         networks:
             - e2m-network
 
