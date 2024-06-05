@@ -40,7 +40,7 @@ jobs:
                   docker-compose ps
 
             - name: Wait for the services to be up
-              run: sleep 15
+              run: sleep 30
 
             - name: Check if service on port 3000 is running
               run: |
