@@ -14,7 +14,7 @@ on:
 
 jobs:
     build-and-test:
-        runs-on: [self-hosted, linux, ARM64]
+        runs-on: linux-arm64
 
         steps:
             - name: Checkout code
