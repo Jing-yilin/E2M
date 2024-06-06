@@ -3,22 +3,22 @@ If you can't run `docker-compose.yml` or `docker-compose.gpu.yml`, please try `d
 
 ### Support Container Platform
 
-- docker-compose.yml: 
-  - jingyilin/e2m-api:latest
-  - jingyilin/e2m-web:latest
+- docker-compose.arm64.yml:
+  - jingyilin/e2m-api:latest-arm64
+  - jingyilin/e2m-web:latest-arm64
   - linux/arm64/v8
 
 - docker-compose.gpu.arm64.yml:
-  - jingyilin/e2m-api:latest
-  - jingyilin/e2m-web:latest
+  - jingyilin/e2m-api:latest-arm64
+  - jingyilin/e2m-web:latest-arm64
   - linux/arm64/v8
 
 - docker-compose.amd64.yml: 
   - jingyilin/e2m-api:latest-amd64
-  - jiingyilin/e2m-web:latest
+  - jiingyilin/e2m-web:latest-amd64
   - linux/amd64
 
 - docker-compose.gpu.amd64.yml:
   - jingyilin/e2m-api:latest-amd64
-  - jingyilin/e2m-web:latest
+  - jingyilin/e2m-web:latest-amd64
   - linux/amd64

@@ -1,4 +1,4 @@
-name: Check Docker
+name: Check Docker ARM64
 
 on:
     push:

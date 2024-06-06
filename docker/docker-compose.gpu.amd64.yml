@@ -54,7 +54,7 @@ services:
             - e2m-network
 
     e2m-web:
-        image: jingyilin/e2m-web:latest
+        image: jingyilin/e2m-web:latest-amd64
         container_name: e2m-web
         ports:
             - "3000:3000"
