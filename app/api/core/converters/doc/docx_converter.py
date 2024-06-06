@@ -1,7 +1,3 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
-
 from api.core.converters.md_elements import (
     Header1,
     Header2,
@@ -10,38 +6,37 @@ from api.core.converters.md_elements import (
     MdElement,
     MarkdownPage,
 )
-from api.blueprints.v1.schemas import ResponseData, FileInfo, RequestData
+from api.blueprints.v1.schemas import ResponseData
+from api.core.converters.base_converter import BaseConverter
+from api.config import Config
 
 from typing import List
 from pathlib import Path
 import os
-
-from api.config import Config
-
-# logging
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 class DocxConverter(BaseConverter):
-    def convert(
-        self,
-        file_info: FileInfo,
-        request_data: RequestData,
-        **kwargs,
-    ) -> ResponseData:
+
+    @classmethod
+    def allowed_formats(cls) -> list[str]:
+        return ["doc", "docx"]
+
+    def process_doc(self, **kwargs) -> str:
+        from api.core.utils.file_utils import convert_doc_to_docx
+
+        stem = Path(self.file_info.file_path).stem
+        docx_file = os.path.join(Config.TEMP_DIR, f"{stem}.docx")
         # doc -> docx
-        if file_info.file_path.endswith(".doc"):
-            from api.core.utils.file_utils import convert_doc_to_docx
+        convert_doc_to_docx(self.file_info.file_path, docx_file)
+        self.file = docx_file
 
-            stem = Path(file_info.file_path).stem
-            docx_file = os.path.join(Config.TEMP_DIR, f"{stem}.docx")
-            convert_doc_to_docx(file_info.file_path, docx_file)
-            self.file = docx_file
+        return self.process_docx(**kwargs)
 
+    def process_docx(self, **kwargs) -> str:
         elements: List[MdElement] = []
-        use_llm = request_data.use_llm
 
         # method 1： default
         if Config.DOCX_CONVERTER == "default":
@@ -60,7 +55,6 @@ class DocxConverter(BaseConverter):
                 },
                 ...
             }
-
             """
 
             font_size_count = {}
@@ -140,32 +134,22 @@ class DocxConverter(BaseConverter):
                 #     elements.append(Header1(element.text))
                 # else:
                 elements.append(Paragraph(text=element.text))
-
         else:
-            raise ValueError(
-                f"Invalid CONVERTER: {Config.DOCX_CONVERTER}, you should set\
-                      CONVERTER to 'default' or 'unstructured'"
-            )
+            raise ValueError(f"Invalid DOCX_CONVERTER: {Config.DOCX_CONVERTER}")
 
-        self.rm_file()
-        result = MarkdownPage.from_elements(elements).to_md()
+        raw = MarkdownPage.from_elements(elements).to_md()
 
-        if not (Config.ENABLE_LLM and use_llm):
-            self.set_response_data(status="success", raw=result)
+        return raw
+
+    def process(
+        self,
+        **kwargs,
+    ) -> str:
+        if self.file_info.file_type == "docx":
+            raw = self.process_docx(**kwargs)
+        elif self.file_info.file_type == "doc":
+            raw = self.process_doc(**kwargs)
         else:
+            raise ValueError(f"Unsupported file type: {self.file_info.file_type}")
 
-            model = request_data.model
-            return_type = request_data.return_type
-            enforced_json_format = request_data.enforced_json_format
-
-            if return_type == "json":
-                self.ocr_fix_to_json(
-                    result, enforced_json_format=enforced_json_format, model=model
-                )
-            elif return_type == "md":
-                self.ocr_fix_to_markdown(result, model=model)
-            else:
-                raise ValueError("return_type must be one of 'md' or 'json")
-            self.set_response_data(status="success", raw=result)
-
-        return self.resp_data
+        return raw

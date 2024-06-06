@@ -30,6 +30,9 @@ class DefaultConfig(BaseSettings):
     PDF_CONVERTER: str = Field(
         default="default", env="PDF_CONVERTER", description="PDF Converter to use"
     )  # unstructured / default
+    PPTX_CONVERTER: str = Field(
+        default="default", env="PPTX_CONVERTER", description="PPTX Converter to use"
+    )  # unstructured / default
     TXT_CONVERTER: str = Field(
         default="default", env="TXT_CONVERTER", description="TXT Converter to use"
     )  # unstructured / default

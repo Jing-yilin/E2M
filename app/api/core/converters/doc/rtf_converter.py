@@ -4,5 +4,5 @@ from api.core.converters.base_converter import (
 
 
 class RtfConverter(BaseConverter):
-    def convert(self, **kwargs) -> str:
+    def process(self, **kwargs) -> str:
         raise NotImplementedError("Subclasses must implement this method")

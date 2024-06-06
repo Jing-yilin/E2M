@@ -1,0 +1,61 @@
+networks:
+    e2m-network:
+        driver: bridge
+
+services:
+    postgres:
+        image: postgres:15-alpine
+        container_name: e2m-postgres
+        restart: always
+        environment:
+            POSTGRES_USER: e2m
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: e2m_db
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - e2m-network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U e2m -d e2m_db"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    e2m-api:
+        image: jingyilin/e2m-api:latest-arm64
+        container_name: e2m-api
+        ports:
+            - "8765:8765"
+        environment:
+            FLASK_APP: app.py
+            FLASK_ENV: production
+            API_URL: http://127.0.0.1:8765
+            WEB_URL: http://127.0.0.1:3000
+            TZ: Asia/Shanghai
+            DOC_CONVERTER: unstructured
+            DOCX_CONVERTER: unstructured
+            PDF_CONVERTER: unstructured
+            # ENABLE_LLM: "True"
+            # OPENAI_API_KEY: "sk-xxxxxx"
+            # OPENAI_API_BASE: "https://xxxxxxxxxxxxxxxxx"
+            USE_DB: "True"
+            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
+            SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
+        depends_on:
+            - postgres
+        networks:
+            - e2m-network
+
+    e2m-web:
+        image: jingyilin/e2m-web:latest-arm64
+        container_name: e2m-web
+        ports:
+            - "3000:3000"
+        environment:
+            API_URL: http://127.0.0.1:8765
+            NEXT_FONT_OPTIMIZATION: "false"
+        networks:
+            - e2m-network
+
+volumes:
+    postgres_data:

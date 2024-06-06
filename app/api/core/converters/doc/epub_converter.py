@@ -1,8 +1,11 @@
-from api.core.converters.base_converter import (
-    BaseConverter,
-)
+from api.core.converters.base_converter import BaseConverter
 
 
 class EpubConverter(BaseConverter):
-    def convert(self, **kwargs) -> str:
+
+    @classmethod
+    def allowed_formats(cls) -> list[str]:
+        return ["epub"]
+
+    def process(self, **kwargs) -> str:
         raise NotImplementedError("Subclasses must implement this method")

@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.1">
-        <img src="https://img.shields.io/badge/version-v1.1.1-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.2">
+        <img src="https://img.shields.io/badge/version-v1.1.2-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
@@ -65,7 +65,9 @@
 
 ## 🌟Introduction
 
-E2M is an API tool converting everything to markdown or json(both LLM-friendly Format).
+✨Currenr version: `v1.1.2`
+
+🦄E2M is an API tool converting everything to markdown or json(both LLM-friendly Format).
 
 🔥You'd better set `USE_LLM=True` and use a LLM API to get the best result.
 
@@ -643,7 +645,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
   <tr>
     <td align="center">Done</td>
-    <td align="center">doc, docx, pdf</td>
+    <td align="center">doc, docx, ppt, pptx, pdf, html, htm</td>
     <td align="center"></td>
     <td align="center"></td>
     <td align="center"></td>
@@ -651,7 +653,7 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
   </tr>
   <tr>
     <td align="center">Todo</td>
-    <td align="center">html, htm</td>
+    <td align="center"></td>
     <td align="center">jpg, jpeg, png, gif, svg</td>
     <td align="center">csv, xlsx, xls</td>
     <td align="center">mp3, wav, flac</td>
@@ -673,6 +675,18 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 
 ## 🚀Get Started
 
+Please check your platform before you start:
+```bash
+$ arch
+```
+1. if `x86_64`, you can use:
+   - `docker-compose.amd64.yml`
+   - `docker-compose.gpu.amd64.yml`
+2. if `arm64`, you can use:
+   - `docker-compose.arm64.yml`
+   - `docker-compose.gpu.arm64.yml`
+
+
 ### 📦Quick Start (Remote Docker)
 
 > You should have `docker` and `docker-compose` installed on your machine in advance.
@@ -681,19 +695,14 @@ E2M is an API tool converting everything to markdown or json(both LLM-friendly F
 git clone https://github.com/Jing-yilin/E2M
 cd E2M/docker
 # edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
-# deploy the app with docker, detach mode
-docker-compose up --build -d
+# deploy the app with correst docker-compose file
+docker-compose -f docker-compose.amd64.yml up --build -d
 # check the logs with
-docker-compose logs -f
+docker-compose -f docker-compose.amd64.yml logs -f
 # remove the container with
-docker-compose down
+docker-compose -f docker-compose.amd64.yml down
 ```
 
-If you have GPU support, you can use the `docker-compose.gpu.yml` file:
-
-```bash
-docker-compose -f docker-compose.gpu.yml up --build -d
-```
 
 - 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 - 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
@@ -709,11 +718,11 @@ git clone https://github.com/Jing-yilin/E2M
 cd E2M
 # edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
 # deploy the app with docker, detach mode
-docker-compose up --build -d
+docker-compose -f docker-compose.yml up --build -d
 # check the logs with
-docker-compose logs -f
+docker-compose -f docker-compose.yml logs -f
 # remove the container with
-docker-compose down
+docker-compose -f docker-compose.yml down
 ```
 
 - 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
@@ -899,7 +908,7 @@ return:
 
 ### 🔖Language Support
 
-Currently, only English and Chinese are supported. 
+Currently, only English and Chinese are supported.
 
 ```json
 {
@@ -1049,22 +1058,22 @@ A new version:
 
 ```
 cd app
-docker build -t jingyilin/e2m_api:<version> .
-docker push jingyilin/e2m_api:<version>
+docker build -t jingyilin/e2m-api:<version> .
+docker push jingyilin/e2m-api:<version>
 cd ../web
-docker build -t jingyilin/e2m_web:<version> .
-docker push jingyilin/e2m_web:<version>
+docker build -t jingyilin/e2m-web:<version> .
+docker push jingyilin/e2m-web:<version>
 ```
 
 For example, the version is `v1.0.0`:
 
 ```
 cd app
-docker build -t jingyilin/e2m_api:v1.0.0 .
-docker push jingyilin/e2m_api:v1.0.0
+docker build -t jingyilin/e2m-api:v1.0.0 .
+docker push jingyilin/e2m-api:v1.0.0
 cd ../web
-docker build -t jingyilin/e2m_web:v1.0.0 .
-docker push jingyilin/e2m_web:v1.0.0
+docker build -t jingyilin/e2m-web:v1.0.0 .
+docker push jingyilin/e2m-web:v1.0.0
 ```
 
 ### 🔀Pull Request

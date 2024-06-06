@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from enum import Enum
 from pydantic import BaseModel, Field, field_validator
 from pathlib import Path
 from api.core.llms.chains.chains import ChainHandler
@@ -14,7 +15,6 @@ from api.blueprints.v1.schemas import (
 from api.config import Config
 from typing import Union, Optional, Tuple
 from langchain_community.callbacks import get_openai_callback, OpenAICallbackHandler
-from enum import Enum
 
 import logging
 
@@ -29,11 +29,16 @@ chain_handler = ChainHandler()
 class ParseMode(str, Enum):
     AUTO = "auto"
     FAST = "fast"
-    OCR_LOW = "ocr_low"  # use tesseract, fast but less accurate
-    OCR_HIGH = "ocr_high"  # use surya model, accurate but slow
+    OCR_LOW = "ocr-low"  # use tesseract, fast but less accurate
+    OCR_HIGH = "ocr-high"  # use surya model, accurate but slow
+
+    @classmethod
+    def all_modes(cls) -> list[str]:
+        return [mode.value for mode in cls.__members__.values()]
 
 
 class BaseConverter(BaseModel):
+
     file: FileLikeType = Field(..., title="File path")
     parse_mode: Optional[ParseMode] = Field(ParseMode.AUTO, title="Parser mode")
     # response
@@ -45,6 +50,11 @@ class BaseConverter(BaseModel):
     metadata: Optional[Metadata] = Field(None, title="Metadata")
     resp_data: Optional[ResponseData] = Field(None, title="Response data")
 
+    @classmethod
+    @abstractmethod
+    def allowed_formats(cls) -> list[str]:
+        pass
+
     # file not empty
     @field_validator("file")
     def check_file_exists(cls, v):
@@ -53,8 +63,26 @@ class BaseConverter(BaseModel):
         return v
 
     @abstractmethod
-    def convert(self, **kwargs) -> ResponseData:
+    def process(self, **kwargs) -> str:
+        """Core function to convert the file to raw"""
         pass
+
+    def convert(self, **kwargs) -> ResponseData:
+        """Main method to convert the file to markdown or json.
+        function process() should be implemented in the subclass.
+        """
+        try:
+            raw = self.process(**kwargs)
+            if Config.ENABLE_LLM and self.request_data.use_llm:
+                self.llm_enforce(raw)
+            self.set_response_data(status="success", raw=raw)
+        except Exception as e:
+            logger.error(f"Error converting file: {e}")
+            self.set_response_data(status="error", error=str(e))
+        finally:
+            self.rm_file()
+
+        return self.resp_data
 
     def to_dict(self):
         return self.model_dump()
@@ -193,6 +221,21 @@ class BaseConverter(BaseModel):
 
         return result
 
+    def llm_enforce(self, text: str):
+        """Use LLM to clean and enforce the text to structured format"""
+        model = self.request_data.model
+        return_type = self.request_data.return_type
+        enforced_json_format = self.request_data.enforced_json_format
+
+        if return_type == "json":
+            self.ocr_fix_to_json(
+                text, enforced_json_format=enforced_json_format, model=model
+            )
+        elif return_type == "md":
+            self.ocr_fix_to_markdown(text, model=model)
+        else:
+            raise ValueError("return_type must be one of 'md' or 'json")
+
     # todo: add model
     def extract_markdown(self, image: str, model: Optional[str] = None) -> str:
         raise NotImplementedError
@@ -200,14 +243,3 @@ class BaseConverter(BaseModel):
     # todo: add model
     def extract_json(self, image: str, model: Optional[str] = None) -> dict:
         raise NotImplementedError
-
-    @property
-    def file_stem(self):
-        """stem of the file
-        e.g. /path/to/file.pdf -> file
-
-        """
-        if isinstance(self.file, str):
-            return Path(self.file).stem
-        elif isinstance(self.file, Path):
-            return self.file.stem
