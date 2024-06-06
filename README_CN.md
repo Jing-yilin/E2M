@@ -32,15 +32,15 @@
 - [E2M (Everything to Markdown)](#e2m-everything-to-markdown)
   - [🌟 介绍](#-介绍)
     - [🌐 网页](#-网页)
-      - [📃转换为 Markdown](#转换为-markdown)
-      - [📃转换为 Json](#转换为-json)
+      - [📃 转换为 Markdown](#-转换为-markdown)
+      - [📃 转换为 Json](#-转换为-json)
     - [📸 演示](#-演示)
     - [📂 支持的文件类型](#-支持的文件类型)
-    - [🗳️待完成](#️待完成)
+    - [🗳️ 待完成](#️-待完成)
   - [🚀 快速开始](#-快速开始)
-    - [📦快速启动（远程docker）](#快速启动远程docker)
-    - [🐬运行本地Docker](#运行本地docker)
-    - [🐬运行本地Docker-GPU版本](#运行本地docker-gpu版本)
+    - [📦 快速启动（远程 docker）](#-快速启动远程-docker)
+    - [🐬 运行本地 Docker](#-运行本地-docker)
+    - [🐬 运行本地 Docker-GPU 版本](#-运行本地-docker-gpu-版本)
       - [🐧Ubuntu](#ubuntu)
       - [🖥️Windows](#️windows)
     - [⚙️ 从源码开始](#️-从源码开始)
@@ -50,7 +50,7 @@
     - [🔧 设置开发环境](#-设置开发环境)
     - [🏭 设置生产环境](#-设置生产环境)
     - [📖 如何使用](#-如何使用)
-    - [🔖语言支持](#语言支持)
+    - [🔖 语言支持](#-语言支持)
   - [🤝 如何贡献](#-如何贡献)
     - [🌿 创建新分支](#-创建新分支)
     - [📝PEP8 风格](#pep8-风格)
@@ -59,25 +59,25 @@
     - [🔀 拉取请求](#-拉取请求)
   - [🌟 贡献者](#-贡献者)
     - [👥 贡献者名单](#-贡献者名单)
-  - [📱社区](#社区)
+  - [📱 社区](#-社区)
     - [微信](#微信)
     - [Discord](#discord)
 
 ## 🌟 介绍
 
-✨当前版本: `v1.1.2`
+✨ 当前版本: `v1.1.2`
 
 🦄E2M 是一个能够将所有文件转换为 Markdown 或 JSON（两者都是 LLM 友好格式）的 API 工具。
 
-🔥最好在环境中设置 `USE_LLM=True` 并使用 LLM API 以获得最佳结果。
+🔥 最好在环境中设置 `USE_LLM=True` 并使用 LLM API 以获得最佳结果。
 
-> 为什么我创建这个 API？因为我坚信在这个 AI 时代，数据是最重要的东西，但许多资源并不是以正确的格式存在的。**它们只是信息，而不是数据。** 所以我想创建一个工具，将一切转换为 Markdown 或 JSON，这在 AI 领域是最常见的格式。我希望E2M能被用在任何需要格式转换的AI应用上，比如AI知识库、AI数据集等，那么开发者就可以专注于AI应用的核心功能，而不是数据格式转换。
+> 为什么我创建这个 API？因为我坚信在这个 AI 时代，数据是最重要的东西，但许多资源并不是以正确的格式存在的。**它们只是信息，而不是数据。** 所以我想创建一个工具，将一切转换为 Markdown 或 JSON，这在 AI 领域是最常见的格式。我希望 E2M 能被用在任何需要格式转换的 AI 应用上，比如 AI 知识库、AI 数据集等，那么开发者就可以专注于 AI 应用的核心功能，而不是数据格式转换。
 
 ### 🌐 网页
 
 ![Input Form](assets/web_01.png)
 
-#### 📃转换为 Markdown
+#### 📃 转换为 Markdown
 
 ![Conversion Result](assets/web_02.png)
 
@@ -527,7 +527,7 @@
 ```
 </details>
 
-#### 📃转换为 Json
+#### 📃 转换为 Json
 
 ![Conversion Result](assets/web_04.png)
 
@@ -624,8 +624,6 @@
 ```
 </details>
 
-
-
 ### 📸 演示
 
 ![image-20240528122849203](assets/demo_01.png)
@@ -663,21 +661,34 @@
   </tr>
 </table>
 
-### 🗳️待完成
+### 🗳️ 待完成
 
-- [x] 解析模式：`auto`，`ocr-low(tesseract)`，`ocr-high(Surya)`，`fast`
-- [x] 更新 API 结构
-- [ ] 支持长文档解析
-- [ ] 添加一个新表来存储原始数据
-- [ ] 在 API 和前端添加流模式
-- [ ] 在 API 中添加异步功能
-- [ ] 为 E2M API 开发一个 SDK
-- [ ] 添加更多的 LLM API
-- [ ] 开放一个在线演示
+-   [x] 解析模式：`auto`，`ocr-low(tesseract)`，`ocr-high(Surya)`，`fast`
+-   [x] 更新 API 结构
+-   [ ] 支持长文档解析
+-   [ ] 添加一个新表来存储原始数据
+-   [ ] 在 API 和前端添加流模式
+-   [ ] 在 API 中添加异步功能
+-   [ ] 为 E2M API 开发一个 SDK
+-   [ ] 添加更多的 LLM API
+-   [ ] 开放一个在线演示
 
 ## 🚀 快速开始
 
-### 📦快速启动（远程docker）
+在启动前，您需要查看平台架构信息:
+
+```bash
+$ arch
+```
+
+1. 如果是 `x86_64`，您可以使用:
+    - `docker-compose.amd64.yml`
+    - `docker-compose.gpu.amd64.yml`
+2. 如果是 `arm64`，您可以使用:
+    - `docker-compose.arm64.yml`
+    - `docker-compose.gpu.arm64.yml`
+
+### 📦 快速启动（远程 docker）
 
 > 您需要提前安装 `docker` 和 `docker-compose`。
 
@@ -685,31 +696,25 @@
 git clone https://github.com/Jing-yilin/E2M
 cd E2M/docker
 # 编辑 docker-compose.yml 文件，将 `USE_LLM` 设置为 `True`,并添加您的API密钥
-# 部署应用到 docker
-docker-compose -f docker-compose.yml up --build -d
+# 您需要选择好对应的docker-compose文件进行部署
+docker-compose -f docker-compose.amd64.yml up --build -d
 # 查看日志
-docker-compose -f docker-compose.yml logs -f
+docker-compose -f docker-compose.amd64.yml logs -f
 # 删除容器
-docker-compose -f docker-compose.yml down
+docker-compose -f docker-compose.amd64.yml down
 ```
 
-> Tip: If you encounter platform promblems, you can try amd64 versoin:
-> ```
-> docker-compose -f docker-compose.amd64.yml up --build -d
-> ```
-
-如果您想使用 GPU 版本，请使用以下命令(目前暂不支持mps)：
+如果您想使用 GPU 版本，请使用以下命令(目前暂不支持 mps)：
 
 ```bash
 docker-compose -f docker-compose.gpu.yml up --build -d
 ```
 
-- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
-- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
-- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+-   🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+-   🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+-   🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
-
-### 🐬运行本地Docker
+### 🐬 运行本地 Docker
 
 > 您需要提前安装 `docker` 和 `docker-compose`。
 
@@ -725,11 +730,11 @@ docker-compose logs -f
 docker-compose down
 ```
 
-- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
-- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
-- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+-   🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+-   🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+-   🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
-### 🐬运行本地Docker-GPU版本
+### 🐬 运行本地 Docker-GPU 版本
 
 #### 🐧Ubuntu
 
@@ -762,15 +767,15 @@ docker-compose -f docker-compose.gpu.yml logs -f
 docker-compose -f docker-compose.gpu.yml down
 ```
 
-- 🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
-- 🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
-- 🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
+-   🚀 网页：[http://127.0.0.1:3000](http://127.0.0.1:3000)
+-   🚀API：[http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
+-   🚀API 文档：[http://127.0.0.1:8765/swagger/](http://127.0.0.1:8765/swagger/)
 
 #### 🖥️Windows
 
 如果你使用 Windows，你可以使用 Docker Desktop 来支持 GPU：
 
-> 安装gpu版docker请参考: [https://docs.docker.com/desktop/gpu/](https://docs.docker.com/desktop/gpu/)
+> 安装 gpu 版 docker 请参考: [https://docs.docker.com/desktop/gpu/](https://docs.docker.com/desktop/gpu/)
 
 然后，你可以使用以下命令启动容器：
 
@@ -907,7 +912,7 @@ curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
 }
 ```
 
-### 🔖语言支持
+### 🔖 语言支持
 
 目前暂时只支持中文和英文。
 
@@ -1015,8 +1020,8 @@ curl -X POST "http://127.0.0.1:8765/api/v1/convert" \
 
 在提交代码之前，请创建一个新分支：
 
-- `feature/xxx` 用于新功能
-- `bugfix/xxx` 用于修复错误
+-   `feature/xxx` 用于新功能
+-   `bugfix/xxx` 用于修复错误
 
 你可以使用以下命令创建一个新分支：
 
@@ -1091,8 +1096,7 @@ docker push jingyilin/e2m-web:v1.0.0
   <img src="https://contrib.rocks/image?repo=Jing-yilin/E2M" />
 </a>
 
-
-## 📱社区
+## 📱 社区
 
 ### 微信
 

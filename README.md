@@ -675,6 +675,18 @@
 
 ## 🚀Get Started
 
+Please check your platform before you start:
+```bash
+$ arch
+```
+1. if `x86_64`, you can use:
+   - `docker-compose.amd64.yml`
+   - `docker-compose.gpu.amd64.yml`
+2. if `arm64`, you can use:
+   - `docker-compose.arm64.yml`
+   - `docker-compose.gpu.arm64.yml`
+
+
 ### 📦Quick Start (Remote Docker)
 
 > You should have `docker` and `docker-compose` installed on your machine in advance.
@@ -683,24 +695,14 @@
 git clone https://github.com/Jing-yilin/E2M
 cd E2M/docker
 # edit the docker-compose.yml file, set `USE_LLM` to `True`, and add your API key
-# deploy the app with docker, detach mode
-docker-compose -f docker-compose.yml up --build -d
+# deploy the app with correst docker-compose file
+docker-compose -f docker-compose.amd64.yml up --build -d
 # check the logs with
-docker-compose -f docker-compose.yml logs -f
+docker-compose -f docker-compose.amd64.yml logs -f
 # remove the container with
-docker-compose -f docker-compose.yml down
+docker-compose -f docker-compose.amd64.yml down
 ```
 
-> Tip: If you encounter platform promblems, you can try amd64 versoin:
-> ```
-> docker-compose -f docker-compose.amd64.yml up --build -d
-> ```
-
-If you have GPU support, you can use the `docker-compose.gpu.yml` file:
-
-```bash
-docker-compose -f docker-compose.gpu.yml up --build -d
-```
 
 - 🚀Web: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 - 🚀API: [http://127.0.0.1:8765/api/v1/](http://127.0.0.1:8765/api/v1/)
