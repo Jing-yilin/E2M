@@ -36,6 +36,7 @@ jobs:
 
             - name: Build and run Docker Compose
               run: |
+                  arch
                   cd docker
                   docker-compose -f docker-compose.amd64.yml up --build -d
                   docker ps
