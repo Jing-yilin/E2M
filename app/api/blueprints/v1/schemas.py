@@ -80,10 +80,7 @@ class RequestData(BaseModel):
     def check_last_page(cls, last_page, info: ValidationInfo):
         first_page = info.data.get("first_page", 1)
         if last_page is not None and last_page < first_page:
-            logger.warning(
-                "last_page is less than first_page, setting last_page to first_page"
-            )
-            return first_page
+            raise ValueError("last_page must be greater than or equal to first_page")
         return last_page
 
     @field_validator("return_type")
