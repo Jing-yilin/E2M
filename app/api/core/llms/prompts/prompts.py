@@ -90,5 +90,11 @@ Example:
 ```"""
 
 
-# 对于很长的文本来说，我们会将长文本拆成许多短文本，但是文章整体的目录等级信息可能会丢失，因此可以先提取目录信息，然后再提取正文信息
+ADDITIONAL_PROMTPT = """Additional prompt from user, you should also follow the instruction to complete the task:
+{additional_prompt}
+"""
+
+
 # EXTRACT_MARKDOWN_TOC_LEVEL_PROMPT = """You are required to extract the table of contents (TOC) levels from the provided Markdown content.
+
+
