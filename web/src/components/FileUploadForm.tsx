@@ -16,6 +16,8 @@ interface FileUploadFormProps {
     handleSubmit: (event: React.FormEvent) => void;
     use_llm: boolean;
     setUse_llm: React.Dispatch<React.SetStateAction<boolean>>;
+    model_source: string;
+    setModel_source: React.Dispatch<React.SetStateAction<string>>;
     model: string;
     setModel: React.Dispatch<React.SetStateAction<string>>;
     returnType: string;
@@ -31,9 +33,7 @@ interface FileUploadFormProps {
 const isPageSelectable = (file: File | null) => {
     if (!file) return false;
     const fileExtension = file.name.split(".").pop()?.toLowerCase();
-    return (
-        fileExtension === "pdf"
-    );
+    return fileExtension === "pdf";
 };
 
 const FileUploadForm: React.FC<FileUploadFormProps> = ({
@@ -52,6 +52,8 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
     handleSubmit,
     use_llm,
     setUse_llm,
+    model_source,
+    setModel_source,
     model,
     setModel,
     returnType,
@@ -263,7 +265,32 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
             {/* if use_llm, then choose model, return_type, enforced_json_format */}
             {use_llm && (
                 <>
+                    {/* model_source */}
+                    <div className="form-control">
+                        <label
+                            htmlFor="model_source"
+                            className="label text-lg font-medium"
+                        >
+                            Model source:
+                        </label>
+                        <select
+                            id="model_source"
+                            name="model_source"
+                            value={model_source}
+                            onChange={(e) => setModel_source(e.target.value)}
+                            className="select select-bordered"
+                        >
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="baichuan">Baichuan</option>
+                            <option value="moonshot">Moonshot</option>
+                            <option value="ollama">Ollama</option>
+                            <option value="zhipuai">Zhipuai</option>
+                        </select>
+                    </div>
+
                     {/* model */}
+                    {/* model_source = openai */}
                     <div className="form-control">
                         <label
                             htmlFor="model"

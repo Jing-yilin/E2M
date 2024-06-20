@@ -19,6 +19,7 @@ export default function Home() {
     const [firstPage, setFirstPage] = useState<number | null>(null);
     const [lastPage, setLastPage] = useState<number | null>(null);
     const [use_llm, setUse_llm] = useState<boolean>(false);
+    const [model_source, setModel_source] = useState<string>("gpt-3.5-turbo");
     const [model, setModel] = useState<string>("gpt-3.5-turbo");
     const [returnType, setReturnType] = useState<string>("md");
     const [enforcedJsonFormat, setEnforcedJsonFormat] = useState<string | null>(
@@ -134,6 +135,8 @@ export default function Home() {
                     handleSubmit={handleSubmit}
                     use_llm={use_llm}
                     setUse_llm={setUse_llm}
+                    model_source={model_source}
+                    setModel_source={setModel_source}
                     model={model}
                     setModel={setModel}
                     returnType={returnType}
