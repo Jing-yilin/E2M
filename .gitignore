@@ -144,3 +144,4 @@ Thumbs.db
 
 # database
 app/migrations/
+app/figures/

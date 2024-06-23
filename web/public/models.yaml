@@ -140,3 +140,23 @@ zhipuai:
   - glm-4v
   - glm-3-turbo
   - cogview-3
+tongyi:
+  - qwen-turbo
+  - qwen-plus
+  - qwen-max
+  - qwen-1.8b-Chat
+  - qwen-7b-chat
+  - qwen-14b-Chat
+  - qwen-72b-chat
+  - qwen1.5-0.5b-chat
+  - qwen1.5-1.8b-chat
+  - qwen1.5-7b-chat
+  - qwen1.5-14b-chat
+  - qwen1.5-32b-chat
+  - qwen1.5-110b-chat
+  - qwen1.5-72b-Chat
+  - qwen2-0.5b-instruct
+  - qwen2-1.5b-instruct
+  - qwen2-7b-instruct
+  - qwen2-57b-a14b-instruct
+  - qwen2-72b-instruct

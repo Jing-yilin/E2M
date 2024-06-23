@@ -37,6 +37,10 @@ class BaseChainHandler:
             from api.core.llms.chains.moonshot_chain_handler import MoonshotChainHandler
 
             return MoonshotChainHandler()
+        elif model_source == "tongyi":
+            from api.core.llms.chains.tongyi_chain_handler import TongyiChainHandler
+
+            return TongyiChainHandler()
         elif model_source == "xinference":
             from api.core.llms.chains.xinference_chain_handler import (
                 XinferenceChainHandler,
