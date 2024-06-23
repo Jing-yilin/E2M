@@ -9,7 +9,7 @@ from api.core.llms.chains.base_chain_handler import BaseChainHandler
 #     OCR_FIX_TO_JSON_PROMPT,
 #     EXTRACT_MARKDOWN_PROMPT,
 #     EXTRACT_JSON_PROMPT,
-#     ADDITIONAL_PROMTPT,
+#     COMMENT_PROMTPT,
 # )
 # from api.config import Config
 

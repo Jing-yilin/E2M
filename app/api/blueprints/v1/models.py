@@ -21,6 +21,7 @@ class ConversionCache(db.Model):
     model = db.Column(db.String(255), nullable=True)
     return_type = db.Column(db.String(255), nullable=True)
     enforced_json_format = db.Column(db.Text, nullable=True)
+    comment = db.Column(db.Text, nullable=True)
     result = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
 

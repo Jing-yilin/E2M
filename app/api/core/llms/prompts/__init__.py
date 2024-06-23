@@ -3,7 +3,7 @@ from api.core.llms.prompts.prompts import (
     OCR_FIX_TO_JSON_PROMPT,
     EXTRACT_MARKDOWN_PROMPT,
     EXTRACT_JSON_PROMPT,
-    ADDITIONAL_PROMTPT,
+    COMMENT_PROMTPT,
 )
 
 
@@ -12,5 +12,5 @@ __all__ = [
     "OCR_FIX_TO_JSON_PROMPT",
     "EXTRACT_MARKDOWN_PROMPT",
     "EXTRACT_JSON_PROMPT",
-    "ADDITIONAL_PROMTPT",
+    "COMMENT_PROMTPT",
 ]

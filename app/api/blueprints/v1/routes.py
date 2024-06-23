@@ -76,6 +76,7 @@ def convert_route():
         model=request.form.get("model", default="gpt-3.5-turbo"),
         return_type=request.form.get("return_type", default="md"),  # md, json
         enforced_json_format=request.form.get("enforced_json_format", default=None),
+        comment=request.form.get("comment", default=None),
         save_to_cache=request.form.get("save_to_cache", default=True),
         use_cache=request.form.get("use_cache", default=True),
     )
@@ -102,6 +103,7 @@ def convert_route():
             model=data.model,
             return_type=data.return_type,
             enforced_json_format=data.enforced_json_format,
+            comment=data.comment,
         ).first()
         if cached_result:
             logger.info(f"Cache hit: {cached_result}")
@@ -137,6 +139,7 @@ def convert_route():
                 model=data.model,
                 return_type=data.return_type,
                 enforced_json_format=data.enforced_json_format,
+                comment=data.comment,
                 result=json.dumps(resp_dict),
             )
             db.session.add(new_cache_entry)

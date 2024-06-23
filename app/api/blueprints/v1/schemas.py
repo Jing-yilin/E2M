@@ -57,6 +57,10 @@ class RequestData(BaseModel):
         default=None, description="The enforced JSON format."
     )
 
+    comment: Optional[str] = Field(
+        default=None, description="The comment for the request."
+    )
+
     save_to_cache: Optional[bool] = Field(
         default=True, description="Whether to save the result to the cache."
     )

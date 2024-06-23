@@ -189,9 +189,10 @@ class BaseConverter(BaseModel):
         ocr_text: str,
         model_source: Optional[str] = None,
         model: Optional[str] = None,
+        comment: Optional[str] = None,
     ) -> Tuple[str, OpenAICallbackHandler]:
         chain = BaseChainHandler.get_instance(model_source).ocr_fix_to_markdown_chain(
-            model
+            model, comment=comment
         )
         logger.info(f"Converting OCR text to markdown: {ocr_text}")
 
@@ -218,8 +219,11 @@ class BaseConverter(BaseModel):
         enforced_json_format: Optional[str | dict] = None,
         model_source: Optional[str] = None,
         model: Optional[str] = None,
+        comment: Optional[str] = None,
     ) -> Tuple[dict, OpenAICallbackHandler]:
-        chain = BaseChainHandler.get_instance(model_source).ocr_fix_to_json_chain(model)
+        chain = BaseChainHandler.get_instance(model_source).ocr_fix_to_json_chain(
+            model, comment=comment
+        )
         logger.info(f"Converting OCR text to json: {ocr_text}")
         with get_openai_callback() as cb:
             result = chain.invoke(
@@ -236,6 +240,7 @@ class BaseConverter(BaseModel):
         model = self.request_data.model
         return_type = self.request_data.return_type
         enforced_json_format = self.request_data.enforced_json_format
+        comment = self.request_data.comment
 
         if return_type == "json":
             self.ocr_fix_to_json(
@@ -243,9 +248,12 @@ class BaseConverter(BaseModel):
                 enforced_json_format=enforced_json_format,
                 model_source=model_source,
                 model=model,
+                comment=comment,
             )
         elif return_type == "md":
-            self.ocr_fix_to_markdown(text, model_source=model_source, model=model)
+            self.ocr_fix_to_markdown(
+                text, model_source=model_source, model=model, comment=comment
+            )
         else:
             raise ValueError("return_type must be one of 'md' or 'json")
 

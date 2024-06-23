@@ -25,6 +25,8 @@ interface FileUploadFormProps {
     setReturnType: React.Dispatch<React.SetStateAction<string>>;
     enforcedJsonFormat: string | null;
     setEnforcedJsonFormat: React.Dispatch<React.SetStateAction<string | null>>;
+    comment: string | null;
+    setComment: React.Dispatch<React.SetStateAction<string | null>>;
     save_to_cache: boolean;
     setSave_to_cache: React.Dispatch<React.SetStateAction<boolean>>;
     use_cache: boolean;
@@ -61,6 +63,8 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
     setReturnType,
     enforcedJsonFormat,
     setEnforcedJsonFormat,
+    comment,
+    setComment,
     save_to_cache,
     setSave_to_cache,
     use_cache,
@@ -360,26 +364,56 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                             <option value="json">JSON</option>
                         </select>
                     </div>
-                    {/* Enforced JSON format */}
+
+                    {/* Enforced JSON format if return type is JSON */}
+                    {returnType === "json" && (
+                        <>
+                            <div className="form-control">
+                                <label
+                                    htmlFor="enforced_json_format"
+                                    className="label text-lg font-medium"
+                                >
+                                    Enforced JSON format:
+                                </label>
+                                <textarea
+                                    id="enforced_json_format"
+                                    name="enforced_json_format"
+                                    value={enforcedJsonFormat ?? ""}
+                                    onChange={(e) =>
+                                        setEnforcedJsonFormat(
+                                            e.target.value
+                                                ? e.target.value
+                                                : null
+                                        )
+                                    }
+                                    className="textarea textarea-bordered"
+                                    placeholder="please enter a JSON object"
+                                    rows={10}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    {/* comment */}
                     <div className="form-control">
                         <label
-                            htmlFor="enforced_json_format"
+                            htmlFor="comment"
                             className="label text-lg font-medium"
                         >
-                            Enforced JSON format:
+                            Comment:
                         </label>
-                        <input
-                            type="text"
-                            id="enforced_json_format"
-                            name="enforced_json_format"
-                            value={enforcedJsonFormat ?? ""}
+                        <textarea
+                            id="comment"
+                            name="comment"
+                            value={comment ?? ""}
                             onChange={(e) =>
-                                setEnforcedJsonFormat(
+                                setComment(
                                     e.target.value ? e.target.value : null
                                 )
                             }
-                            className="input input-bordered"
-                            placeholder="null"
+                            className="textarea textarea-bordered"
+                            placeholder="please enter a comment, it will be used to instruct the LLM"
+                            rows={3}
                         />
                     </div>
                 </>

@@ -90,8 +90,8 @@ Example:
 ```"""
 
 
-ADDITIONAL_PROMTPT = """Additional prompt from user, you should also follow the instruction to complete the task:
-{additional_prompt}
+COMMENT_PROMTPT = """Additional prompt from user, you should also follow the instruction to complete the task:
+{comment}
 """
 
 
