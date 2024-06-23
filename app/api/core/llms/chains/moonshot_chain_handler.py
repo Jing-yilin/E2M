@@ -51,7 +51,9 @@ class MoonshotChainHandler(BaseChainHandler):
             chain_name="ocr_fix_to_markdown", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = MoonshotChat(model=model, moonshot_api_key=Config.MOONSHOT_API_KEY)
+            chat_model = MoonshotChat(
+                model=model, moonshot_api_key=Config.MOONSHOT_API_KEY
+            )
             messages = [("human", OCR_FIX_TO_MARKDOWN_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -70,7 +72,9 @@ class MoonshotChainHandler(BaseChainHandler):
             chain_name="ocr_fix_to_json", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = MoonshotChat(model=model, moonshot_api_key=Config.MOONSHOT_API_KEY)
+            chat_model = MoonshotChat(
+                model=model, moonshot_api_key=Config.MOONSHOT_API_KEY
+            )
             messages = [("human", OCR_FIX_TO_JSON_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -89,7 +93,9 @@ class MoonshotChainHandler(BaseChainHandler):
             chain_name="extract_markdown", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = MoonshotChat(model=model, moonshot_api_key=Config.MOONSHOT_API_KEY)
+            chat_model = MoonshotChat(
+                model=model, moonshot_api_key=Config.MOONSHOT_API_KEY
+            )
             messages = [("human", EXTRACT_MARKDOWN_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -106,7 +112,9 @@ class MoonshotChainHandler(BaseChainHandler):
             chain_name="extract_json", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = MoonshotChat(model=model, moonshot_api_key=Config.MOONSHOT_API_KEY)
+            chat_model = MoonshotChat(
+                model=model, moonshot_api_key=Config.MOONSHOT_API_KEY
+            )
             messages = [("human", EXTRACT_JSON_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
