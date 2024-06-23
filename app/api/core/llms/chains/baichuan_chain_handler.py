@@ -50,9 +50,9 @@ class BaichuanChainHandler(BaseChainHandler):
         )
         if hash_key not in self.chains:
             chat_model = ChatBaichuan(model=model)
-            messages = [("system", OCR_FIX_TO_MARKDOWN_PROMPT)]
+            messages = [("human", OCR_FIX_TO_MARKDOWN_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = StrOutputParser()
             chain = prompt_template | chat_model | parser
@@ -69,9 +69,9 @@ class BaichuanChainHandler(BaseChainHandler):
         )
         if hash_key not in self.chains:
             chat_model = ChatBaichuan(model=model)
-            messages = [("system", OCR_FIX_TO_JSON_PROMPT)]
+            messages = [("human", OCR_FIX_TO_JSON_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = JsonOutputParser()
             chain = prompt_template | chat_model | parser
@@ -88,9 +88,9 @@ class BaichuanChainHandler(BaseChainHandler):
         )
         if hash_key not in self.chains:
             chat_model = ChatBaichuan(model=model)
-            messages = [("system", EXTRACT_MARKDOWN_PROMPT)]
+            messages = [("human", EXTRACT_MARKDOWN_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = StrOutputParser()
             chain = prompt_template | chat_model | parser
@@ -105,9 +105,9 @@ class BaichuanChainHandler(BaseChainHandler):
         )
         if hash_key not in self.chains:
             chat_model = ChatBaichuan(model=model)
-            messages = [("system", EXTRACT_JSON_PROMPT)]
+            messages = [("human", EXTRACT_JSON_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = JsonOutputParser()
             chain = prompt_template | chat_model | parser

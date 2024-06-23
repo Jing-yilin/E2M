@@ -42,7 +42,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         super().__init__(model)
 
     def ocr_fix_to_markdown_chain(
-        self, model=None, addition: str = None, temperature: float = 0.0
+        self, model=None, addition: str = None, temperature: float = 0.5
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -50,10 +50,14 @@ class ZhipuaiChainHandler(BaseChainHandler):
             chain_name="ocr_fix_to_markdown", model=model, addition=addition
         )
         if hash_key not in self.chains:
-            chat_model = ChatZhipuAI(model=model)
-            messages = [("system", OCR_FIX_TO_MARKDOWN_PROMPT)]
+            chat_model = ChatZhipuAI(
+                model_name=model,
+                zhipuai_api_key=Config.ZHIPUAI_API_KEY,
+                temperature=temperature,
+            )
+            messages = [("human", OCR_FIX_TO_MARKDOWN_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = StrOutputParser()
             chain = prompt_template | chat_model | parser
@@ -61,7 +65,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         return self.chains[hash_key]
 
     def ocr_fix_to_json_chain(
-        self, model=None, addition: str = None, temperature: float = 0.0
+        self, model=None, addition: str = None, temperature: float = 0.5
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -69,10 +73,14 @@ class ZhipuaiChainHandler(BaseChainHandler):
             chain_name="ocr_fix_to_json", model=model, addition=addition
         )
         if hash_key not in self.chains:
-            chat_model = ChatZhipuAI(model=model)
-            messages = [("system", OCR_FIX_TO_JSON_PROMPT)]
+            chat_model = ChatZhipuAI(
+                model_name=model,
+                zhipuai_api_key=Config.ZHIPUAI_API_KEY,
+                temperature=temperature,
+            )
+            messages = [("human", OCR_FIX_TO_JSON_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = JsonOutputParser()
             chain = prompt_template | chat_model | parser
@@ -80,7 +88,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         return self.chains[hash_key]
 
     def extract_markdown_chain(
-        self, model=None, addition: str = None, temperature: float = 0.0
+        self, model=None, addition: str = None, temperature: float = 0.5
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -88,10 +96,14 @@ class ZhipuaiChainHandler(BaseChainHandler):
             chain_name="extract_markdown", model=model, addition=addition
         )
         if hash_key not in self.chains:
-            chat_model = ChatZhipuAI(model=model)
-            messages = [("system", EXTRACT_MARKDOWN_PROMPT)]
+            chat_model = ChatZhipuAI(
+                model_name=model,
+                zhipuai_api_key=Config.ZHIPUAI_API_KEY,
+                temperature=temperature,
+            )
+            messages = [("human", EXTRACT_MARKDOWN_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = StrOutputParser()
             chain = prompt_template | chat_model | parser
@@ -99,7 +111,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         return self.chains[hash_key]
 
     def extract_json_chain(
-        self, model=None, addition: str = None, temperature: float = 0.0
+        self, model=None, addition: str = None, temperature: float = 0.5
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -107,10 +119,14 @@ class ZhipuaiChainHandler(BaseChainHandler):
             chain_name="extract_json", model=model, addition=addition
         )
         if hash_key not in self.chains:
-            chat_model = ChatZhipuAI(model=model)
-            messages = [("system", EXTRACT_JSON_PROMPT)]
+            chat_model = ChatZhipuAI(
+                model_name=model,
+                zhipuai_api_key=Config.ZHIPUAI_API_KEY,
+                temperature=temperature,
+            )
+            messages = [("human", EXTRACT_JSON_PROMPT)]
             if addition:
-                messages.append(("system", ADDITIONAL_PROMTPT))
+                messages.append(("human", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = JsonOutputParser()
             chain = prompt_template | chat_model | parser
