@@ -1,0 +1,56 @@
+openai:
+  - GPT-3.5-turbo
+  - GPT-3.5-turbo-0125
+  - GPT-3.5-turbo-0301
+  - GPT-3.5-turbo-0613
+  - GPT-3.5-turbo-1106
+  - GPT-3.5-turbo-16k
+  - GPT-3.5-turbo-16k-0613
+  - GPT-3.5-turbo-instruct
+  - GPT-4
+  - GPT-4-0125-preview
+  - GPT-4-0314
+  - GPT-4-0613
+  - GPT-4-1106-preview
+  - GPT-4-1106-vision-preview
+  - GPT-4-32k
+  - GPT-4-32k-0314
+  - GPT-4-32k-0613
+  - GPT-4-turbo
+  - GPT-4-turbo-2024-04-09
+  - GPT-4-turbo-preview
+  - GPT-4-vision-preview
+  - GPT-4o
+  - GPT-4o-2024-05-13
+anthropic:
+  - claude-3-5-sonnet-20240620
+  - claude-3-opus-20240229
+  - claude-3-sonnet-20240229
+  - claude-3-haiku-20240307
+baichuan:
+  - Baichuan4
+  - Baichuan3-Turbo
+  - Baichuan3-Turbo-128k
+  - Baichuan2-Turbo
+  - Baichuan2-Turbo-192k
+moonshot:
+  - moonshot-v1-8k
+  - moonshot-v1-32k
+  - moonshot-v1-128k
+ollama:
+  - llama3
+  - qwen2
+  - phi3
+  - aya
+  - mistral
+  - gemma
+  - mixtral
+zhipuai:
+  - glm-4-0520
+  - glm-4
+  - glm-4-air
+  - glm-4-airx
+  - glm-4-flash
+  - glm-4v
+  - glm-3-turbo
+  - cogview-3

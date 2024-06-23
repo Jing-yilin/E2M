@@ -1,3 +1,4 @@
+// app/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -19,7 +20,7 @@ export default function Home() {
     const [firstPage, setFirstPage] = useState<number | null>(null);
     const [lastPage, setLastPage] = useState<number | null>(null);
     const [use_llm, setUse_llm] = useState<boolean>(false);
-    const [model_source, setModel_source] = useState<string>("gpt-3.5-turbo");
+    const [model_source, setModel_source] = useState<string>("openai");
     const [model, setModel] = useState<string>("gpt-3.5-turbo");
     const [returnType, setReturnType] = useState<string>("md");
     const [enforcedJsonFormat, setEnforcedJsonFormat] = useState<string | null>(
@@ -68,25 +69,6 @@ export default function Home() {
             setLoading(false); // 停止加载动画
         }
     };
-
-    // const handleCopy = () => {
-    //     if (result) {
-    //         const resultString = JSON.stringify(result, null, 2);
-    //         navigator.clipboard.writeText(resultString);
-    //         const alert = document.createElement("div");
-    //         alert.className =
-    //             "fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-lg";
-    //         alert.textContent = "Result copied to clipboard!";
-    //         document.body.appendChild(alert);
-    //         setTimeout(() => {
-    //             alert.classList.add("opacity-0");
-    //             setTimeout(() => {
-    //                 document.body.removeChild(alert);
-    //             }, 1000);
-    //         }, 1000);
-    //     }
-    // };
-
     return (
         <div className="min-h-screen flex flex-col bg-base-200 text-base-content">
             <Head>

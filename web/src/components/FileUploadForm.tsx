@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import yaml from "js-yaml";
 
 interface FileUploadFormProps {
     file: File | null;
@@ -65,12 +66,37 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
     use_cache,
     setUse_cache,
 }) => {
+    const [modelSources, setModelSources] = useState<{
+        [key: string]: string[];
+    }>({});
+
+    useEffect(() => {
+        const loadModelSources = async () => {
+            try {
+                const response = await fetch("/models.yaml");
+                const text = await response.text();
+                const data = yaml.load(text) as { [key: string]: string[] };
+                setModelSources(data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        loadModelSources();
+    }, []);
+
+    useEffect(() => {
+        if (model_source && modelSources[model_source]) {
+            setModel(modelSources[model_source][0]);
+        }
+    }, [model_source, modelSources, setModel]);
+
     return (
         <form
             onSubmit={handleSubmit}
             className="space-y-6 w-full bg-base-100 p-6 rounded-lg shadow"
         >
-            {/* save to cache button and use cache button */}
+            {/* Save to cache and use cache buttons */}
             <div className="form-control">
                 <label
                     htmlFor="save_to_cache"
@@ -147,7 +173,6 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                     onChange={(e) => setParseMode(e.target.value)}
                     className="select select-bordered"
                 >
-                    {/* `auto`, `ocr-low`, `ocr-high`, `fast` */}
                     <option value="auto">Auto(✨Recommended)</option>
                     <option value="ocr-low">OCR Low</option>
                     <option value="ocr-high">OCR High(🤖High GPU usage)</option>
@@ -192,7 +217,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
             </div>
             {isPageSelectable(file) && (
                 <>
-                    {/* first_page */}
+                    {/* First page */}
                     <div className="form-control">
                         <label
                             htmlFor="first_page"
@@ -217,7 +242,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                         />
                     </div>
 
-                    {/* last_page */}
+                    {/* Last page */}
                     <div className="form-control">
                         <label
                             htmlFor="last_page"
@@ -243,7 +268,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                     </div>
                 </>
             )}
-            {/* use_llm */}
+            {/* Use LLM */}
             <div className="form-control">
                 <label htmlFor="use_llm" className="label text-lg font-medium">
                     Use LLM (✨Recommended for clearer results):
@@ -262,10 +287,10 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                     </label>
                 </div>
             </div>
-            {/* if use_llm, then choose model, return_type, enforced_json_format */}
+            {/* If use_llm, then choose model, return_type, enforced_json_format */}
             {use_llm && (
                 <>
-                    {/* model_source */}
+                    {/* Model source */}
                     <div className="form-control">
                         <label
                             htmlFor="model_source"
@@ -280,17 +305,15 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                             onChange={(e) => setModel_source(e.target.value)}
                             className="select select-bordered"
                         >
-                            <option value="openai">OpenAI</option>
-                            <option value="anthropic">Anthropic</option>
-                            <option value="baichuan">Baichuan</option>
-                            <option value="moonshot">Moonshot</option>
-                            <option value="ollama">Ollama</option>
-                            <option value="zhipuai">Zhipuai</option>
+                            {Object.keys(modelSources).map((source) => (
+                                <option key={source} value={source}>
+                                    {source}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
-                    {/* model */}
-                    {/* model_source = openai */}
+                    {/* Model */}
                     <div className="form-control">
                         <label
                             htmlFor="model"
@@ -305,65 +328,21 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                             onChange={(e) => setModel(e.target.value)}
                             className="select select-bordered"
                         >
-                            <option value="gpt-3.5-turbo">GPT-3.5-turbo</option>
-                            <option value="gpt-3.5-turbo-0125">
-                                GPT-3.5-turbo-0125
-                            </option>
-                            <option value="gpt-3.5-turbo-0301">
-                                GPT-3.5-turbo-0301
-                            </option>
-                            <option value="gpt-3.5-turbo-0613">
-                                GPT-3.5-turbo-0613
-                            </option>
-                            <option value="gpt-3.5-turbo-1106">
-                                GPT-3.5-turbo-1106
-                            </option>
-                            <option value="gpt-3.5-turbo-16k">
-                                GPT-3.5-turbo-16k
-                            </option>
-                            <option value="gpt-3.5-turbo-16k-0613">
-                                GPT-3.5-turbo-16k-0613
-                            </option>
-                            <option value="gpt-3.5-turbo-instruct">
-                                GPT-3.5-turbo-instruct
-                            </option>
-                            <option value="gpt-4">GPT-4</option>
-                            <option value="gpt-4-0125-preview">
-                                GPT-4-0125-preview
-                            </option>
-                            <option value="gpt-4-0314">GPT-4-0314</option>
-                            <option value="gpt-4-0613">GPT-4-0613</option>
-                            <option value="gpt-4-1106-preview">
-                                GPT-4-1106-preview
-                            </option>
-                            <option value="gpt-4-1106-vision-preview">
-                                GPT-4-1106-vision-preview
-                            </option>
-                            <option value="gpt-4-32k">GPT-4-32k</option>
-                            <option value="gpt-4-32k-0314">
-                                GPT-4-32k-0314
-                            </option>
-                            <option value="gpt-4-32k-0613">
-                                GPT-4-32k-0613
-                            </option>
-                            <option value="gpt-4-turbo">GPT-4-turbo</option>
-                            <option value="gpt-4-turbo-2024-04-09">
-                                GPT-4-turbo-2024-04-09
-                            </option>
-                            <option value="gpt-4-turbo-preview">
-                                GPT-4-turbo-preview
-                            </option>
-                            <option value="gpt-4-vision-preview">
-                                GPT-4-vision-preview
-                            </option>
-                            <option value="gpt-4o">GPT-4o</option>
-                            <option value="gpt-4o-2024-05-13">
-                                GPT-4o-2024-05-13
-                            </option>
+                            {modelSources[model_source] &&
+                                modelSources[model_source].map(
+                                    (modelOption) => (
+                                        <option
+                                            key={modelOption}
+                                            value={modelOption}
+                                        >
+                                            {modelOption}
+                                        </option>
+                                    )
+                                )}
                         </select>
                     </div>
 
-                    {/* return_type */}
+                    {/* Return type */}
                     <div className="form-control">
                         <label
                             htmlFor="return_type"
@@ -382,7 +361,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                             <option value="json">JSON</option>
                         </select>
                     </div>
-                    {/* enforced_json_format */}
+                    {/* Enforced JSON format */}
                     <div className="form-control">
                         <label
                             htmlFor="enforced_json_format"
