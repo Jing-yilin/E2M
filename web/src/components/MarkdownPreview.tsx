@@ -16,7 +16,12 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         const timestamp = new Date().toLocaleString("zh-CN", {
-            timeZone: "Asia/Shanghai",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
         });
         a.href = url;
         a.download = `markdown-${timestamp}.md`;
