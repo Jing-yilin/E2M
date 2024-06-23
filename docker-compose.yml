@@ -3,8 +3,8 @@ networks:
         driver: bridge
 
 services:
-    postgres:
-        container_name: e2m-postgres
+    e2m-db:
+        container_name: e2m-db
         image: postgres:15-alpine
         restart: always
         environment:
@@ -53,7 +53,7 @@ services:
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@e2m-db/e2m_db
             SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@e2m-db/e2m_db"}'
         depends_on:
-            - postgres
+            - e2m-db
         networks:
             - e2m-network
 
