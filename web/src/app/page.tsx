@@ -44,6 +44,7 @@ export default function Home() {
             formData.append("first_page", String(firstPage));
         if (lastPage !== null) formData.append("last_page", String(lastPage));
         if (use_llm) formData.append("use_llm", String(use_llm));
+        formData.append("model_source", model_source);
         formData.append("model", model);
         formData.append("return_type", returnType);
         if (enforcedJsonFormat)

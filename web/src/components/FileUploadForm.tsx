@@ -287,7 +287,6 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                     </label>
                 </div>
             </div>
-            {/* If use_llm, then choose model, return_type, enforced_json_format */}
             {use_llm && (
                 <>
                     {/* Model source */}
