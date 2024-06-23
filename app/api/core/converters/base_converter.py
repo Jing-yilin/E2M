@@ -196,8 +196,12 @@ class BaseConverter(BaseModel):
         )
         logger.info(f"Converting OCR text to markdown: {ocr_text}")
 
+        chain_params = {"ocr_text": ocr_text}
+        if comment:
+            chain_params["comment"] = comment
+
         with get_openai_callback() as cb:
-            result: str = chain.invoke({"ocr_text": ocr_text}).strip()
+            result: str = chain.invoke(chain_params).strip()
             self.set_llm_info(model_source, model, cb)
         # todo: add more rules or use a parser
         if result.startswith("```markdown") and result.endswith("```"):
@@ -225,10 +229,16 @@ class BaseConverter(BaseModel):
             model, comment=comment
         )
         logger.info(f"Converting OCR text to json: {ocr_text}")
+
+        chain_params = {
+            "ocr_text": ocr_text,
+            "enforced_json_format": enforced_json_format,
+        }
+        if comment:
+            chain_params["comment"] = comment
+
         with get_openai_callback() as cb:
-            result = chain.invoke(
-                {"ocr_text": ocr_text, "enforced_json_format": enforced_json_format}
-            )
+            result = chain.invoke(chain_params)
             self.set_llm_info(model_source, model, cb)  # todo: add messages
         self.set_json_data(result)
 
