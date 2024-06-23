@@ -42,7 +42,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         super().__init__(model)
 
     def ocr_fix_to_markdown_chain(
-        self, model=None, addition: str = None
+        self, model=None, addition: str = None, temperature: float = 0.0
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -61,7 +61,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         return self.chains[hash_key]
 
     def ocr_fix_to_json_chain(
-        self, model=None, addition: str = None
+        self, model=None, addition: str = None, temperature: float = 0.0
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -80,7 +80,7 @@ class ZhipuaiChainHandler(BaseChainHandler):
         return self.chains[hash_key]
 
     def extract_markdown_chain(
-        self, model=None, addition: str = None
+        self, model=None, addition: str = None, temperature: float = 0.0
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -98,7 +98,9 @@ class ZhipuaiChainHandler(BaseChainHandler):
             self.chains[hash_key] = chain
         return self.chains[hash_key]
 
-    def extract_json_chain(self, model=None, addition: str = None) -> RunnableSequence:
+    def extract_json_chain(
+        self, model=None, addition: str = None, temperature: float = 0.0
+    ) -> RunnableSequence:
         if model is None:
             model = self.model
         hash_key = self._get_hash_key(

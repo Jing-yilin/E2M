@@ -96,5 +96,3 @@ ADDITIONAL_PROMTPT = """Additional prompt from user, you should also follow the 
 
 
 # EXTRACT_MARKDOWN_TOC_LEVEL_PROMPT = """You are required to extract the table of contents (TOC) levels from the provided Markdown content.
-
-

@@ -1,20 +1,3 @@
-# LangChain supports many other chat models. Here, we're using Ollama
-
-# # supports many more optional parameters. Hover on your `ChatOllama(...)`
-# # class to view the latest available supported parameters
-# llm = ChatOllama(model="llama3")
-# prompt = ChatPromptTemplate.from_template("Tell me a short joke about {topic}")
-
-# # using LangChain Expressive Language chain syntax
-# # learn more about the LCEL on
-# # /docs/expression_language/why
-# chain = prompt | llm | StrOutputParser()
-
-# # for brevity, response is printed in terminal
-# # You can use LangServe to deploy your application for
-# # production
-# print(chain.invoke({"topic": "Space travel"}))
-
 import logging
 from langchain_community.chat_models import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
@@ -107,6 +90,23 @@ class OllamaChainHandler(BaseChainHandler):
                 messages.append(("system", ADDITIONAL_PROMTPT))
             prompt_template = ChatPromptTemplate.from_messages(messages)
             parser = StrOutputParser()
+            chain = prompt_template | chat_model | parser
+            self.chains[hash_key] = chain
+        return self.chains[hash_key]
+
+    def extract_json_chain(self, model=None, addition: str = None) -> RunnableSequence:
+        if model is None:
+            model = self.model
+        hash_key = self._get_hash_key(
+            chain_name="extract_json", model=model, addition=addition
+        )
+        if hash_key not in self.chains:
+            chat_model = ChatOllama(model=model)
+            messages = [("system", EXTRACT_JSON_PROMPT)]
+            if addition:
+                messages.append(("system", ADDITIONAL_PROMTPT))
+            prompt_template = ChatPromptTemplate.from_messages(messages)
+            parser = JsonOutputParser()
             chain = prompt_template | chat_model | parser
             self.chains[hash_key] = chain
         return self.chains[hash_key]
