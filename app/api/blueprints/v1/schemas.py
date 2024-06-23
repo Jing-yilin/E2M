@@ -39,6 +39,11 @@ class RequestData(BaseModel):
         description="Whether to use the LLM for parsing. The default is False.",
     )
 
+    model_source: Optional[str] = Field(
+        default="openai",
+        description="The model source to use for parsing. The default is 'openai'.",
+    )
+
     model: Optional[str] = Field(
         default="gpt-3.5-turbo",
         description="The model to use for parsing. The default is 'gpt-3.5-turbo'.",

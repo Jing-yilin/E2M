@@ -72,6 +72,7 @@ def convert_route():
         first_page=int(request.form.get("first_page", default=1)),
         last_page=request.form.get("last_page", default=None),
         use_llm=request.form.get("use_llm", default=False),
+        model_source=request.form.get("model_source", default="openai"),
         model=request.form.get("model", default="gpt-3.5-turbo"),
         return_type=request.form.get("return_type", default="md"),  # md, json
         enforced_json_format=request.form.get("enforced_json_format", default=None),
@@ -80,7 +81,7 @@ def convert_route():
     )
     if data.last_page is not None:
         data.last_page = int(data.last_page)
-    logger.debug(f"Request data: {data}")
+    logger.info(f"Request data: {data}")
 
     # get cache key
     cache_key = data.get_hash_key()
@@ -97,6 +98,7 @@ def convert_route():
             first_page=data.first_page,
             last_page=data.last_page,
             use_llm=data.use_llm,
+            model_source=data.model_source,
             model=data.model,
             return_type=data.return_type,
             enforced_json_format=data.enforced_json_format,
@@ -131,6 +133,7 @@ def convert_route():
                 first_page=data.first_page,
                 last_page=data.last_page,
                 use_llm=data.use_llm,
+                model_source=data.model_source,
                 model=data.model,
                 return_type=data.return_type,
                 enforced_json_format=data.enforced_json_format,

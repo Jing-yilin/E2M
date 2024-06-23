@@ -17,6 +17,7 @@ class ConversionCache(db.Model):
     first_page = db.Column(db.Integer, nullable=False)
     last_page = db.Column(db.Integer, nullable=True)
     use_llm = db.Column(db.Boolean, nullable=False)
+    model_source = db.Column(db.String(255), nullable=True)
     model = db.Column(db.String(255), nullable=True)
     return_type = db.Column(db.String(255), nullable=True)
     enforced_json_format = db.Column(db.Text, nullable=True)

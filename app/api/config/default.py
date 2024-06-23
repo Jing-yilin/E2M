@@ -11,16 +11,46 @@ class DefaultConfig(BaseSettings):
         default="./temp", env="TEMP_DIR", description="Temporary directory"
     )
 
-    ENABLE_LLM: bool = Field(default=False, description="Use LLM")
-
     TRANSFORMERS_CACHE: str = Field(
         default="./transformers_cache",
         env="TRANSFORMERS_CACHE",
         description="Transformers cache directory",
     )
 
+    # LLM
+    ENABLE_LLM: bool = Field(default=False, description="Use LLM")
+    ANTHROPIC_DEFAULT_MODEL: str = Field(
+        default="claude-3-opus-20240229",
+        env="ANTHROPIC_DEFAULT_MODEL",
+        description="Anthropic default model",
+    )
+    BAICHUAN_DEFAULT_MODEL: str = Field(
+        default="Baichuan3-Turbo",
+        env="BAICHUAN_DEFAULT_MODEL",
+        description="Baichuan default model",
+    )
+    MOONSHOT_DEFAULT_MODEL: str = Field(
+        default="moonshot-v1-128k",
+        env="MOONSHOT_DEFAULT_MODEL",
+        description="Moonshot default model",
+    )
+    OLLAMA_DEFAULT_MODEL: str = Field(
+        default="ollama3",
+        env="OLLAMA_DEFAULT_MODEL",
+        description="Ollama default model",
+    )
+    OPENAI_DEFAULT_MODEL: str = Field(
+        default="gpt-3.5-turbo",
+        env="OPENAI_DEFAULT_MODEL",
+        description="OpenAI default model",
+    )
+    ZHIPUAI_DEFAULT_MODEL: str = Field(
+        default="glm-4",
+        env="ZHIPUAI_DEFAULT_MODEL",
+        description="Zhipuai default model",
+    )
+
     # converters
-    # pydantic.errors.PydanticUserError: Field 'DOC_CONVERTER' requires a type annotation
     DOC_CONVERTER: str = Field(
         default="default", env="DOC_CONVERTER", description="DOC Converter to use"
     )  # unstructured / default
@@ -97,6 +127,7 @@ class DefaultConfig(BaseSettings):
         default="http://127.0.0.1:3000", env="WEB_URL", description="Base WEB URL"
     )
 
+    # Database
     USE_DB: bool = Field(default=True, description="Use database")
 
     # SQLAlchemy database URI
