@@ -10,8 +10,8 @@
     <a href="https://github.com/Jing-yilin/E2M">
         <img src="https://img.shields.io/badge/E2M-repo-blue" alt="E2M Repo">
     </a>
-    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.2">
-        <img src="https://img.shields.io/badge/version-v1.1.2-blue" alt="E2M Version">
+    <a href="https://github.com/Jing-yilin/E2M/tags/v1.1.3">
+        <img src="https://img.shields.io/badge/version-v1.1.3-blue" alt="E2M Version">
     </a>
     <a href="https://hub.docker.com/r/jingyilin/e2m/tags">
         <img src="https://img.shields.io/badge/docker-repo-blue" alt="Docker Repo">
@@ -65,7 +65,7 @@
 
 ## 🌟Introduction
 
-✨Currenr version: `v1.1.2`
+✨Currenr version: `v1.1.3`
 
 🦄E2M is an API tool converting everything to markdown or json(both LLM-friendly Format).
 

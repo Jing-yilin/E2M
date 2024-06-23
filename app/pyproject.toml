@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "e2m"
-version = "v1.1.2"
+version = "v1.1.3"
 description = "E2M (Everything to Markdown) API Service"
 authors = ["Jing-yilin <yilin.jing.ai@outlook.com>"]
 license = "Apache License"
