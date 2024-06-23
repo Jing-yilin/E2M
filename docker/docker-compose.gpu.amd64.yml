@@ -53,6 +53,7 @@ services:
             BAICHUAN_API_KEY: ""
             MOONSHOT_API_KEY: ""
             ZHIPUAI_API_KEY: ""
+            OLLAMA_BASE: "http://localhost:11434"
             # db config
             USE_DB: "True"
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@e2m-db/e2m_db
