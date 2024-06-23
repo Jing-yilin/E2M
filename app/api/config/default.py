@@ -49,6 +49,11 @@ class DefaultConfig(BaseSettings):
         env="ZHIPUAI_DEFAULT_MODEL",
         description="Zhipuai default model",
     )
+    TONGYI_DEFAULT_MODEL: str = Field(
+        default="qwen-turbo",
+        env="TONGYI_DEFAULT_MODEL",
+        description="Tongyi default model",
+    )
 
     # api keys
     ANTHROPIC_API_KEY: str = Field(
@@ -75,6 +80,11 @@ class DefaultConfig(BaseSettings):
         default="",
         env="ZHIPUAI_API_KEY",
         description="Zhipuai API key",
+    )
+    DASHSCOPE_API_KEY: str = Field(
+        default="",
+        env="DASHSCOPE_API_KEY",
+        description="Dashscope API key",
     )
 
     # converters
