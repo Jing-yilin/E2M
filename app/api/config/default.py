@@ -50,6 +50,33 @@ class DefaultConfig(BaseSettings):
         description="Zhipuai default model",
     )
 
+    # api keys
+    ANTHROPIC_API_KEY: str = Field(
+        default="",
+        env="ANTHROPIC_API_KEY",
+        description="Anthropic API key",
+    )
+    BAICHUAN_API_KEY: str = Field(
+        default="",
+        env="BAICHUAN_API_KEY",
+        description="Baichuan API key",
+    )
+    MOONSHOT_API_KEY: str = Field(
+        default="",
+        env="MOONSHOT_API_KEY",
+        description="Moonshot API key",
+    )
+    OPENAI_API_KEY: str = Field(
+        default="",
+        env="OPENAI_API_KEY",
+        description="OpenAI API key",
+    )
+    ZHIPUAI_API_KEY: str = Field(
+        default="",
+        env="ZHIPUAI_API_KEY",
+        description="Zhipuai API key",
+    )
+
     # converters
     DOC_CONVERTER: str = Field(
         default="default", env="DOC_CONVERTER", description="DOC Converter to use"
