@@ -26,6 +26,7 @@ export default function Home() {
     const [enforcedJsonFormat, setEnforcedJsonFormat] = useState<string | null>(
         null
     );
+    const [comment, setComment] = useState<string | null>(null);
     const [save_to_cache, setSave_to_cache] = useState<boolean>(false);
     const [use_cache, setUse_cache] = useState<boolean>(false);
 
@@ -47,8 +48,9 @@ export default function Home() {
         formData.append("model_source", model_source);
         formData.append("model", model);
         formData.append("return_type", returnType);
-        if (enforcedJsonFormat)
+        if (returnType === "json" && enforcedJsonFormat)
             formData.append("enforced_json_format", enforcedJsonFormat);
+        if (comment) formData.append("comment", comment);
         formData.append("save_to_cache", String(save_to_cache));
         formData.append("use_cache", String(use_cache));
 
@@ -96,7 +98,8 @@ export default function Home() {
                     E2M Converter
                 </h1>
                 <p className="mb-4 text-center text-sm">
-                    📂Supported file types: [doc, docx, ppt, pptx, pdf, html, htm]
+                    📂Supported file types: [doc, docx, ppt, pptx, pdf, html,
+                    htm]
                 </p>
                 <p className="mb-4 text-center text-sm">
                     💡Tip: It may take a few minutes to download the model for
@@ -126,6 +129,8 @@ export default function Home() {
                     setReturnType={setReturnType}
                     enforcedJsonFormat={enforcedJsonFormat}
                     setEnforcedJsonFormat={setEnforcedJsonFormat}
+                    comment={comment}
+                    setComment={setComment}
                     save_to_cache={save_to_cache}
                     setSave_to_cache={setSave_to_cache}
                     use_cache={use_cache}
