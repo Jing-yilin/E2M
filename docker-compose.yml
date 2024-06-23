@@ -27,20 +27,31 @@ services:
         ports:
             - "8765:8765"
         environment:
+            # flask config
             FLASK_APP: app.py
             FLASK_ENV: production
             API_URL: http://127.0.0.1:8765
             WEB_URL: http://127.0.0.1:3000
             TZ: Asia/Shanghai
+            # converter config
             DOC_CONVERTER: unstructured
             DOCX_CONVERTER: unstructured
             PDF_CONVERTER: unstructured
             # ENABLE_LLM: "True"
-            # OPENAI_API_KEY: "sk-xxxxxx"
-            # OPENAI_API_BASE: "https://xxxxxxxxxxxxxxxxx"
+            # llm config
+            OPENAI_API_KEY: ""
+            OPENAI_API_BASE: ""
+            # OPENAI_PROXY=""
+            ANTHROPIC_API_KEY: ""
+            BAICHUAN_API_KEY: ""
+            MOONSHOT_API_KEY: ""
+            ZHIPUAI_API_KEY: ""
+            DASHSCOPE_API_KEY: ""
+            OLLAMA_BASE: "http://localhost:11434"
+            # db config
             USE_DB: "True"
-            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@postgres/e2m_db
-            SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@postgres/e2m_db"}'
+            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@e2m-db/e2m_db
+            SQLALCHEMY_BINDS: '{"e2m_db": "postgresql+psycopg2://e2m:password@e2m-db/e2m_db"}'
         depends_on:
             - postgres
         networks:
