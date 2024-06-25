@@ -1,5 +1,5 @@
 #!/bin/bash
-DB_ADMIN="your computer user name"            # Database admin username
+DB_ADMIN="zephyr"            # Database admin username
 DB_ADMIN_PASSWORD="password" # Database admin password
 DB_NAME="e2m_db"             # Database name
 DB_USER="e2m"                # Database user

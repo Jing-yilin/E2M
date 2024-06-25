@@ -1,0 +1,9 @@
+site_name: E2M
+theme: bootstrap4
+plugins:
+  - bootstrap4-blockquotes
+  - bootstrap4-tables
+nav:
+  - Home: index.md
+  - Get Started: get_started.md
+  - Community: community.md
