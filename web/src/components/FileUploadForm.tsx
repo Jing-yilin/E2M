@@ -373,7 +373,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                                     htmlFor="enforced_json_format"
                                     className="label text-lg font-medium"
                                 >
-                                    Enforced JSON format:
+                                    Enforced JSON format (Optional):
                                 </label>
                                 <textarea
                                     id="enforced_json_format"
@@ -400,7 +400,7 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                             htmlFor="comment"
                             className="label text-lg font-medium"
                         >
-                            Comment:
+                            Comment (Optional):
                         </label>
                         <textarea
                             id="comment"
