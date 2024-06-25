@@ -167,7 +167,7 @@ class PdfConverter(BaseConverter):
         last_page = self.request_data.last_page
 
         # get sub pdf
-        if first_page > 1 and last_page is not None:
+        if first_page >= 1 and last_page is not None:
             tmp_file = Path(self.file).stem + "_tmp.pdf"
             from api.core.utils.file_utils import sub_pdf
 
