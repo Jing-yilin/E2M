@@ -19,6 +19,12 @@ def sub_pdf(
     total_pages = tmp_pdf.page_count
     # rm other pages, only keep the first page -> last page
     logger.info(f"tmp_pdf.page_count: {tmp_pdf.page_count}")
+
+    if last_page > total_pages:
+        raise ValueError(
+            f"last_page({last_page}) should not be greater than total_pages({total_pages})"
+        )
+
     # delete right
     if last_page is not None:
         from_page = last_page

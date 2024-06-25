@@ -69,16 +69,16 @@ class BaseConverter(BaseModel):
         """Main method to convert the file to markdown or json.
         function process() should be implemented in the subclass.
         """
-        # try:
-        raw = self.process(**kwargs)
-        if Config.ENABLE_LLM and self.request_data.use_llm:
-            self.llm_enforce(raw)
-        self.set_response_data(status="success", raw=raw)
-        # except Exception as e:
-        #     logger.error(f"Error converting file: {e}")
-        #     self.set_response_data(status="error", error=str(e))
-        # finally:
-        #     self.rm_file()
+        try:
+            raw = self.process(**kwargs)
+            if Config.ENABLE_LLM and self.request_data.use_llm:
+                self.llm_enforce(raw)
+            self.set_response_data(status="success", raw=raw)
+        except Exception as e:
+            logger.error(f"Error converting file: {e}")
+            self.set_response_data(status="error", error=str(e))
+        finally:
+            self.rm_file()
 
         return self.resp_data
 
