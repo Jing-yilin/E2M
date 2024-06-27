@@ -31,5 +31,5 @@ class TongyiChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return ChatTongyi(model=model, api_key=Config.DASHSCOPE_API_KEY)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return ChatTongyi(model=model, api_key=Config.DASHSCOPE_API_KEY, **kwargs)

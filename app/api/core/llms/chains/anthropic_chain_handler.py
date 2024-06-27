@@ -31,5 +31,5 @@ class AnthropicChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return ChatAnthropic(model=model, api_key=Config.ANTHROPIC_API_KEY)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return ChatAnthropic(model=model, api_key=Config.ANTHROPIC_API_KEY, **kwargs)

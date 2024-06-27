@@ -28,5 +28,5 @@ class OllamaChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return ChatOllama(model=model)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return ChatOllama(model=model, **kwargs)

@@ -32,5 +32,5 @@ class ZhipuaiChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return ChatZhipuAI(model=model, api_key=Config.ZHIPUAI_API_KEY)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return ChatZhipuAI(model=model, api_key=Config.ZHIPUAI_API_KEY, **kwargs)

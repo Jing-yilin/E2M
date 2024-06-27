@@ -31,5 +31,5 @@ class BaichuanChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return ChatBaichuan(model=model, api_key=Config.BAICHUAN_API_KEY)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return ChatBaichuan(model=model, api_key=Config.BAICHUAN_API_KEY, **kwargs)

@@ -160,3 +160,13 @@ tongyi:
   - qwen2-7b-instruct
   - qwen2-57b-a14b-instruct
   - qwen2-72b-instruct
+deepseek:
+  - deepseek-chat
+google:
+  - gemini-1.5-flash-latest
+  - gemini-1.5-flash-preview-0514
+  - gemini-1.5-pro
+  - gemini-1.5-pro-latest
+  - gemini-1.5-pro-preview-0514
+  - gemini-pro
+  - gemini-pro-vision

@@ -54,6 +54,16 @@ class DefaultConfig(BaseSettings):
         env="TONGYI_DEFAULT_MODEL",
         description="Tongyi default model",
     )
+    DEEPSEEK_DEFAULT_MODEL: str = Field(
+        default="deepseek-chat",
+        env="DEEPSEEK_DEFAULT_MODEL",
+        description="Deepseek default model",
+    )
+    GOOGLE_DEFAULT_MODEL: str = Field(
+        default="gemini-pro",
+        env="GOOGLE_DEFAULT_MODEL",
+        description="Google default model",
+    )
 
     # api keys
     ANTHROPIC_API_KEY: str = Field(
@@ -85,6 +95,16 @@ class DefaultConfig(BaseSettings):
         default="",
         env="DASHSCOPE_API_KEY",
         description="Dashscope API key",
+    )
+    DEEPSEEK_API_KEY: str = Field(
+        default="",
+        env="DEEPSEEK_API_KEY",
+        description="Deepseek API key",
+    )
+    GOOGLE_API_KEY: str = Field(
+        default="",
+        env="GOOGLE_API_KEY",
+        description="Google API key",
     )
 
     # converters

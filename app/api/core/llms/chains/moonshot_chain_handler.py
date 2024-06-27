@@ -33,5 +33,5 @@ class MoonshotChainHandler(BaseChainHandler):
 
         super().__init__(model)
 
-    def init_chat_model(self, model) -> BaseChatModel:
-        return MoonshotChat(model=model, api_key=Config.MOONSHOT_API_KEY)
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
+        return MoonshotChat(model=model, api_key=Config.MOONSHOT_API_KEY, **kwargs)

@@ -6,6 +6,9 @@ from api.core.llms.chains.openai_chain_handler import OpenaiChainHandler
 from api.core.llms.chains.zhipuai_chain_handler import ZhipuaiChainHandler
 from api.core.llms.chains.moonshot_chain_handler import MoonshotChainHandler
 from api.core.llms.chains.xinference_chain_handler import XinferenceChainHandler
+from api.core.llms.chains.deepseek_chain_handler import DeepseekChainHandler
+from api.core.llms.chains.google_chain_handler import GoogleChainHandler
+
 
 __all__ = [
     "BaseChainHandler",
@@ -16,4 +19,6 @@ __all__ = [
     "ZhipuaiChainHandler",
     "MoonshotChainHandler",
     "XinferenceChainHandler",
+    "DeepseekChainHandler",
+    "GoogleChainHandler",
 ]

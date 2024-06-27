@@ -58,15 +58,28 @@ class BaseChainHandler:
             )
 
             return XinferenceChainHandler()
+        elif model_source == "deepseek":
+            from api.core.llms.chains.deepseek_chain_handler import (
+                DeepseekChainHandler,
+            )
+
+            return DeepseekChainHandler()
+        elif model_source == "google":
+            from api.core.llms.chains.google_chain_handler import (
+                GoogleChainHandler
+            )
+
+            return GoogleChainHandler()
+        
         else:
             raise ValueError(f"Unknown model source: {model_source}")
 
     @abstractmethod
-    def init_chat_model(self, model) -> BaseChatModel:
+    def _init_chat_model(self, model, **kwargs) -> BaseChatModel:
         pass
 
     def ocr_fix_to_markdown_chain(
-        self, model=None, comment: str = None
+        self, model=None, comment: str = None, **kwargs
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -74,7 +87,7 @@ class BaseChainHandler:
             chain_name="ocr_fix_to_markdown", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = self.init_chat_model(model=model)
+            chat_model = self._init_chat_model(model=model, **kwargs)
             messages = [("human", OCR_FIX_TO_MARKDOWN_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -85,7 +98,7 @@ class BaseChainHandler:
         return self.chains[hash_key]
 
     def block_ocr_fix_to_markdown_chain(
-        self, model=None, comment: str = None
+        self, model=None, comment: str = None, **kwargs
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -93,7 +106,7 @@ class BaseChainHandler:
             chain_name="block_ocr_fix_to_markdown", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = self.init_chat_model(model=model)
+            chat_model = self._init_chat_model(model=model, **kwargs)
             messages = [("human", BLOCK_OCR_FIX_TO_MARKDOWN_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -104,7 +117,7 @@ class BaseChainHandler:
         return self.chains[hash_key]
 
     def ocr_fix_to_json_chain(
-        self, model=None, comment: str = None
+        self, model=None, comment: str = None, **kwargs
     ) -> RunnableSequence:
         if model is None:
             model = self.model
@@ -112,7 +125,7 @@ class BaseChainHandler:
             chain_name="ocr_fix_to_json", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = self.init_chat_model(model=model)
+            chat_model = self._init_chat_model(model=model, **kwargs)
             messages = [("human", OCR_FIX_TO_JSON_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -123,15 +136,15 @@ class BaseChainHandler:
         return self.chains[hash_key]
 
     def extract_markdown_chain(
-        self, model=None, comment: str = None
+        self, model=None, comment: str = None, **kwargs
     ) -> RunnableSequence:
         if model is None:
             model = self.model
         hash_key = self._get_hash_key(
-            chain_name="extract_markdown", model=model, comment=comment
+            chain_name="extract_markdown", model=model, comment=comment, **kwargs
         )
         if hash_key not in self.chains:
-            chat_model = self.init_chat_model(model=model)
+            chat_model = self._init_chat_model(model=model)
             messages = [("human", EXTRACT_MARKDOWN_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))
@@ -141,14 +154,16 @@ class BaseChainHandler:
             self.chains[hash_key] = chain
         return self.chains[hash_key]
 
-    def extract_json_chain(self, model=None, comment: str = None) -> RunnableSequence:
+    def extract_json_chain(
+        self, model=None, comment: str = None, **kwargs
+    ) -> RunnableSequence:
         if model is None:
             model = self.model
         hash_key = self._get_hash_key(
             chain_name="extract_json", model=model, comment=comment
         )
         if hash_key not in self.chains:
-            chat_model = self.init_chat_model(model=model)
+            chat_model = self._init_chat_model(model=model, **kwargs)
             messages = [("human", EXTRACT_JSON_PROMPT)]
             if comment:
                 messages.append(("human", COMMENT_PROMTPT))

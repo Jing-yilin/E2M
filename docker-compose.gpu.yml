@@ -55,6 +55,8 @@ services:
             ZHIPUAI_API_KEY: ""
             DASHSCOPE_API_KEY: ""
             OLLAMA_BASE: http://localhost:11434
+            DEEPSEEK_API_KEY: ""
+            GOOGLE_API_KEY: ""
             # db config
             USE_DB: "True"
             SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://e2m:password@e2m-db/e2m_db
