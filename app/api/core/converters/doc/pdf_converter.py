@@ -62,8 +62,7 @@ def _ocr_high_parse_pdf(
 
     temp_dir = "temp/image_pdf"
     new_pdf_name = Path(pdf_file).stem + "_images.pdf"
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
+    os.makedirs(temp_dir, exist_ok=True)
 
     images = pdf2image.convert_from_path(pdf_file)
     all_single_image_pdfs = []

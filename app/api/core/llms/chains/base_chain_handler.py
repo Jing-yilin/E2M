@@ -21,56 +21,54 @@ class BaseChainHandler:
         self.chains = {}
 
     @classmethod
-    def get_instance(cls, model_source: str):
+    def get_instance(cls, model_source: str, model: str = None):
         if model_source == "anthropic":
             from api.core.llms.chains.anthropic_chain_handler import (
                 AnthropicChainHandler,
             )
 
-            return AnthropicChainHandler()
+            return AnthropicChainHandler(model=model)
         elif model_source == "ollama":
             from api.core.llms.chains.ollama_chain_handler import OllamaChainHandler
 
-            return OllamaChainHandler()
+            return OllamaChainHandler(model=model)
         elif model_source == "baichuan":
             from api.core.llms.chains.baichuan_chain_handler import BaichuanChainHandler
 
-            return BaichuanChainHandler()
+            return BaichuanChainHandler(model=model)
         elif model_source == "openai":
             from api.core.llms.chains.openai_chain_handler import OpenaiChainHandler
 
-            return OpenaiChainHandler()
+            return OpenaiChainHandler(model=model)
         elif model_source == "zhipuai":
             from api.core.llms.chains.zhipuai_chain_handler import ZhipuaiChainHandler
 
-            return ZhipuaiChainHandler()
+            return ZhipuaiChainHandler(model=model)
         elif model_source == "moonshot":
             from api.core.llms.chains.moonshot_chain_handler import MoonshotChainHandler
 
-            return MoonshotChainHandler()
+            return MoonshotChainHandler(model=model)
         elif model_source == "tongyi":
             from api.core.llms.chains.tongyi_chain_handler import TongyiChainHandler
 
-            return TongyiChainHandler()
+            return TongyiChainHandler(model=model)
         elif model_source == "xinference":
             from api.core.llms.chains.xinference_chain_handler import (
                 XinferenceChainHandler,
             )
 
-            return XinferenceChainHandler()
+            return XinferenceChainHandler(model=model)
         elif model_source == "deepseek":
             from api.core.llms.chains.deepseek_chain_handler import (
                 DeepseekChainHandler,
             )
 
-            return DeepseekChainHandler()
+            return DeepseekChainHandler(model=model)
         elif model_source == "google":
-            from api.core.llms.chains.google_chain_handler import (
-                GoogleChainHandler
-            )
+            from api.core.llms.chains.google_chain_handler import GoogleChainHandler
 
-            return GoogleChainHandler()
-        
+            return GoogleChainHandler(model=model)
+
         else:
             raise ValueError(f"Unknown model source: {model_source}")
 

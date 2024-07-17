@@ -5,6 +5,21 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+# todo
+def sub_docx(
+    original_docx: str,
+    first_page: int,
+    last_page: int,
+    output_docx: str,
+    rm_original: bool = True,
+):
+    import docx
+
+    tmp_docx = docx.Document(original_docx)
+
+    # raise NotImplementedError("sub_docx() not implemented yet!")
+
+
 def sub_pdf(
     original_pdf: str,
     first_page: int,

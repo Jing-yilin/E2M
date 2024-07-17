@@ -121,7 +121,7 @@ def convert_route():
         request_data=data,
     )
 
-    if Config.USE_DB and data.save_to_cache:
+    if Config.USE_DB and data.save_to_cache and code == 200:
         # save to cache if successful
         logger.info("Storing result to cache")
         try:

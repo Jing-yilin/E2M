@@ -11,9 +11,9 @@ import versions
 
 def setup_logging():
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler()],
+        handlers=[logging.StreamHandler(), logging.FileHandler("app.log")],
     )
 
 

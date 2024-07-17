@@ -26,6 +26,9 @@ def file_to_markdown(
 
     resp: ResponseData = converter.convert(**kwargs)
 
-    logger.info(f"Converted file to markdown: {resp}")
+    if resp.error:
+        logger.error(f"Error converting file to markdown: {resp.error}")
+        return (resp.to_dict(), 400)
 
+    logger.info(f"Converted file to markdown: {resp}")
     return (resp.to_dict(), 200)

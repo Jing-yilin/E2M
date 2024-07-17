@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field, field_validator
 from pathlib import Path
 from api.core.llms.chains import BaseChainHandler
 from api.core.converters.md_elements import MarkdownPage
+from api.core.utils import clean_to_markdown
 from api.blueprints.v1.schemas import (
     RequestData,
     MdData,
@@ -124,6 +125,15 @@ class BaseConverter(BaseModel):
             total_cost=cb.total_cost,
         )
 
+    def add_llm_cb(self, cb: OpenAICallbackHandler):
+        if not self.llm_info:
+            raise ValueError("You must run set_llm_info() before add_llm_cb()")
+
+        self.llm_info.total_tokens += cb.total_tokens
+        self.llm_info.prompt_tokens += cb.prompt_tokens
+        self.llm_info.completion_tokens += cb.completion_tokens
+        self.llm_info.total_cost += cb.total_cost
+
     def set_md_data(self, md: str) -> None:
         logger.debug(f"Setting markdown data: {md}")
 
@@ -133,6 +143,17 @@ class BaseConverter(BaseModel):
             elements=markdown_page.to_elements_list(),
             toc=markdown_page.toc(),
         )
+
+    def add_md_data(self, md: str) -> None:
+        logger.debug(f"Adding markdown data: {md}")
+
+        markdown_page = MarkdownPage.from_md(md)
+
+        if markdown_page.to_md().startswith("#"):
+            self.md_data.content += "\n\n"
+        self.md_data.content += markdown_page.to_md()
+        self.md_data.elements.extend(markdown_page.to_elements_list())
+        self.md_data.toc.extend(markdown_page.toc())
 
     def set_json_data(self, json: dict) -> None:
         logger.debug(f"Setting JSON data: {json}")
@@ -187,13 +208,53 @@ class BaseConverter(BaseModel):
     def ocr_fix_to_markdown(
         self,
         ocr_text: str,
+        split_len: int = 3000,  # todo
         model_source: Optional[str] = None,
         model: Optional[str] = None,
         comment: Optional[str] = None,
-    ) -> Tuple[str, OpenAICallbackHandler]:
-        chain = BaseChainHandler.get_instance(model_source).ocr_fix_to_markdown_chain(
-            model, comment=comment
-        )
+    ) -> str:
+        # split text into parts so that the tokens don't exceed the limit
+        text_list = []
+        md_blocks = []
+        while len(ocr_text) > split_len:
+            text_list.append(ocr_text[:split_len])
+            ocr_text = ocr_text[split_len:]
+        text_list.append(ocr_text)
+        logger.info(f"Text split into {len(text_list)} parts")
+
+        for i, text in enumerate(text_list):
+            if i == 0:
+                md_blocks.append(
+                    self.first_block_ocr_fix_to_markdown(
+                        text,
+                        model_source=model_source,
+                        model=model,
+                        comment=comment,
+                    )
+                )
+            else:
+                md_blocks.append(
+                    self.block_ocr_fix_to_markdown(
+                        text,
+                        pre_toc=self.md_data.toc,
+                        pre_overlap=md_blocks[-1],
+                        model_source=model_source,
+                        model=model,
+                        comment=comment,
+                    )
+                )
+            self.set_md_data("".join(md_blocks))
+
+    def first_block_ocr_fix_to_markdown(
+        self,
+        ocr_text: str,
+        model_source: Optional[str] = None,
+        model: Optional[str] = None,
+        comment: Optional[str] = None,
+    ) -> str:
+        chain = BaseChainHandler.get_instance(
+            model_source, model
+        ).ocr_fix_to_markdown_chain(comment=comment)
         logger.info(f"Converting OCR text to markdown: {ocr_text}")
 
         chain_params = {"ocr_text": ocr_text}
@@ -203,19 +264,45 @@ class BaseConverter(BaseModel):
         with get_openai_callback() as cb:
             result: str = chain.invoke(chain_params).strip()
             self.set_llm_info(model_source, model, cb)
-        # todo: add more rules or use a parser
-        if result.startswith("```markdown") and result.endswith("```"):
-            result = result[11:-3]
-        elif result.startswith("```") and result.endswith("```"):
-            result = result[3:-3]
-        elif result.startswith("```markdown") and not result.endswith("```"):
-            logger.warning("Markdown code block not closed")
-            result = result[11:]
-        elif result.startswith("```") and not result.endswith("```"):
-            logger.warning("Markdown code block not closed")
-            result = result[3:]
-        self.set_md_data(result)
-        return result.strip()
+
+        result = clean_to_markdown(result)
+
+        logger.info(f"OCR text converted to markdown: {result}")
+
+        return result
+
+    def block_ocr_fix_to_markdown(
+        self,
+        ocr_text: str,
+        pre_toc: str,
+        pre_overlap: str,
+        model_source: Optional[str] = None,
+        model: Optional[str] = None,
+        comment: Optional[str] = None,
+    ) -> str:
+        chain = BaseChainHandler.get_instance(
+            model_source, model
+        ).block_ocr_fix_to_markdown_chain(comment=comment)
+        logger.info(f"Converting block OCR text to markdown: {ocr_text}")
+
+        chain_params = {
+            "ocr_text": ocr_text,
+            "pre_toc": pre_toc,
+            "overlap": len(pre_overlap),
+            "pre_overlap": pre_overlap,
+        }
+        if comment:
+            chain_params["comment"] = comment
+
+        with get_openai_callback() as cb:
+            result: str = chain.invoke(chain_params).strip()
+            self.add_llm_cb(cb)
+
+        result = clean_to_markdown(result)
+
+        logger.info(f"Block OCR text converted to markdown: {result}")
+
+        return result
 
     def ocr_fix_to_json(
         self,
@@ -224,10 +311,10 @@ class BaseConverter(BaseModel):
         model_source: Optional[str] = None,
         model: Optional[str] = None,
         comment: Optional[str] = None,
-    ) -> Tuple[dict, OpenAICallbackHandler]:
-        chain = BaseChainHandler.get_instance(model_source).ocr_fix_to_json_chain(
-            model, comment=comment
-        )
+    ) -> str:
+        chain = BaseChainHandler.get_instance(
+            model_source, model
+        ).ocr_fix_to_json_chain(comment=comment)
         logger.info(f"Converting OCR text to json: {ocr_text}")
 
         chain_params = {
@@ -262,8 +349,12 @@ class BaseConverter(BaseModel):
             )
         elif return_type == "md":
             self.ocr_fix_to_markdown(
-                text, model_source=model_source, model=model, comment=comment
+                text,
+                model_source=model_source,
+                model=model,
+                comment=comment,
             )
+
         else:
             raise ValueError("return_type must be one of 'md' or 'json")
 
