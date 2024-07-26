@@ -139,3 +139,12 @@ def get_file_hash(
         raise ValueError("Invalid file type")
 
     return hasher.hexdigest()
+
+
+def save_file_to_temp(file):
+    logger.debug("Saving file to temp directory")
+    file_path = f"./temp/{file.filename}"
+    os.makedirs("./temp", exist_ok=True)
+    file.save(file_path)
+    logger.debug(f"File saved to {file_path}")
+    return file_path

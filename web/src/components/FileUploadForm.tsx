@@ -21,6 +21,8 @@ interface FileUploadFormProps {
     setModel_source: React.Dispatch<React.SetStateAction<string>>;
     model: string;
     setModel: React.Dispatch<React.SetStateAction<string>>;
+    max_tokens: number;
+    setMax_tokens: React.Dispatch<React.SetStateAction<number>>;
     returnType: string;
     setReturnType: React.Dispatch<React.SetStateAction<string>>;
     enforcedJsonFormat: string | null;
@@ -59,6 +61,8 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
     setModel_source,
     model,
     setModel,
+    max_tokens,
+    setMax_tokens,
     returnType,
     setReturnType,
     enforcedJsonFormat,
@@ -343,6 +347,31 @@ const FileUploadForm: React.FC<FileUploadFormProps> = ({
                                     )
                                 )}
                         </select>
+                    </div>
+
+                    {/* Max tokens */}
+                    <div className="form-control">
+                        <label
+                            htmlFor="max_tokens"
+                            className="label text-lg font-medium"
+                        >
+                            Max tokens:
+                        </label>
+                        <input
+                            type="number"
+                            id="max_tokens"
+                            name="max_tokens"
+                            value={max_tokens}
+                            onChange={(e) =>
+                                setMax_tokens(
+                                    e.target.value
+                                        ? parseInt(e.target.value)
+                                        : 0
+                                )
+                            }
+                            className="input input-bordered"
+                            placeholder="50"
+                        />
                     </div>
 
                     {/* Return type */}

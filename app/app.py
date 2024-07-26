@@ -1,4 +1,6 @@
 import logging
+import os
+from datetime import datetime
 
 from flask import Flask, jsonify
 from flasgger import Swagger
@@ -10,10 +12,15 @@ import versions
 
 
 def setup_logging():
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(
+        log_dir, f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.log"
+    )
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler(), logging.FileHandler("app.log")],
+        handlers=[logging.StreamHandler(), logging.FileHandler(log_file)],
     )
 
 
@@ -94,7 +101,7 @@ def create_app():
 
     logger.info("+-----------------------------------------------------------+")
     logger.info("Welcome to E2M API")
-    logger.info(logo_ascii)
+    print(logo_ascii)
     logger.info(f"🚀API: {API_URL}/api/v1/")
     logger.info(f"🚀WEB: {WEB_URL}")
     logger.info(f"🚀API doc: {API_URL}/swagger/")

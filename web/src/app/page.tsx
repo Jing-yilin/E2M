@@ -22,6 +22,7 @@ export default function Home() {
     const [use_llm, setUse_llm] = useState<boolean>(false);
     const [model_source, setModel_source] = useState<string>("openai");
     const [model, setModel] = useState<string>("gpt-3.5-turbo");
+    const [max_tokens, setMax_tokens] = useState<number>(4096);
     const [returnType, setReturnType] = useState<string>("md");
     const [enforcedJsonFormat, setEnforcedJsonFormat] = useState<string | null>(
         null
@@ -47,6 +48,7 @@ export default function Home() {
         if (use_llm) formData.append("use_llm", String(use_llm));
         formData.append("model_source", model_source);
         formData.append("model", model);
+        formData.append("max_tokens", String(max_tokens));
         formData.append("return_type", returnType);
         if (returnType === "json" && enforcedJsonFormat)
             formData.append("enforced_json_format", enforcedJsonFormat);
@@ -125,6 +127,8 @@ export default function Home() {
                     setModel_source={setModel_source}
                     model={model}
                     setModel={setModel}
+                    max_tokens={max_tokens}
+                    setMax_tokens={setMax_tokens}
                     returnType={returnType}
                     setReturnType={setReturnType}
                     enforcedJsonFormat={enforcedJsonFormat}

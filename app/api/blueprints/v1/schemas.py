@@ -49,6 +49,10 @@ class RequestData(BaseModel):
         description="The model to use for parsing. The default is 'gpt-3.5-turbo'.",
     )
 
+    max_tokens: Optional[int] = Field(
+        default=4096, description="The maximum number of tokens to use."
+    )
+
     return_type: Optional[str] = Field(
         default="md", description="The return type. The default is 'md'."
     )
@@ -73,7 +77,7 @@ class RequestData(BaseModel):
     def check_parse_mode(cls, parse_mode, info: ValidationInfo):
         from api.core.converters.base_converter import ParseMode
 
-        if parse_mode not in ParseMode.all_modes():
+        if parse_mode not in ParseMode.all_models():
             raise ValueError(
                 'parse_mode must be one of "auto", "ocr-low", "ocr-high", "fast"'
             )

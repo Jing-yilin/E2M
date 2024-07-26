@@ -1,10 +1,16 @@
+# app/api/core/converters/base_converter.py
 from abc import abstractmethod
 from enum import Enum
 from pydantic import BaseModel, Field, field_validator
 from pathlib import Path
 from api.core.llms.chains import BaseChainHandler
 from api.core.converters.md_elements import MarkdownPage
-from api.core.utils import clean_to_markdown
+from api.core.utils import (
+    clean_to_markdown,
+    estimate_char_to_token,
+    estimate_token_to_char,
+    break_text_into_chunks,
+)
 from api.blueprints.v1.schemas import (
     RequestData,
     MdData,
@@ -21,22 +27,52 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# FikeLikeType includes str, bytes, and file-like objects
-FileLikeType = Union[str | Path]  # todo: more types
+# FileLikeType includes str, bytes, and file-like objects
+FileLikeType = Union[str, Path]  # todo: more types
 
 
 class ParseMode(str, Enum):
+    """
+    An enumeration class representing different parsing modes.
+
+    Attributes:
+        AUTO (str): Automatically determine the parsing mode.
+        FAST (str): Fast parsing mode.
+        OCR_LOW (str): Use Tesseract OCR, fast but less accurate.
+        OCR_HIGH (str): Use Surya model for OCR, accurate but slow.
+    """
+
     AUTO = "auto"
     FAST = "fast"
     OCR_LOW = "ocr-low"  # use tesseract, fast but less accurate
     OCR_HIGH = "ocr-high"  # use surya model, accurate but slow
 
     @classmethod
-    def all_modes(cls) -> list[str]:
+    def all_models(cls) -> list[str]:
+        """
+        Get a list of all available parsing modes as strings.
+
+        Returns:
+            list[str]: A list of parsing mode strings.
+        """
         return [mode.value for mode in cls.__members__.values()]
 
 
 class BaseConverter(BaseModel):
+    """
+    Base class for file converters.
+
+    Attributes:
+        file (FileLikeType): The file path.
+        parse_mode (Optional[ParseMode]): The parsing mode. Default is ParseMode.AUTO.
+        md_data (Optional[MdData]): The markdown data.
+        json_data (Optional[dict]): The JSON data.
+        request_data (Optional[RequestData]): The request information.
+        file_info (Optional[FileInfo]): The file information.
+        llm_info (Optional[LlmInfo]): The LLM (Large Language Model) information.
+        metadata (Optional[Metadata]): The metadata.
+        resp_data (Optional[ResponseData]): The response data.
+    """
 
     file: FileLikeType = Field(..., title="File path")
     parse_mode: Optional[ParseMode] = Field(ParseMode.AUTO, title="Parser mode")
@@ -52,23 +88,54 @@ class BaseConverter(BaseModel):
     @classmethod
     @abstractmethod
     def allowed_formats(cls) -> list[str]:
+        """
+        Abstract method to be implemented by subclasses.
+        Get a list of allowed file formats for the converter.
+
+        Returns:
+            list[str]: A list of allowed file formats.
+        """
         pass
 
     # file not empty
     @field_validator("file")
     def check_file_exists(cls, v):
+        """
+        Field validator to check if the file exists.
+
+        Args:
+            v (FileLikeType): The file path.
+
+        Raises:
+            ValueError: If the file does not exist.
+
+        Returns:
+            FileLikeType: The file path if the file exists.
+        """
         if not Path(v).exists():
             raise ValueError(f"File {v} does not exist")
         return v
 
     @abstractmethod
     def process(self, **kwargs) -> str:
-        """Core function to convert the file to raw"""
+        """
+        Abstract method to be implemented by subclasses.
+        Core function to convert the file to raw text.
+
+        Returns:
+            str: The raw text extracted from the file.
+        """
         pass
 
     def convert(self, **kwargs) -> ResponseData:
-        """Main method to convert the file to markdown or json.
-        function process() should be implemented in the subclass.
+        """
+        Main method to convert the file to markdown or JSON.
+
+        Args:
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            ResponseData: The response data containing the conversion result.
         """
         try:
             raw = self.process(**kwargs)
@@ -84,9 +151,21 @@ class BaseConverter(BaseModel):
         return self.resp_data
 
     def to_dict(self):
+        """
+        Convert the BaseConverter instance to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the BaseConverter instance.
+        """
         return self.model_dump()
 
     def rm_file(self):
+        """
+        Remove the file if it exists.
+
+        Returns:
+            bool: True if the file was removed, False otherwise.
+        """
         if Path(self.file).exists():
             Path(self.file).unlink()
             return True
@@ -95,6 +174,12 @@ class BaseConverter(BaseModel):
         self,
         file_info: FileInfo,
     ) -> None:
+        """
+        Set the file information for the converter.
+
+        Args:
+            file_info (FileInfo): The file information.
+        """
         logger.debug(f"Setting file info: {file_info}")
         self.file_info = file_info
 
@@ -102,6 +187,12 @@ class BaseConverter(BaseModel):
         self,
         request_data: RequestData,
     ) -> None:
+        """
+        Set the request data for the converter.
+
+        Args:
+            request_data (RequestData): The request data.
+        """
         logger.debug(f"Setting request info: {request_data}")
         self.request_data = request_data
 
@@ -112,6 +203,15 @@ class BaseConverter(BaseModel):
         cb: OpenAICallbackHandler,
         messages: Optional[list] = None,
     ) -> None:
+        """
+        Set the LLM (Large Language Model) information for the converter.
+
+        Args:
+            model_source (str): The source of the LLM model.
+            model (str): The name of the LLM model.
+            cb (OpenAICallbackHandler): The OpenAI callback handler.
+            messages (Optional[list]): The list of messages. Default is None.
+        """
         logger.debug("Setting LLM info")
 
         self.llm_info = LlmInfo(
@@ -126,6 +226,15 @@ class BaseConverter(BaseModel):
         )
 
     def add_llm_cb(self, cb: OpenAICallbackHandler):
+        """
+        Add LLM callback information to the existing LLM info.
+
+        Args:
+            cb (OpenAICallbackHandler): The OpenAI callback handler.
+
+        Raises:
+            ValueError: If LLM info is not set.
+        """
         if not self.llm_info:
             raise ValueError("You must run set_llm_info() before add_llm_cb()")
 
@@ -135,6 +244,12 @@ class BaseConverter(BaseModel):
         self.llm_info.total_cost += cb.total_cost
 
     def set_md_data(self, md: str) -> None:
+        """
+        Set the markdown data for the converter.
+
+        Args:
+            md (str): The markdown content.
+        """
         logger.debug(f"Setting markdown data: {md}")
 
         markdown_page = MarkdownPage.from_md(md)
@@ -145,6 +260,12 @@ class BaseConverter(BaseModel):
         )
 
     def add_md_data(self, md: str) -> None:
+        """
+        Add markdown data to the existing markdown data for the converter.
+
+        Args:
+            md (str): The markdown content to be added.
+        """
         logger.debug(f"Adding markdown data: {md}")
 
         markdown_page = MarkdownPage.from_md(md)
@@ -156,10 +277,22 @@ class BaseConverter(BaseModel):
         self.md_data.toc.extend(markdown_page.toc())
 
     def set_json_data(self, json: dict) -> None:
+        """
+        Set the JSON data for the converter.
+
+        Args:
+            json (dict): The JSON data.
+        """
         logger.debug(f"Setting JSON data: {json}")
         self.json_data = json
 
     def set_metadata(self) -> None:
+        """
+        Set the metadata for the converter.
+
+        Raises:
+            ValueError: If request data or file info is not set.
+        """
         logger.debug("Setting metadata")
 
         if not self.request_data:
@@ -180,12 +313,15 @@ class BaseConverter(BaseModel):
         self, status: str = None, raw: str = None, error: str = None
     ) -> None:
         """
-        status: Optional[str] = Field(..., description="The status of the response.")
-        raw: Optional[str] = Field(..., description="The raw content extracted from the file.")
-        md_data: Optional[MdData] = Field(..., description="The markdown content.")
-        json_data: Optional[dict] = Field(..., description="The JSON content.")
-        metadata: Optional[Metadata] = Field(..., description="The metadata.")
-        error: Optional[str] = Field(None, description="The error message.")
+        Set the response data for the converter.
+
+        Args:
+            status (str): The status of the response. Default is None.
+            raw (str): The raw content extracted from the file. Default is None.
+            error (str): The error message. Default is None.
+
+        Raises:
+            ValueError: If metadata is not set.
         """
         logger.debug("Setting response data")
         if not self.metadata:
@@ -208,21 +344,33 @@ class BaseConverter(BaseModel):
     def ocr_fix_to_markdown(
         self,
         ocr_text: str,
-        split_len: int = 3000,  # todo
         model_source: Optional[str] = None,
         model: Optional[str] = None,
+        max_tokens: Optional[int] = None,
         comment: Optional[str] = None,
     ) -> str:
-        # split text into parts so that the tokens don't exceed the limit
-        text_list = []
-        md_blocks = []
-        while len(ocr_text) > split_len:
-            text_list.append(ocr_text[:split_len])
-            ocr_text = ocr_text[split_len:]
-        text_list.append(ocr_text)
-        logger.info(f"Text split into {len(text_list)} parts")
+        """
+        Convert OCR text to markdown format using LLM.
 
-        for i, text in enumerate(text_list):
+        Args:
+            ocr_text (str): The OCR text to be converted.
+            split_len (int): The maximum length of each text block. Default is 8000.
+            model_source (Optional[str]): The source of the LLM model. Default is None.
+            model (Optional[str]): The name of the LLM model. Default is None.
+            comment (Optional[str]): An optional comment for the LLM. Default is None.
+
+        Returns:
+            str: The converted markdown content.
+        """
+        # split text into parts so that the tokens don't exceed the limit
+        chunks = []
+        md_blocks = []
+        chunks = break_text_into_chunks(ocr_text, max_tokens)
+
+        logger.info(f"Text split into {len(chunks)} parts")
+
+        for i, text in enumerate(chunks):
+            logger.info(f"Processing text chunk {i + 1}/{len(chunks)}")
             if i == 0:
                 md_blocks.append(
                     self.first_block_ocr_fix_to_markdown(
@@ -252,6 +400,18 @@ class BaseConverter(BaseModel):
         model: Optional[str] = None,
         comment: Optional[str] = None,
     ) -> str:
+        """
+        Convert the first block of OCR text to markdown format using LLM.
+
+        Args:
+            ocr_text (str): The OCR text to be converted.
+            model_source (Optional[str]): The source of the LLM model. Default is None.
+            model (Optional[str]): The name of the LLM model. Default is None.
+            comment (Optional[str]): An optional comment for the LLM. Default is None.
+
+        Returns:
+            str: The converted markdown content for the first block.
+        """
         chain = BaseChainHandler.get_instance(
             model_source, model
         ).ocr_fix_to_markdown_chain(comment=comment)
@@ -280,6 +440,21 @@ class BaseConverter(BaseModel):
         model: Optional[str] = None,
         comment: Optional[str] = None,
     ) -> str:
+        """
+        Convert a block of OCR text to markdown format using LLM.
+
+        Args:
+            ocr_text (str): The OCR text to be converted.
+            pre_toc (str): The table of contents from the previous block.
+            pre_overlap (str): The overlapping text from the previous block.
+            model_source (Optional[str]): The source of the LLM model. Default is None.
+            model (Optional[str]): The name of the LLM model. Default is None.
+            max_tokens (Optional[int]): The maximum number of tokens. Default is None.
+            comment (Optional[str]): An optional comment for the LLM. Default is None.
+
+        Returns:
+            str: The converted markdown content for the block.
+        """
         chain = BaseChainHandler.get_instance(
             model_source, model
         ).block_ocr_fix_to_markdown_chain(comment=comment)
@@ -310,8 +485,22 @@ class BaseConverter(BaseModel):
         enforced_json_format: Optional[str | dict] = None,
         model_source: Optional[str] = None,
         model: Optional[str] = None,
+        max_tokens: Optional[int] = None,
         comment: Optional[str] = None,
     ) -> str:
+        """
+        Convert OCR text to JSON format using LLM.
+
+        Args:
+            ocr_text (str): The OCR text to be converted.
+            enforced_json_format (Optional[str | dict]): The enforced JSON format. Default is None.
+            model_source (Optional[str]): The source of the LLM model. Default is None.
+            model (Optional[str]): The name of the LLM model. Default is None.
+            comment (Optional[str]): An optional comment for the LLM. Default is None.
+
+        Returns:
+            str: The converted JSON data.
+        """
         chain = BaseChainHandler.get_instance(
             model_source, model
         ).ocr_fix_to_json_chain(comment=comment)
@@ -332,9 +521,15 @@ class BaseConverter(BaseModel):
         return result
 
     def llm_enforce(self, text: str):
-        """Use LLM to clean and enforce the text to structured format"""
+        """
+        Use LLM to clean and enforce the text to structured format.
+
+        Args:
+            text (str): The text to be cleaned and enforced.
+        """
         model_source = self.request_data.model_source
         model = self.request_data.model
+        max_tokens = self.request_data.max_tokens
         return_type = self.request_data.return_type
         enforced_json_format = self.request_data.enforced_json_format
         comment = self.request_data.comment
@@ -345,6 +540,7 @@ class BaseConverter(BaseModel):
                 enforced_json_format=enforced_json_format,
                 model_source=model_source,
                 model=model,
+                max_tokens=max_tokens,
                 comment=comment,
             )
         elif return_type == "md":
@@ -352,6 +548,7 @@ class BaseConverter(BaseModel):
                 text,
                 model_source=model_source,
                 model=model,
+                max_tokens=max_tokens,
                 comment=comment,
             )
 
@@ -360,8 +557,30 @@ class BaseConverter(BaseModel):
 
     # todo: add model
     def extract_markdown(self, image: str, model: Optional[str] = None) -> str:
+        """
+        Abstract method to be implemented by subclasses.
+        Extract markdown content from an image.
+
+        Args:
+            image (str): The image file path or URL.
+            model (Optional[str]): The name of the LLM model. Default is None.
+
+        Returns:
+            str: The extracted markdown content.
+        """
         raise NotImplementedError
 
     # todo: add model
     def extract_json(self, image: str, model: Optional[str] = None) -> dict:
+        """
+        Abstract method to be implemented by subclasses.
+        Extract JSON data from an image.
+
+        Args:
+            image (str): The image file path or URL.
+            model (Optional[str]): The name of the LLM model. Default is None.
+
+        Returns:
+            dict: The extracted JSON data.
+        """
         raise NotImplementedError
